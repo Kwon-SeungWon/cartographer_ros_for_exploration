@@ -16,8 +16,8 @@ from san_msgs.srv import GetWaypoints
 
 class NodeManager(Node):
     def __init__(self, node_file_dir=None, current_node=None):
-        super().__init__("node_manager")
-        self.pkg_path = get_package_share_directory("node_manager")
+        super().__init__("waypoint_node_manager")
+        self.pkg_path = get_package_share_directory("waypoint_node_manager")
         self.current_node_name = None
         self.node_list_path = None
 
@@ -295,10 +295,10 @@ class NodeManager(Node):
 
 def main():
     rclpy.init()
-    node_manager = NodeManager()
-    rclpy.spin(node_manager)
+    waypoint_node_manager = NodeManager()
+    rclpy.spin(waypoint_node_manager)
 
-    node_manager.destroy_node()
+    waypoint_node_manager.destroy_node()
     rclpy.shutdown()
 
 

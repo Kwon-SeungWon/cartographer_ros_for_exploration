@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = 'node_manager'
+package_name = 'waypoint_node_manager'
 
 setup(
     name=package_name,
@@ -23,7 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'node_manager = node_manager.node_manager:main',
+            'waypoint_node_manager = waypoint_node_manager.waypoint_node_manager:main',
         ],
     },
 )
