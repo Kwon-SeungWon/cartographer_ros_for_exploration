@@ -13,6 +13,7 @@
   <depend>ament_index_python</depend>
   <depend>std_srvs</depend>
   <depend>example_interfaces</depend>
+  <depend>tf2_ros</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
