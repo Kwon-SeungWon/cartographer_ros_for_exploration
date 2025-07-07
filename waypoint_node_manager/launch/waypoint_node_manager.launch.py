@@ -7,6 +7,7 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from ament_index_python.packages import get_package_share_directory
+from launch.conditions import IfCondition
 
 
 def generate_launch_description():
@@ -19,7 +20,7 @@ def generate_launch_description():
     
     use_rviz_arg = DeclareLaunchArgument(
         'use_rviz',
-        default_value='true',
+        default_value='false',
         description='Whether to launch RViz'
     )
     
@@ -58,7 +59,8 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         arguments=['-d', rviz_config_file],
-        output='screen'
+        output='screen',
+        condition=IfCondition(LaunchConfiguration('use_rviz'))
     )
     
     # Lifecycle manager for nav2 nodes
@@ -77,8 +79,8 @@ def generate_launch_description():
     return LaunchDescription([
         map_file_arg,
         use_rviz_arg,
-        map_server_node,
+        # map_server_node,
         waypoint_node_manager,
-        lifecycle_manager,
+        # lifecycle_manager,
         rviz_node
     ]) 
