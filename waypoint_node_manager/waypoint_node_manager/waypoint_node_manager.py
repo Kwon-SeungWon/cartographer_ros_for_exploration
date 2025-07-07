@@ -143,18 +143,15 @@ class NodeManager(Node):
                 response.message = f"Generated {len(waypoints)} waypoints from node {start_node} to {goal_node}, {len(waypoints)} waypoints"
                 self.get_logger().info(f"Waypoints generated successfully: {start_node} -> {goal_node}, {len(waypoints)} waypoints")
                 self.visualize_path(waypoints, path_color=(0.0, 0.0, 1.0, 1.0))
-                response.current_node_file = self.current_node_name if self.current_node_name else ""
             else:
                 response.success = False
                 response.message = f"No path found from node {start_node} to {goal_node}"
                 response.node_path = []
-                response.current_node_file = self.current_node_name if self.current_node_name else ""
                 self.get_logger().warn(f"No path found: {start_node} -> {goal_node}")
         except Exception as e:
             response.success = False
             response.message = f"Failed to generate waypoints: {str(e)}"
             response.node_path = []
-            response.current_node_file = self.current_node_name if self.current_node_name else ""
             self.get_logger().error(f"Waypoint generation failed: {str(e)}")
         return response
 
@@ -210,7 +207,11 @@ class NodeManager(Node):
     def update_current_node_path(self, path, current_node_name):
         if path and current_node_name:
             self.current_node_name = current_node_name + ".yaml"
-            self.node_list_path = path + "/" + self.current_node_name
+            # 절대경로면 그대로, 아니면 pkg_path 기준으로
+            if os.path.isabs(path):
+                self.node_list_path = os.path.join(path, self.current_node_name)
+            else:
+                self.node_list_path = os.path.join(self.pkg_path, path, self.current_node_name)
         else:
             self.current_node_name = None
             self.node_list_path = None
