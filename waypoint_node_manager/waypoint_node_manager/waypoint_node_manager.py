@@ -23,6 +23,7 @@ class NodeManager(Node):
         self.pkg_path = get_package_share_directory("waypoint_node_manager")
         self.current_node_name = None
         self.node_list_path = None
+        self.node_data = {}
 
         # 기본 테스트 파일 설정
         if node_file_dir is None:
@@ -31,8 +32,6 @@ class NodeManager(Node):
             current_node = "test_nodes"
 
         self.update_current_node_path(node_file_dir, current_node)
-
-        self.node_data = {}
 
         self.node_marker_pub_ = self.create_publisher(MarkerArray, "/web_marker_array", 1)
         self.path_marker_pub_ = self.create_publisher(MarkerArray, "/path_marker_array", 1)
@@ -111,6 +110,13 @@ class NodeManager(Node):
 
     def get_waypoints_callback(self, request, response):
         """waypoint 좌표와 노드 인덱스 경로를 반환하는 서비스 콜백"""
+        # Only update node file if request.node_file is provided
+        if hasattr(request, 'node_file') and request.node_file:
+            node_file_base = request.node_file.replace('.yaml', '')
+            # Use the current path or fallback to package path
+            path = self.pkg_path
+            self.update_current_node_path(path, node_file_base)
+            self.update_graph(self.node_list_path)
         start_node = request.start_node
         goal_node = request.goal_node
         try:
@@ -137,15 +143,18 @@ class NodeManager(Node):
                 response.message = f"Generated {len(waypoints)} waypoints from node {start_node} to {goal_node}, {len(waypoints)} waypoints"
                 self.get_logger().info(f"Waypoints generated successfully: {start_node} -> {goal_node}, {len(waypoints)} waypoints")
                 self.visualize_path(waypoints, path_color=(0.0, 0.0, 1.0, 1.0))
+                response.current_node_file = self.current_node_name if self.current_node_name else ""
             else:
                 response.success = False
                 response.message = f"No path found from node {start_node} to {goal_node}"
                 response.node_path = []
+                response.current_node_file = self.current_node_name if self.current_node_name else ""
                 self.get_logger().warn(f"No path found: {start_node} -> {goal_node}")
         except Exception as e:
             response.success = False
             response.message = f"Failed to generate waypoints: {str(e)}"
             response.node_path = []
+            response.current_node_file = self.current_node_name if self.current_node_name else ""
             self.get_logger().error(f"Waypoint generation failed: {str(e)}")
         return response
 
