@@ -110,18 +110,17 @@ class NodeManager(Node):
         return response
 
     def get_waypoints_callback(self, request, response):
-        """waypoint 좌표를 반환하는 서비스 콜백"""
+        """waypoint 좌표와 노드 인덱스 경로를 반환하는 서비스 콜백"""
         start_node = request.start_node
         goal_node = request.goal_node
-        
         try:
-            waypoints = self.make_dijkstra_path(start_node, goal_node)
+            node_path = nx.dijkstra_path(self.node_graph, start_node, goal_node)
+            waypoints = self.get_waypoints_nodexy(node_path)
             if waypoints:
                 # PoseArray로 변환
                 pose_array = PoseArray()
                 pose_array.header.frame_id = "map"
                 pose_array.header.stamp = self.get_clock().now().to_msg()
-                
                 for wp in waypoints:
                     pose = Pose()
                     pose.position.x = float(wp['x'])
@@ -132,23 +131,22 @@ class NodeManager(Node):
                     pose.orientation.z = 0.0
                     pose.orientation.w = 1.0
                     pose_array.poses.append(pose)
-                
                 response.waypoints = pose_array
+                response.node_path = [int(idx) for idx in node_path]
                 response.success = True
                 response.message = f"Generated {len(waypoints)} waypoints from node {start_node} to {goal_node}, {len(waypoints)} waypoints"
                 self.get_logger().info(f"Waypoints generated successfully: {start_node} -> {goal_node}, {len(waypoints)} waypoints")
-                
-                # 경로 시각화 (파란색)
                 self.visualize_path(waypoints, path_color=(0.0, 0.0, 1.0, 1.0))
             else:
                 response.success = False
                 response.message = f"No path found from node {start_node} to {goal_node}"
+                response.node_path = []
                 self.get_logger().warn(f"No path found: {start_node} -> {goal_node}")
         except Exception as e:
             response.success = False
             response.message = f"Failed to generate waypoints: {str(e)}"
+            response.node_path = []
             self.get_logger().error(f"Waypoint generation failed: {str(e)}")
-        
         return response
 
     def load_graph_callback(self, request, response):
