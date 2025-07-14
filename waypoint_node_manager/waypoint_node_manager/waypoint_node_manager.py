@@ -117,7 +117,20 @@ class NodeManager(Node):
             path = self.pkg_path
             self.update_current_node_path(path, node_file_base)
             self.update_graph(self.node_list_path)
-        start_node = request.start_node
+        
+        # start_node가 비어있으면 로봇의 현재 위치에서 가장 가까운 노드를 찾음
+        if not request.start_node and self.robot_position:
+            start_node = self.find_nearest_node(self.robot_position)
+            if start_node is not None:
+                self.get_logger().info(f"Auto-detected start node: {start_node} from robot position")
+            else:
+                response.success = False
+                response.message = "Could not find nearest node to robot position"
+                response.node_path = []
+                return response
+        else:
+            start_node = request.start_node
+            
         goal_node = request.goal_node
         try:
             node_path = nx.dijkstra_path(self.node_graph, start_node, goal_node)
