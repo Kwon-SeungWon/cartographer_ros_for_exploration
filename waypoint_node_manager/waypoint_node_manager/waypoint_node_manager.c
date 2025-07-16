@@ -3442,7 +3442,7 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
  * class NodeManager(Node):
  *     def __init__(self, node_file_dir=None, current_node=None):             # <<<<<<<<<<<<<<
  *         super().__init__("waypoint_node_manager")
- *         # Logger
+ *         # Store logger as member variable and initialize only once
 */
 
 /* Python wrapper */
@@ -3582,7 +3582,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  * class NodeManager(Node):
  *     def __init__(self, node_file_dir=None, current_node=None):
  *         super().__init__("waypoint_node_manager")             # <<<<<<<<<<<<<<
- *         # Logger
+ *         # Store logger as member variable and initialize only once
  *         self._logger = None
 */
   __pyx_t_4 = NULL;
@@ -3616,7 +3616,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":24
  *         super().__init__("waypoint_node_manager")
- *         # Logger
+ *         # Store logger as member variable and initialize only once
  *         self._logger = None             # <<<<<<<<<<<<<<
  *         self.pkg_path = get_package_share_directory("waypoint_node_manager")
  *         self.current_node_name = None
@@ -3624,7 +3624,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_logger, Py_None) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":25
- *         # Logger
+ *         # Store logger as member variable and initialize only once
  *         self._logger = None
  *         self.pkg_path = get_package_share_directory("waypoint_node_manager")             # <<<<<<<<<<<<<<
  *         self.current_node_name = None
@@ -3679,7 +3679,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.node_list_path = None
  *         self.node_data = {}             # <<<<<<<<<<<<<<
  * 
- *         #
+ *         # Default test file settings
 */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3688,7 +3688,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":31
  * 
- *         #
+ *         # Default test file settings
  *         if node_file_dir is None:             # <<<<<<<<<<<<<<
  *             node_file_dir = self.pkg_path
  *         if current_node is None:
@@ -3697,7 +3697,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   if (__pyx_t_8) {
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":32
- *         #
+ *         # Default test file settings
  *         if node_file_dir is None:
  *             node_file_dir = self.pkg_path             # <<<<<<<<<<<<<<
  *         if current_node is None:
@@ -3710,7 +3710,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":31
  * 
- *         #
+ *         # Default test file settings
  *         if node_file_dir is None:             # <<<<<<<<<<<<<<
  *             node_file_dir = self.pkg_path
  *         if current_node is None:
@@ -3956,13 +3956,13 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.path_visual_idx = 0
  *         self.robot_visual_idx = 0             # <<<<<<<<<<<<<<
  * 
- *         # TF
+ *         # Initialize TF listener
 */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_robot_visual_idx, __pyx_mstate_global->__pyx_int_0) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":49
  * 
- *         # TF
+ *         # Initialize TF listener
  *         self.tf_buffer = Buffer()             # <<<<<<<<<<<<<<
  *         self.tf_listener = TransformListener(self.tf_buffer, self)
  * 
@@ -3994,11 +3994,11 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":50
- *         # TF
+ *         # Initialize TF listener
  *         self.tf_buffer = Buffer()
  *         self.tf_listener = TransformListener(self.tf_buffer, self)             # <<<<<<<<<<<<<<
  * 
- *         #
+ *         # Robot position tracking variables
 */
   __pyx_t_3 = NULL;
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_TransformListener); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
@@ -4031,7 +4031,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":53
  * 
- *         #
+ *         # Robot position tracking variables
  *         self.robot_position = None             # <<<<<<<<<<<<<<
  *         self.current_node = None
  *         self.robot_update_timer = None
@@ -4039,7 +4039,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_robot_position, Py_None) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":54
- *         #
+ *         # Robot position tracking variables
  *         self.robot_position = None
  *         self.current_node = None             # <<<<<<<<<<<<<<
  *         self.robot_update_timer = None
@@ -4110,7 +4110,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         if self.node_list_path:
  *             self.update_graph(self.node_list_path)             # <<<<<<<<<<<<<<
  * 
- *         #
+ *         # Enable marker publishing
 */
     __pyx_t_3 = __pyx_v_self;
     __Pyx_INCREF(__pyx_t_3);
@@ -4138,9 +4138,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":63
  * 
- *         #
+ *         # Enable marker publishing
  *         self.make_ros_marker()             # <<<<<<<<<<<<<<
- *         self.create_timer(1.0, self.publish_ros_marker)
+ *         self.create_timer(0.1, self.publish_ros_marker)
  * 
 */
   __pyx_t_2 = __pyx_v_self;
@@ -4156,11 +4156,11 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":64
- *         #
+ *         # Enable marker publishing
  *         self.make_ros_marker()
- *         self.create_timer(1.0, self.publish_ros_marker)             # <<<<<<<<<<<<<<
+ *         self.create_timer(0.1, self.publish_ros_marker)             # <<<<<<<<<<<<<<
  * 
- *         #
+ *         # Create services
 */
   __pyx_t_2 = __pyx_v_self;
   __Pyx_INCREF(__pyx_t_2);
@@ -4168,7 +4168,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_7 = 0;
   {
-    PyObject *__pyx_callargs[3] = {__pyx_t_2, __pyx_mstate_global->__pyx_float_1_0, __pyx_t_3};
+    PyObject *__pyx_callargs[3] = {__pyx_t_2, __pyx_mstate_global->__pyx_float_0_1, __pyx_t_3};
     __pyx_t_1 = __Pyx_PyObject_FastCallMethod(__pyx_mstate_global->__pyx_n_u_create_timer, __pyx_callargs+__pyx_t_7, (3-__pyx_t_7) | (1*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4179,7 +4179,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":67
  * 
- *         #
+ *         # Create services
  *         self.path_planning_srv_ = self.create_service(             # <<<<<<<<<<<<<<
  *             AddTwoInts,
  *             'path_planning',
@@ -4188,7 +4188,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_INCREF(__pyx_t_3);
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":68
- *         #
+ *         # Create services
  *         self.path_planning_srv_ = self.create_service(
  *             AddTwoInts,             # <<<<<<<<<<<<<<
  *             'path_planning',
@@ -4219,7 +4219,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":67
  * 
- *         #
+ *         # Create services
  *         self.path_planning_srv_ = self.create_service(             # <<<<<<<<<<<<<<
  *             AddTwoInts,
  *             'path_planning',
@@ -4229,7 +4229,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":74
  * 
- *         #  :  waypoint
+ *         # New service: return actual waypoint coordinates
  *         self.get_waypoints_srv_ = self.create_service(             # <<<<<<<<<<<<<<
  *             GetWaypoints,
  *             'get_waypoints',
@@ -4238,7 +4238,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_INCREF(__pyx_t_5);
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":75
- *         #  :  waypoint
+ *         # New service: return actual waypoint coordinates
  *         self.get_waypoints_srv_ = self.create_service(
  *             GetWaypoints,             # <<<<<<<<<<<<<<
  *             'get_waypoints',
@@ -4269,7 +4269,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":74
  * 
- *         #  :  waypoint
+ *         # New service: return actual waypoint coordinates
  *         self.get_waypoints_srv_ = self.create_service(             # <<<<<<<<<<<<<<
  *             GetWaypoints,
  *             'get_waypoints',
@@ -4405,7 +4405,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":92
  * 
- *         #
+ *         # Start robot position tracking timer
  *         self.robot_update_timer = self.create_timer(0.5, self.update_robot_position)             # <<<<<<<<<<<<<<
  * 
  *     def path_planning_callback(self, request, response):
@@ -4431,7 +4431,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  * class NodeManager(Node):
  *     def __init__(self, node_file_dir=None, current_node=None):             # <<<<<<<<<<<<<<
  *         super().__init__("waypoint_node_manager")
- *         # Logger
+ *         # Store logger as member variable and initialize only once
 */
 
   /* function exit code */
@@ -4458,7 +4458,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.robot_update_timer = self.create_timer(0.5, self.update_robot_position)
  * 
  *     def path_planning_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """   """
+ *         """Path planning service callback"""
  *         start_node = request.a
 */
 
@@ -4470,7 +4470,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_2path_planning_callback, "\352\262\275\353\241\234 \352\263\204\355\232\215 \354\204\234\353\271\204\354\212\244 \354\275\234\353\260\261");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_2path_planning_callback, "Path planning service callback");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_3path_planning_callback = {"path_planning_callback", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_3path_planning_callback, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_2path_planning_callback};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_3path_planning_callback(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -4603,7 +4603,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":96
  *     def path_planning_callback(self, request, response):
- *         """   """
+ *         """Path planning service callback"""
  *         start_node = request.a             # <<<<<<<<<<<<<<
  *         target_node = request.b
  * 
@@ -4614,7 +4614,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __pyx_t_1 = 0;
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":97
- *         """   """
+ *         """Path planning service callback"""
  *         start_node = request.a
  *         target_node = request.b             # <<<<<<<<<<<<<<
  * 
@@ -4646,7 +4646,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         try:
  *             waypoints = self.make_dijkstra_path(start_node, target_node)             # <<<<<<<<<<<<<<
  *             if waypoints:
- *                 response.sum = len(waypoints)  #
+ *                 response.sum = len(waypoints)  # Return number of nodes in path
 */
       __pyx_t_5 = __pyx_v_self;
       __Pyx_INCREF(__pyx_t_5);
@@ -4665,7 +4665,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         try:
  *             waypoints = self.make_dijkstra_path(start_node, target_node)
  *             if waypoints:             # <<<<<<<<<<<<<<
- *                 response.sum = len(waypoints)  #
+ *                 response.sum = len(waypoints)  # Return number of nodes in path
  *                 try:
 */
       __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_waypoints); if (unlikely((__pyx_t_7 < 0))) __PYX_ERR(0, 101, __pyx_L3_error)
@@ -4674,7 +4674,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
         /* "waypoint_node_manager/waypoint_node_manager.pyx":102
  *             waypoints = self.make_dijkstra_path(start_node, target_node)
  *             if waypoints:
- *                 response.sum = len(waypoints)  #             # <<<<<<<<<<<<<<
+ *                 response.sum = len(waypoints)  # Return number of nodes in path             # <<<<<<<<<<<<<<
  *                 try:
  *                     print(f"Path planning successful: {start_node} -> {target_node}, {len(waypoints)} waypoints")
 */
@@ -4686,7 +4686,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":103
  *             if waypoints:
- *                 response.sum = len(waypoints)  #
+ *                 response.sum = len(waypoints)  # Return number of nodes in path
  *                 try:             # <<<<<<<<<<<<<<
  *                     print(f"Path planning successful: {start_node} -> {target_node}, {len(waypoints)} waypoints")
  *                 except:
@@ -4701,7 +4701,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
           /*try:*/ {
 
             /* "waypoint_node_manager/waypoint_node_manager.pyx":104
- *                 response.sum = len(waypoints)  #
+ *                 response.sum = len(waypoints)  # Return number of nodes in path
  *                 try:
  *                     print(f"Path planning successful: {start_node} -> {target_node}, {len(waypoints)} waypoints")             # <<<<<<<<<<<<<<
  *                 except:
@@ -4744,7 +4744,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
             /* "waypoint_node_manager/waypoint_node_manager.pyx":103
  *             if waypoints:
- *                 response.sum = len(waypoints)  #
+ *                 response.sum = len(waypoints)  # Return number of nodes in path
  *                 try:             # <<<<<<<<<<<<<<
  *                     print(f"Path planning successful: {start_node} -> {target_node}, {len(waypoints)} waypoints")
  *                 except:
@@ -4784,10 +4784,10 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":109
  * 
- *                 #   ()
+ *                 # Visualize path (red)
  *                 self.visualize_path(waypoints, path_color=(1.0, 0.0, 1.0, 0.5))             # <<<<<<<<<<<<<<
  *             else:
- *                 response.sum = -1  #
+ *                 response.sum = -1  # No path found
 */
         __pyx_t_12 = __pyx_v_self;
         __Pyx_INCREF(__pyx_t_12);
@@ -4809,7 +4809,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         try:
  *             waypoints = self.make_dijkstra_path(start_node, target_node)
  *             if waypoints:             # <<<<<<<<<<<<<<
- *                 response.sum = len(waypoints)  #
+ *                 response.sum = len(waypoints)  # Return number of nodes in path
  *                 try:
 */
         goto __pyx_L9;
@@ -4818,7 +4818,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       /* "waypoint_node_manager/waypoint_node_manager.pyx":111
  *                 self.visualize_path(waypoints, path_color=(1.0, 0.0, 1.0, 0.5))
  *             else:
- *                 response.sum = -1  #             # <<<<<<<<<<<<<<
+ *                 response.sum = -1  # No path found             # <<<<<<<<<<<<<<
  *                 try:
  *                     print(f"No path found: {start_node} -> {target_node}")
 */
@@ -4827,7 +4827,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":112
  *             else:
- *                 response.sum = -1  #
+ *                 response.sum = -1  # No path found
  *                 try:             # <<<<<<<<<<<<<<
  *                     print(f"No path found: {start_node} -> {target_node}")
  *                 except:
@@ -4842,7 +4842,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
           /*try:*/ {
 
             /* "waypoint_node_manager/waypoint_node_manager.pyx":113
- *                 response.sum = -1  #
+ *                 response.sum = -1  # No path found
  *                 try:
  *                     print(f"No path found: {start_node} -> {target_node}")             # <<<<<<<<<<<<<<
  *                 except:
@@ -4878,7 +4878,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
             /* "waypoint_node_manager/waypoint_node_manager.pyx":112
  *             else:
- *                 response.sum = -1  #
+ *                 response.sum = -1  # No path found
  *                 try:             # <<<<<<<<<<<<<<
  *                     print(f"No path found: {start_node} -> {target_node}")
  *                 except:
@@ -5140,7 +5140,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.robot_update_timer = self.create_timer(0.5, self.update_robot_position)
  * 
  *     def path_planning_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """   """
+ *         """Path planning service callback"""
  *         start_node = request.a
 */
 
@@ -5170,7 +5170,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         return response
  * 
  *     def get_waypoints_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """waypoint       """
+ *         """Service callback to return waypoint coordinates and node index path"""
  *         # Only update node file if request.node_file is provided
 */
 
@@ -5182,7 +5182,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_4get_waypoints_callback, "waypoint \354\242\214\355\221\234\354\231\200 \353\205\270\353\223\234 \354\235\270\353\215\261\354\212\244 \352\262\275\353\241\234\353\245\274 \353\260\230\355\231\230\355\225\230\353\212\224 \354\204\234\353\271\204\354\212\244 \354\275\234\353\260\261");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_4get_waypoints_callback, "Service callback to return waypoint coordinates and node index path");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_5get_waypoints_callback = {"get_waypoints_callback", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_5get_waypoints_callback, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_4get_waypoints_callback};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_5get_waypoints_callback(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -5327,7 +5327,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_RefNannySetupContext("get_waypoints_callback", 0);
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":128
- *         """waypoint       """
+ *         """Service callback to return waypoint coordinates and node index path"""
  *         # Only update node file if request.node_file is provided
  *         if hasattr(request, 'node_file') and request.node_file:             # <<<<<<<<<<<<<<
  *             node_file_base = request.node_file.replace('.yaml', '')
@@ -5401,7 +5401,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.update_current_node_path(path, node_file_base)
  *             self.update_graph(self.node_list_path)             # <<<<<<<<<<<<<<
  * 
- *         # start_node
+ *         # If start_node is empty, find the nearest node from the robot's current position
 */
     __pyx_t_4 = __pyx_v_self;
     __Pyx_INCREF(__pyx_t_4);
@@ -5419,7 +5419,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":128
- *         """waypoint       """
+ *         """Service callback to return waypoint coordinates and node index path"""
  *         # Only update node file if request.node_file is provided
  *         if hasattr(request, 'node_file') and request.node_file:             # <<<<<<<<<<<<<<
  *             node_file_base = request.node_file.replace('.yaml', '')
@@ -5429,7 +5429,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":136
  * 
- *         # start_node
+ *         # If start_node is empty, find the nearest node from the robot's current position
  *         if not request.start_node and self.robot_position:             # <<<<<<<<<<<<<<
  *             start_node = self.find_nearest_node(self.robot_position)
  *             if start_node is not None:
@@ -5453,7 +5453,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   if (__pyx_t_1) {
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":137
- *         # start_node
+ *         # If start_node is empty, find the nearest node from the robot's current position
  *         if not request.start_node and self.robot_position:
  *             start_node = self.find_nearest_node(self.robot_position)             # <<<<<<<<<<<<<<
  *             if start_node is not None:
@@ -5627,7 +5627,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":136
  * 
- *         # start_node
+ *         # If start_node is empty, find the nearest node from the robot's current position
  *         if not request.start_node and self.robot_position:             # <<<<<<<<<<<<<<
  *             start_node = self.find_nearest_node(self.robot_position)
  *             if start_node is not None:
@@ -5722,7 +5722,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             node_path = nx.dijkstra_path(self.node_graph, start_node, goal_node)
  *             waypoints = self.get_waypoints_nodexy(node_path)             # <<<<<<<<<<<<<<
  *             if waypoints:
- *                 # PoseArray
+ *                 # Convert to PoseArray
 */
       __pyx_t_4 = __pyx_v_self;
       __Pyx_INCREF(__pyx_t_4);
@@ -5741,7 +5741,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             node_path = nx.dijkstra_path(self.node_graph, start_node, goal_node)
  *             waypoints = self.get_waypoints_nodexy(node_path)
  *             if waypoints:             # <<<<<<<<<<<<<<
- *                 # PoseArray
+ *                 # Convert to PoseArray
  *                 pose_array = PoseArray()
 */
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_waypoints); if (unlikely((__pyx_t_1 < 0))) __PYX_ERR(0, 155, __pyx_L18_error)
@@ -5749,7 +5749,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":157
  *             if waypoints:
- *                 # PoseArray
+ *                 # Convert to PoseArray
  *                 pose_array = PoseArray()             # <<<<<<<<<<<<<<
  *                 pose_array.header.frame_id = "map"
  *                 pose_array.header.stamp = self.get_clock().now().to_msg()
@@ -5781,7 +5781,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
         __pyx_t_3 = 0;
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":158
- *                 # PoseArray
+ *                 # Convert to PoseArray
  *                 pose_array = PoseArray()
  *                 pose_array.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *                 pose_array.header.stamp = self.get_clock().now().to_msg()
@@ -6311,7 +6311,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             node_path = nx.dijkstra_path(self.node_graph, start_node, goal_node)
  *             waypoints = self.get_waypoints_nodexy(node_path)
  *             if waypoints:             # <<<<<<<<<<<<<<
- *                 # PoseArray
+ *                 # Convert to PoseArray
  *                 pose_array = PoseArray()
 */
         goto __pyx_L24;
@@ -6704,7 +6704,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         return response
  * 
  *     def get_waypoints_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """waypoint       """
+ *         """Service callback to return waypoint coordinates and node index path"""
  *         # Only update node file if request.node_file is provided
 */
 
@@ -6741,7 +6741,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         return response
  * 
  *     def load_graph_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """   """
+ *         """Graph load service callback"""
  *         try:
 */
 
@@ -6753,7 +6753,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_6load_graph_callback, "\352\267\270\353\236\230\355\224\204 \353\241\234\353\223\234 \354\204\234\353\271\204\354\212\244 \354\275\234\353\260\261");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_6load_graph_callback, "Graph load service callback");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_7load_graph_callback = {"load_graph_callback", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_7load_graph_callback, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_6load_graph_callback};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_7load_graph_callback(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -6881,7 +6881,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":199
  *     def load_graph_callback(self, request, response):
- *         """   """
+ *         """Graph load service callback"""
  *         try:             # <<<<<<<<<<<<<<
  *             if self.node_list_path and os.path.exists(self.node_list_path):
  *                 self.update_graph(self.node_list_path)
@@ -6896,7 +6896,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     /*try:*/ {
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":200
- *         """   """
+ *         """Graph load service callback"""
  *         try:
  *             if self.node_list_path and os.path.exists(self.node_list_path):             # <<<<<<<<<<<<<<
  *                 self.update_graph(self.node_list_path)
@@ -7060,7 +7060,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
         }
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":200
- *         """   """
+ *         """Graph load service callback"""
  *         try:
  *             if self.node_list_path and os.path.exists(self.node_list_path):             # <<<<<<<<<<<<<<
  *                 self.update_graph(self.node_list_path)
@@ -7175,7 +7175,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":199
  *     def load_graph_callback(self, request, response):
- *         """   """
+ *         """Graph load service callback"""
  *         try:             # <<<<<<<<<<<<<<
  *             if self.node_list_path and os.path.exists(self.node_list_path):
  *                 self.update_graph(self.node_list_path)
@@ -7372,7 +7372,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":199
  *     def load_graph_callback(self, request, response):
- *         """   """
+ *         """Graph load service callback"""
  *         try:             # <<<<<<<<<<<<<<
  *             if self.node_list_path and os.path.exists(self.node_list_path):
  *                 self.update_graph(self.node_list_path)
@@ -7407,7 +7407,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         return response
  * 
  *     def load_graph_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """   """
+ *         """Graph load service callback"""
  *         try:
 */
 
@@ -9003,7 +9003,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *     def update_current_node_path(self, path, current_node_name):
  *         if path and current_node_name:             # <<<<<<<<<<<<<<
  *             self.current_node_name = current_node_name + ".yaml"
- *             #  ,  pkg_path
+ *             # If absolute path, keep it, otherwise base it on pkg_path
 */
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_path); if (unlikely((__pyx_t_2 < 0))) __PYX_ERR(0, 262, __pyx_L1_error)
   if (__pyx_t_2) {
@@ -9020,7 +9020,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *     def update_current_node_path(self, path, current_node_name):
  *         if path and current_node_name:
  *             self.current_node_name = current_node_name + ".yaml"             # <<<<<<<<<<<<<<
- *             #  ,  pkg_path
+ *             # If absolute path, keep it, otherwise base it on pkg_path
  *             if os.path.isabs(path):
 */
     __pyx_t_3 = PyNumber_Add(__pyx_v_current_node_name, __pyx_mstate_global->__pyx_kp_u_yaml); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
@@ -9030,7 +9030,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":265
  *             self.current_node_name = current_node_name + ".yaml"
- *             #  ,  pkg_path
+ *             # If absolute path, keep it, otherwise base it on pkg_path
  *             if os.path.isabs(path):             # <<<<<<<<<<<<<<
  *                 self.node_list_path = os.path.join(path, self.current_node_name)
  *             else:
@@ -9056,7 +9056,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     if (__pyx_t_1) {
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":266
- *             #  ,  pkg_path
+ *             # If absolute path, keep it, otherwise base it on pkg_path
  *             if os.path.isabs(path):
  *                 self.node_list_path = os.path.join(path, self.current_node_name)             # <<<<<<<<<<<<<<
  *             else:
@@ -9086,7 +9086,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":265
  *             self.current_node_name = current_node_name + ".yaml"
- *             #  ,  pkg_path
+ *             # If absolute path, keep it, otherwise base it on pkg_path
  *             if os.path.isabs(path):             # <<<<<<<<<<<<<<
  *                 self.node_list_path = os.path.join(path, self.current_node_name)
  *             else:
@@ -9134,7 +9134,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *     def update_current_node_path(self, path, current_node_name):
  *         if path and current_node_name:             # <<<<<<<<<<<<<<
  *             self.current_node_name = current_node_name + ".yaml"
- *             #  ,  pkg_path
+ *             # If absolute path, keep it, otherwise base it on pkg_path
 */
     goto __pyx_L3;
   }
@@ -12498,7 +12498,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.visual_idx += 2
  * 
  *     def clear_path_markers(self):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Initialize path markers"""
  *         self.path_marker_array = MarkerArray()
 */
 
@@ -12510,7 +12510,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_30clear_path_markers, "\352\262\275\353\241\234 \353\247\210\354\273\244\353\245\274 \354\264\210\352\270\260\355\231\224");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_30clear_path_markers, "Initialize path markers");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_31clear_path_markers = {"clear_path_markers", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_31clear_path_markers, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_30clear_path_markers};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_31clear_path_markers(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -12602,7 +12602,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":404
  *     def clear_path_markers(self):
- *         """  """
+ *         """Initialize path markers"""
  *         self.path_marker_array = MarkerArray()             # <<<<<<<<<<<<<<
  *         self.path_visual_idx = 0
  * 
@@ -12634,7 +12634,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":405
- *         """  """
+ *         """Initialize path markers"""
  *         self.path_marker_array = MarkerArray()
  *         self.path_visual_idx = 0             # <<<<<<<<<<<<<<
  * 
@@ -12646,7 +12646,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.visual_idx += 2
  * 
  *     def clear_path_markers(self):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Initialize path markers"""
  *         self.path_marker_array = MarkerArray()
 */
 
@@ -12669,7 +12669,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.path_visual_idx = 0
  * 
  *     def visualize_path(self, waypoints, path_color=(1.0, 1.0, 0.0, 1.0)):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:
 */
 
@@ -12681,7 +12681,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_32visualize_path, "\352\262\275\353\241\234\353\245\274 \354\213\234\352\260\201\355\231\224\355\225\230\353\212\224 \355\225\250\354\210\230");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_32visualize_path, "Function to visualize path");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_33visualize_path = {"visualize_path", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_33visualize_path, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_32visualize_path};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_33visualize_path(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -12835,7 +12835,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":409
  *     def visualize_path(self, waypoints, path_color=(1.0, 1.0, 0.0, 1.0)):
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:             # <<<<<<<<<<<<<<
  *             return
  *         try:
@@ -12854,7 +12854,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   if (__pyx_t_1) {
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":410
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:
  *             return             # <<<<<<<<<<<<<<
  *         try:
@@ -12866,7 +12866,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":409
  *     def visualize_path(self, waypoints, path_color=(1.0, 1.0, 0.0, 1.0)):
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:             # <<<<<<<<<<<<<<
  *             return
  *         try:
@@ -12878,7 +12878,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             return
  *         try:             # <<<<<<<<<<<<<<
  *             self.clear_path_markers()
- *             #
+ *             # Create path line marker
 */
   {
     __Pyx_PyThreadState_declare
@@ -12893,7 +12893,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             return
  *         try:
  *             self.clear_path_markers()             # <<<<<<<<<<<<<<
- *             #
+ *             # Create path line marker
  *             path_marker = Marker()
 */
       __pyx_t_9 = __pyx_v_self;
@@ -12910,7 +12910,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":414
  *             self.clear_path_markers()
- *             #
+ *             # Create path line marker
  *             path_marker = Marker()             # <<<<<<<<<<<<<<
  *             path_marker.header.frame_id = "map"
  *             path_marker.header.stamp = self.get_clock().now().to_msg()
@@ -12942,7 +12942,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __pyx_t_8 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":415
- *             #
+ *             # Create path line marker
  *             path_marker = Marker()
  *             path_marker.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *             path_marker.header.stamp = self.get_clock().now().to_msg()
@@ -13030,7 +13030,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             path_marker.type = Marker.LINE_STRIP
  *             path_marker.action = Marker.ADD             # <<<<<<<<<<<<<<
  *             path_marker.pose.orientation.w = 1.0
- *             path_marker.scale.x = 0.03  #
+ *             path_marker.scale.x = 0.03  # Line thickness
 */
       __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_mstate_global->__pyx_n_u_Marker); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 419, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -13044,7 +13044,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             path_marker.type = Marker.LINE_STRIP
  *             path_marker.action = Marker.ADD
  *             path_marker.pose.orientation.w = 1.0             # <<<<<<<<<<<<<<
- *             path_marker.scale.x = 0.03  #
+ *             path_marker.scale.x = 0.03  # Line thickness
  *             path_marker.color.r = path_color[0]
 */
       __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_path_marker, __pyx_mstate_global->__pyx_n_u_pose); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 420, __pyx_L6_error)
@@ -13058,7 +13058,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       /* "waypoint_node_manager/waypoint_node_manager.pyx":421
  *             path_marker.action = Marker.ADD
  *             path_marker.pose.orientation.w = 1.0
- *             path_marker.scale.x = 0.03  #             # <<<<<<<<<<<<<<
+ *             path_marker.scale.x = 0.03  # Line thickness             # <<<<<<<<<<<<<<
  *             path_marker.color.r = path_color[0]
  *             path_marker.color.g = path_color[1]
 */
@@ -13069,7 +13069,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":422
  *             path_marker.pose.orientation.w = 1.0
- *             path_marker.scale.x = 0.03  #
+ *             path_marker.scale.x = 0.03  # Line thickness
  *             path_marker.color.r = path_color[0]             # <<<<<<<<<<<<<<
  *             path_marker.color.g = path_color[1]
  *             path_marker.color.b = path_color[2]
@@ -13087,7 +13087,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":423
- *             path_marker.scale.x = 0.03  #
+ *             path_marker.scale.x = 0.03  # Line thickness
  *             path_marker.color.r = path_color[0]
  *             path_marker.color.g = path_color[1]             # <<<<<<<<<<<<<<
  *             path_marker.color.b = path_color[2]
@@ -13148,7 +13148,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             path_marker.color.a = path_color[3]
  *             path_marker.lifetime.sec = 0             # <<<<<<<<<<<<<<
  * 
- *             #
+ *             # Add path points
 */
       __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_path_marker, __pyx_mstate_global->__pyx_n_u_lifetime); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 426, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -13157,7 +13157,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":429
  * 
- *             #
+ *             # Add path points
  *             for wp in waypoints:             # <<<<<<<<<<<<<<
  *                 point = Point()
  *                 point.x = float(wp['x'])
@@ -13215,7 +13215,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
         __pyx_t_9 = 0;
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":430
- *             #
+ *             # Add path points
  *             for wp in waypoints:
  *                 point = Point()             # <<<<<<<<<<<<<<
  *                 point.x = float(wp['x'])
@@ -13308,7 +13308,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":429
  * 
- *             #
+ *             # Add path points
  *             for wp in waypoints:             # <<<<<<<<<<<<<<
  *                 point = Point()
  *                 point.x = float(wp['x'])
@@ -13336,7 +13336,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.path_marker_array.markers.append(path_marker)
  *             self.path_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #   waypoint
+ *             # Add arrow markers for each waypoint in the path
 */
       __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_path_visual_idx); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 437, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_9);
@@ -13348,9 +13348,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":440
  * 
- *             #   waypoint
+ *             # Add arrow markers for each waypoint in the path
  *             for i, wp in enumerate(waypoints):             # <<<<<<<<<<<<<<
- *                 if i < len(waypoints) - 1:  #  waypoint
+ *                 if i < len(waypoints) - 1:  # Exclude last waypoint
  *                     next_wp = waypoints[i + 1]
 */
       __Pyx_INCREF(__pyx_mstate_global->__pyx_int_0);
@@ -13415,9 +13415,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
         __pyx_t_13 = 0;
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":441
- *             #   waypoint
+ *             # Add arrow markers for each waypoint in the path
  *             for i, wp in enumerate(waypoints):
- *                 if i < len(waypoints) - 1:  #  waypoint             # <<<<<<<<<<<<<<
+ *                 if i < len(waypoints) - 1:  # Exclude last waypoint             # <<<<<<<<<<<<<<
  *                     next_wp = waypoints[i + 1]
  *                     arrow_marker = Marker()
 */
@@ -13432,7 +13432,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
           /* "waypoint_node_manager/waypoint_node_manager.pyx":442
  *             for i, wp in enumerate(waypoints):
- *                 if i < len(waypoints) - 1:  #  waypoint
+ *                 if i < len(waypoints) - 1:  # Exclude last waypoint
  *                     next_wp = waypoints[i + 1]             # <<<<<<<<<<<<<<
  *                     arrow_marker = Marker()
  *                     arrow_marker.header.frame_id = "map"
@@ -13450,7 +13450,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
           __pyx_t_13 = 0;
 
           /* "waypoint_node_manager/waypoint_node_manager.pyx":443
- *                 if i < len(waypoints) - 1:  #  waypoint
+ *                 if i < len(waypoints) - 1:  # Exclude last waypoint
  *                     next_wp = waypoints[i + 1]
  *                     arrow_marker = Marker()             # <<<<<<<<<<<<<<
  *                     arrow_marker.header.frame_id = "map"
@@ -13912,7 +13912,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *                     self.path_marker_array.markers.append(arrow_marker)
  *                     self.path_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #    ( )
+ *             # Start node marker (green cylinder)
 */
           __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_path_visual_idx); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 472, __pyx_L6_error)
           __Pyx_GOTREF(__pyx_t_11);
@@ -13923,9 +13923,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
 
           /* "waypoint_node_manager/waypoint_node_manager.pyx":441
- *             #   waypoint
+ *             # Add arrow markers for each waypoint in the path
  *             for i, wp in enumerate(waypoints):
- *                 if i < len(waypoints) - 1:  #  waypoint             # <<<<<<<<<<<<<<
+ *                 if i < len(waypoints) - 1:  # Exclude last waypoint             # <<<<<<<<<<<<<<
  *                     next_wp = waypoints[i + 1]
  *                     arrow_marker = Marker()
 */
@@ -13933,9 +13933,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":440
  * 
- *             #   waypoint
+ *             # Add arrow markers for each waypoint in the path
  *             for i, wp in enumerate(waypoints):             # <<<<<<<<<<<<<<
- *                 if i < len(waypoints) - 1:  #  waypoint
+ *                 if i < len(waypoints) - 1:  # Exclude last waypoint
  *                     next_wp = waypoints[i + 1]
 */
       }
@@ -13944,7 +13944,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":475
  * 
- *             #    ( )
+ *             # Start node marker (green cylinder)
  *             start_wp = waypoints[0]             # <<<<<<<<<<<<<<
  *             start_marker = Marker()
  *             start_marker.header.frame_id = "map"
@@ -13959,7 +13959,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __pyx_t_8 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":476
- *             #    ( )
+ *             # Start node marker (green cylinder)
  *             start_wp = waypoints[0]
  *             start_marker = Marker()             # <<<<<<<<<<<<<<
  *             start_marker.header.frame_id = "map"
@@ -14286,7 +14286,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.path_marker_array.markers.append(start_marker)
  *             self.path_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #
+ *             # Start node text label
 */
       __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_path_visual_idx); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 496, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -14298,7 +14298,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":499
  * 
- *             #
+ *             # Start node text label
  *             start_text = Marker()             # <<<<<<<<<<<<<<
  *             start_text.header.frame_id = "map"
  *             start_text.header.stamp = self.get_clock().now().to_msg()
@@ -14330,7 +14330,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __pyx_t_9 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":500
- *             #
+ *             # Start node text label
  *             start_text = Marker()
  *             start_text.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *             start_text.header.stamp = self.get_clock().now().to_msg()
@@ -14609,7 +14609,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.path_marker_array.markers.append(start_text)
  *             self.path_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #    ( )
+ *             # End node marker (red cylinder)
 */
       __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_path_visual_idx); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 518, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_9);
@@ -14621,7 +14621,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":521
  * 
- *             #    ( )
+ *             # End node marker (red cylinder)
  *             end_wp = waypoints[-1]             # <<<<<<<<<<<<<<
  *             end_marker = Marker()
  *             end_marker.header.frame_id = "map"
@@ -14636,7 +14636,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __pyx_t_8 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":522
- *             #    ( )
+ *             # End node marker (red cylinder)
  *             end_wp = waypoints[-1]
  *             end_marker = Marker()             # <<<<<<<<<<<<<<
  *             end_marker.header.frame_id = "map"
@@ -14963,7 +14963,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.path_marker_array.markers.append(end_marker)
  *             self.path_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #
+ *             # End node text label
 */
       __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_path_visual_idx); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 542, __pyx_L6_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -14975,7 +14975,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":545
  * 
- *             #
+ *             # End node text label
  *             end_text = Marker()             # <<<<<<<<<<<<<<
  *             end_text.header.frame_id = "map"
  *             end_text.header.stamp = self.get_clock().now().to_msg()
@@ -15007,7 +15007,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __pyx_t_9 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":546
- *             #
+ *             # End node text label
  *             end_text = Marker()
  *             end_text.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *             end_text.header.stamp = self.get_clock().now().to_msg()
@@ -15301,7 +15301,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             return
  *         try:             # <<<<<<<<<<<<<<
  *             self.clear_path_markers()
- *             #
+ *             # Create path line marker
 */
     }
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -15497,7 +15497,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             return
  *         try:             # <<<<<<<<<<<<<<
  *             self.clear_path_markers()
- *             #
+ *             # Create path line marker
 */
     __pyx_L8_except_error:;
     __Pyx_XGIVEREF(__pyx_t_5);
@@ -15517,7 +15517,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.path_visual_idx = 0
  * 
  *     def visualize_path(self, waypoints, path_color=(1.0, 1.0, 0.0, 1.0)):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:
 */
 
@@ -15560,7 +15560,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.clear_path_markers()
  * 
  *     def update_robot_position(self):             # <<<<<<<<<<<<<<
- *         """       """
+ *         """Update robot's current position and find the nearest node"""
  *         try:
 */
 
@@ -15572,7 +15572,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_34update_robot_position, "\353\241\234\353\264\207\354\235\230 \355\230\204\354\236\254 \354\234\204\354\271\230\353\245\274 \354\227\205\353\215\260\354\235\264\355\212\270\355\225\230\352\263\240 \352\260\200\354\236\245 \352\260\200\352\271\214\354\232\264 \353\205\270\353\223\234\353\245\274 \354\260\276\354\212\265\353\213\210\353\213\244");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_34update_robot_position, "Update robot's current position and find the nearest node");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_35update_robot_position = {"update_robot_position", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_35update_robot_position, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_34update_robot_position};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_35update_robot_position(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -15679,9 +15679,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":574
  *     def update_robot_position(self):
- *         """       """
+ *         """Update robot's current position and find the nearest node"""
  *         try:             # <<<<<<<<<<<<<<
- *             # map base_footprint
+ *             # Get transform from map to base_footprint
  *             transform = self.tf_buffer.lookup_transform(
 */
   {
@@ -15695,7 +15695,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":576
  *         try:
- *             # map base_footprint
+ *             # Get transform from map to base_footprint
  *             transform = self.tf_buffer.lookup_transform(             # <<<<<<<<<<<<<<
  *                 'map', 'base_footprint', rclpy.time.Time()
  *             )
@@ -15706,7 +15706,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __Pyx_INCREF(__pyx_t_5);
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":577
- *             # map base_footprint
+ *             # Get transform from map to base_footprint
  *             transform = self.tf_buffer.lookup_transform(
  *                 'map', 'base_footprint', rclpy.time.Time()             # <<<<<<<<<<<<<<
  *             )
@@ -15742,7 +15742,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __pyx_t_4 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":582
- *             #
+ *             # Update robot position
  *             self.robot_position = {
  *                 'x': transform.transform.translation.x,             # <<<<<<<<<<<<<<
  *                 'y': transform.transform.translation.y
@@ -15781,7 +15781,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":581
  * 
- *             #
+ *             # Update robot position
  *             self.robot_position = {             # <<<<<<<<<<<<<<
  *                 'x': transform.transform.translation.x,
  *                 'y': transform.transform.translation.y
@@ -15791,7 +15791,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":587
  * 
- *             #
+ *             # Find the nearest node
  *             nearest_node = self.find_nearest_node(self.robot_position)             # <<<<<<<<<<<<<<
  *             if nearest_node != self.current_node:
  *                 self.current_node = nearest_node
@@ -15813,7 +15813,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
       __pyx_t_4 = 0;
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":588
- *             #
+ *             # Find the nearest node
  *             nearest_node = self.find_nearest_node(self.robot_position)
  *             if nearest_node != self.current_node:             # <<<<<<<<<<<<<<
  *                 self.current_node = nearest_node
@@ -15920,7 +15920,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
         }
 
         /* "waypoint_node_manager/waypoint_node_manager.pyx":588
- *             #
+ *             # Find the nearest node
  *             nearest_node = self.find_nearest_node(self.robot_position)
  *             if nearest_node != self.current_node:             # <<<<<<<<<<<<<<
  *                 self.current_node = nearest_node
@@ -15930,7 +15930,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":596
  * 
- *             #
+ *             # Update robot marker
  *             self.update_robot_marker()             # <<<<<<<<<<<<<<
  * 
  *         except Exception as e:
@@ -15949,9 +15949,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":574
  *     def update_robot_position(self):
- *         """       """
+ *         """Update robot's current position and find the nearest node"""
  *         try:             # <<<<<<<<<<<<<<
- *             # map base_footprint
+ *             # Get transform from map to base_footprint
  *             transform = self.tf_buffer.lookup_transform(
 */
     }
@@ -15972,7 +15972,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.update_robot_marker()
  * 
  *         except Exception as e:             # <<<<<<<<<<<<<<
- *             # TF      (   )
+ *             # If transform cannot be found (robot hasn't started yet or)
  *             pass
 */
     __pyx_t_16 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(((PyTypeObject*)PyExc_Exception))));
@@ -16002,9 +16002,9 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":574
  *     def update_robot_position(self):
- *         """       """
+ *         """Update robot's current position and find the nearest node"""
  *         try:             # <<<<<<<<<<<<<<
- *             # map base_footprint
+ *             # Get transform from map to base_footprint
  *             transform = self.tf_buffer.lookup_transform(
 */
     __pyx_L5_except_error:;
@@ -16025,7 +16025,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.clear_path_markers()
  * 
  *     def update_robot_position(self):             # <<<<<<<<<<<<<<
- *         """       """
+ *         """Update robot's current position and find the nearest node"""
  *         try:
 */
 
@@ -16055,7 +16055,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             pass
  * 
  *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
 
@@ -16067,7 +16067,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_36find_nearest_node, "\354\243\274\354\226\264\354\247\204 \354\234\204\354\271\230\354\227\220\354\204\234 \352\260\200\354\236\245 \352\260\200\352\271\214\354\232\264 \353\205\270\353\223\234\353\245\274 \354\260\276\354\212\265\353\213\210\353\213\244");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_36find_nearest_node, "Find the nearest node to a given position");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_37find_nearest_node = {"find_nearest_node", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_37find_nearest_node, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_36find_nearest_node};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_37find_nearest_node(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -16197,7 +16197,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":604
  *     def find_nearest_node(self, position, max_distance=1.0):
- *         """     """
+ *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:             # <<<<<<<<<<<<<<
  *             return None
  * 
@@ -16213,7 +16213,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   if (__pyx_t_4) {
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":605
- *         """     """
+ *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
  *             return None             # <<<<<<<<<<<<<<
  * 
@@ -16225,7 +16225,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":604
  *     def find_nearest_node(self, position, max_distance=1.0):
- *         """     """
+ *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:             # <<<<<<<<<<<<<<
  *             return None
  * 
@@ -16547,7 +16547,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             pass
  * 
  *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
 
@@ -16578,7 +16578,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         return nearest_node
  * 
  *     def update_robot_marker(self):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Update the marker to visualize the robot's current position"""
  *         self.robot_marker_array = MarkerArray()
 */
 
@@ -16590,7 +16590,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_38update_robot_marker, "\353\241\234\353\264\207\354\235\230 \355\230\204\354\236\254 \354\234\204\354\271\230\353\245\274 \354\213\234\352\260\201\355\231\224\355\225\230\353\212\224 \353\247\210\354\273\244\353\245\274 \354\227\205\353\215\260\354\235\264\355\212\270\355\225\251\353\213\210\353\213\244");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_38update_robot_marker, "Update the marker to visualize the robot's current position");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_39update_robot_marker = {"update_robot_marker", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_39update_robot_marker, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_38update_robot_marker};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_39update_robot_marker(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -16689,7 +16689,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":625
  *     def update_robot_marker(self):
- *         """     """
+ *         """Update the marker to visualize the robot's current position"""
  *         self.robot_marker_array = MarkerArray()             # <<<<<<<<<<<<<<
  *         self.robot_visual_idx = 0
  * 
@@ -16721,7 +16721,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":626
- *         """     """
+ *         """Update the marker to visualize the robot's current position"""
  *         self.robot_marker_array = MarkerArray()
  *         self.robot_visual_idx = 0             # <<<<<<<<<<<<<<
  * 
@@ -16733,7 +16733,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.robot_visual_idx = 0
  * 
  *         if self.robot_position:             # <<<<<<<<<<<<<<
- *             #    ( )
+ *             # Robot position marker (blue cylinder)
  *             robot_marker = Marker()
 */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_robot_position); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 628, __pyx_L1_error)
@@ -16744,7 +16744,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":630
  *         if self.robot_position:
- *             #    ( )
+ *             # Robot position marker (blue cylinder)
  *             robot_marker = Marker()             # <<<<<<<<<<<<<<
  *             robot_marker.header.frame_id = "map"
  *             robot_marker.header.stamp = self.get_clock().now().to_msg()
@@ -16776,7 +16776,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     __pyx_t_1 = 0;
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":631
- *             #    ( )
+ *             # Robot position marker (blue cylinder)
  *             robot_marker = Marker()
  *             robot_marker.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *             robot_marker.header.stamp = self.get_clock().now().to_msg()
@@ -17070,7 +17070,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.robot_marker_array.markers.append(robot_marker)
  *             self.robot_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #
+ *             # Robot label
 */
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_robot_visual_idx); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 650, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -17082,7 +17082,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":653
  * 
- *             #
+ *             # Robot label
  *             robot_text = Marker()             # <<<<<<<<<<<<<<
  *             robot_text.header.frame_id = "map"
  *             robot_text.header.stamp = self.get_clock().now().to_msg()
@@ -17114,7 +17114,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     __pyx_t_3 = 0;
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":654
- *             #
+ *             # Robot label
  *             robot_text = Marker()
  *             robot_text.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *             robot_text.header.stamp = self.get_clock().now().to_msg()
@@ -17393,7 +17393,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.robot_marker_array.markers.append(robot_text)
  *             self.robot_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #
+ *             # If current node exists, highlight it
 */
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_robot_visual_idx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 672, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -17405,7 +17405,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":675
  * 
- *             #
+ *             # If current node exists, highlight it
  *             if self.current_node is not None:             # <<<<<<<<<<<<<<
  *                 self.highlight_current_node()
  * 
@@ -17417,7 +17417,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     if (__pyx_t_5) {
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":676
- *             #
+ *             # If current node exists, highlight it
  *             if self.current_node is not None:
  *                 self.highlight_current_node()             # <<<<<<<<<<<<<<
  * 
@@ -17437,7 +17437,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
       /* "waypoint_node_manager/waypoint_node_manager.pyx":675
  * 
- *             #
+ *             # If current node exists, highlight it
  *             if self.current_node is not None:             # <<<<<<<<<<<<<<
  *                 self.highlight_current_node()
  * 
@@ -17448,7 +17448,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         self.robot_visual_idx = 0
  * 
  *         if self.robot_position:             # <<<<<<<<<<<<<<
- *             #    ( )
+ *             # Robot position marker (blue cylinder)
  *             robot_marker = Marker()
 */
   }
@@ -17457,7 +17457,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *         return nearest_node
  * 
  *     def update_robot_marker(self):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Update the marker to visualize the robot's current position"""
  *         self.robot_marker_array = MarkerArray()
 */
 
@@ -17485,7 +17485,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *                 self.highlight_current_node()
  * 
  *     def highlight_current_node(self):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Highlight the node where the robot is currently located"""
  *         if self.current_node and self.current_node in self.node_graph.nodes:
 */
 
@@ -17497,7 +17497,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_40highlight_current_node, "\355\230\204\354\236\254 \353\241\234\353\264\207\354\235\264 \354\234\204\354\271\230\355\225\234 \353\205\270\353\223\234\353\245\274 \352\260\225\354\241\260 \355\221\234\354\213\234\355\225\251\353\213\210\353\213\244");
+PyDoc_STRVAR(__pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_40highlight_current_node, "Highlight the node where the robot is currently located");
 static PyMethodDef __pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_41highlight_current_node = {"highlight_current_node", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_41highlight_current_node, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_40highlight_current_node};
 static PyObject *__pyx_pw_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_41highlight_current_node(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -17598,7 +17598,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":680
  *     def highlight_current_node(self):
- *         """     """
+ *         """Highlight the node where the robot is currently located"""
  *         if self.current_node and self.current_node in self.node_graph.nodes:             # <<<<<<<<<<<<<<
  *             node_pos = self.node_graph.nodes[self.current_node]['position']
  * 
@@ -17627,11 +17627,11 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   if (__pyx_t_1) {
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":681
- *         """     """
+ *         """Highlight the node where the robot is currently located"""
  *         if self.current_node and self.current_node in self.node_graph.nodes:
  *             node_pos = self.node_graph.nodes[self.current_node]['position']             # <<<<<<<<<<<<<<
  * 
- *             #     ( )
+ *             # Current node highlight marker (yellow cylinder)
 */
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_node_graph); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 681, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -17660,7 +17660,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":684
  * 
- *             #     ( )
+ *             # Current node highlight marker (yellow cylinder)
  *             current_node_marker = Marker()             # <<<<<<<<<<<<<<
  *             current_node_marker.header.frame_id = "map"
  *             current_node_marker.header.stamp = self.get_clock().now().to_msg()
@@ -17692,7 +17692,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     __pyx_t_5 = 0;
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":685
- *             #     ( )
+ *             # Current node highlight marker (yellow cylinder)
  *             current_node_marker = Marker()
  *             current_node_marker.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *             current_node_marker.header.stamp = self.get_clock().now().to_msg()
@@ -17986,7 +17986,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *             self.robot_marker_array.markers.append(current_node_marker)
  *             self.robot_visual_idx += 1             # <<<<<<<<<<<<<<
  * 
- *             #
+ *             # Current node text
 */
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_robot_visual_idx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 704, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
@@ -17998,7 +17998,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":707
  * 
- *             #
+ *             # Current node text
  *             current_node_text = Marker()             # <<<<<<<<<<<<<<
  *             current_node_text.header.frame_id = "map"
  *             current_node_text.header.stamp = self.get_clock().now().to_msg()
@@ -18030,7 +18030,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     __pyx_t_4 = 0;
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":708
- *             #
+ *             # Current node text
  *             current_node_text = Marker()
  *             current_node_text.header.frame_id = "map"             # <<<<<<<<<<<<<<
  *             current_node_text.header.stamp = self.get_clock().now().to_msg()
@@ -18330,7 +18330,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":680
  *     def highlight_current_node(self):
- *         """     """
+ *         """Highlight the node where the robot is currently located"""
  *         if self.current_node and self.current_node in self.node_graph.nodes:             # <<<<<<<<<<<<<<
  *             node_pos = self.node_graph.nodes[self.current_node]['position']
  * 
@@ -18341,7 +18341,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
  *                 self.highlight_current_node()
  * 
  *     def highlight_current_node(self):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Highlight the node where the robot is currently located"""
  *         if self.current_node and self.current_node in self.node_graph.nodes:
 */
 
@@ -19246,7 +19246,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  * class NodeManager(Node):
  *     def __init__(self, node_file_dir=None, current_node=None):             # <<<<<<<<<<<<<<
  *         super().__init__("waypoint_node_manager")
- *         # Logger
+ *         # Store logger as member variable and initialize only once
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_1__init__, 0, __pyx_mstate_global->__pyx_n_u_NodeManager___init, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -19259,7 +19259,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *         self.robot_update_timer = self.create_timer(0.5, self.update_robot_position)
  * 
  *     def path_planning_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """   """
+ *         """Path planning service callback"""
  *         start_node = request.a
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_3path_planning_callback, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_path_planning_callba, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[1])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
@@ -19271,7 +19271,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *         return response
  * 
  *     def get_waypoints_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """waypoint       """
+ *         """Service callback to return waypoint coordinates and node index path"""
  *         # Only update node file if request.node_file is provided
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_5get_waypoints_callback, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_get_waypoints_callba, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 125, __pyx_L1_error)
@@ -19283,7 +19283,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *         return response
  * 
  *     def load_graph_callback(self, request, response):             # <<<<<<<<<<<<<<
- *         """   """
+ *         """Graph load service callback"""
  *         try:
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_7load_graph_callback, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_load_graph_callback, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 197, __pyx_L1_error)
@@ -19427,7 +19427,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *             self.visual_idx += 2
  * 
  *     def clear_path_markers(self):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Initialize path markers"""
  *         self.path_marker_array = MarkerArray()
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_31clear_path_markers, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_clear_path_markers, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[15])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 402, __pyx_L1_error)
@@ -19439,7 +19439,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *         self.path_visual_idx = 0
  * 
  *     def visualize_path(self, waypoints, path_color=(1.0, 1.0, 0.0, 1.0)):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_33visualize_path, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_visualize_path, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[16])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 407, __pyx_L1_error)
@@ -19452,7 +19452,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *             self.clear_path_markers()
  * 
  *     def update_robot_position(self):             # <<<<<<<<<<<<<<
- *         """       """
+ *         """Update robot's current position and find the nearest node"""
  *         try:
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_35update_robot_position, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_update_robot_positio, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[17])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 572, __pyx_L1_error)
@@ -19464,7 +19464,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *             pass
  * 
  *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_37find_nearest_node, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_find_nearest_node, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[18])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 602, __pyx_L1_error)
@@ -19477,7 +19477,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *         return nearest_node
  * 
  *     def update_robot_marker(self):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Update the marker to visualize the robot's current position"""
  *         self.robot_marker_array = MarkerArray()
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_39update_robot_marker, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_update_robot_marker, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[19])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 623, __pyx_L1_error)
@@ -19489,7 +19489,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
  *                 self.highlight_current_node()
  * 
  *     def highlight_current_node(self):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Highlight the node where the robot is currently located"""
  *         if self.current_node and self.current_node in self.node_graph.nodes:
 */
   __pyx_t_6 = __Pyx_CyFunction_New(&__pyx_mdef_21waypoint_node_manager_21waypoint_node_manager_11NodeManager_41highlight_current_node, 0, __pyx_mstate_global->__pyx_n_u_NodeManager_highlight_current_no, NULL, __pyx_mstate_global->__pyx_n_u_waypoint_node_manager_waypoint_n, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[20])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 678, __pyx_L1_error)
@@ -20064,10 +20064,10 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":109
  * 
- *                 #   ()
+ *                 # Visualize path (red)
  *                 self.visualize_path(waypoints, path_color=(1.0, 0.0, 1.0, 0.5))             # <<<<<<<<<<<<<<
  *             else:
- *                 response.sum = -1  #
+ *                 response.sum = -1  # No path found
 */
   __pyx_mstate_global->__pyx_tuple[0] = PyTuple_Pack(4, __pyx_mstate_global->__pyx_float_1_0, __pyx_mstate_global->__pyx_float_0_0, __pyx_mstate_global->__pyx_float_1_0, __pyx_mstate_global->__pyx_float_0_5); if (unlikely(!__pyx_mstate_global->__pyx_tuple[0])) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[0]);
@@ -20121,7 +20121,7 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
  *         self.path_visual_idx = 0
  * 
  *     def visualize_path(self, waypoints, path_color=(1.0, 1.0, 0.0, 1.0)):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:
 */
   __pyx_mstate_global->__pyx_tuple[5] = PyTuple_Pack(4, __pyx_mstate_global->__pyx_float_1_0, __pyx_mstate_global->__pyx_float_1_0, __pyx_mstate_global->__pyx_float_0_0, __pyx_mstate_global->__pyx_float_1_0); if (unlikely(!__pyx_mstate_global->__pyx_tuple[5])) __PYX_ERR(0, 407, __pyx_L1_error)
@@ -20133,7 +20133,7 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
  * class NodeManager(Node):
  *     def __init__(self, node_file_dir=None, current_node=None):             # <<<<<<<<<<<<<<
  *         super().__init__("waypoint_node_manager")
- *         # Logger
+ *         # Store logger as member variable and initialize only once
 */
   __pyx_mstate_global->__pyx_tuple[6] = PyTuple_Pack(2, Py_None, Py_None); if (unlikely(!__pyx_mstate_global->__pyx_tuple[6])) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[6]);
@@ -20143,7 +20143,7 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
  *         self.path_visual_idx = 0
  * 
  *     def visualize_path(self, waypoints, path_color=(1.0, 1.0, 0.0, 1.0)):             # <<<<<<<<<<<<<<
- *         """  """
+ *         """Function to visualize path"""
  *         if not waypoints or len(waypoints) < 2:
 */
   __pyx_mstate_global->__pyx_tuple[7] = PyTuple_Pack(1, ((PyObject*)__pyx_mstate_global->__pyx_tuple[5])); if (unlikely(!__pyx_mstate_global->__pyx_tuple[7])) __PYX_ERR(0, 407, __pyx_L1_error)
@@ -20154,7 +20154,7 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
  *             pass
  * 
  *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
- *         """     """
+ *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
   __pyx_mstate_global->__pyx_tuple[8] = PyTuple_Pack(1, ((PyObject*)__pyx_mstate_global->__pyx_float_1_0)); if (unlikely(!__pyx_mstate_global->__pyx_tuple[8])) __PYX_ERR(0, 602, __pyx_L1_error)

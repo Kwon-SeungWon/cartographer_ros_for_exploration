@@ -61,7 +61,7 @@ class NodeManager(Node):
 
         # Enable marker publishing
         self.make_ros_marker()
-        self.create_timer(1.0, self.publish_ros_marker)
+        self.create_timer(0.1, self.publish_ros_marker)
 
         # Create services
         self.path_planning_srv_ = self.create_service(
