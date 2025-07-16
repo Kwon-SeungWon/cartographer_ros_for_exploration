@@ -3015,6 +3015,7 @@ typedef struct {
   PyObject *__pyx_float_0_02;
   PyObject *__pyx_float_0_03;
   PyObject *__pyx_float_0_05;
+  PyObject *__pyx_float_100_0;
   PyObject *__pyx_int_0;
   PyObject *__pyx_int_1;
   PyObject *__pyx_int_2;
@@ -3390,6 +3391,7 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   Py_CLEAR(clear_module_state->__pyx_float_0_02);
   Py_CLEAR(clear_module_state->__pyx_float_0_03);
   Py_CLEAR(clear_module_state->__pyx_float_0_05);
+  Py_CLEAR(clear_module_state->__pyx_float_100_0);
   Py_CLEAR(clear_module_state->__pyx_int_0);
   Py_CLEAR(clear_module_state->__pyx_int_1);
   Py_CLEAR(clear_module_state->__pyx_int_2);
@@ -3428,6 +3430,7 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_float_0_02);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_float_0_03);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_float_0_05);
+  __Pyx_VISIT_CONST(traverse_module_state->__pyx_float_100_0);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_int_0);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_int_1);
   __Pyx_VISIT_CONST(traverse_module_state->__pyx_int_2);
@@ -16054,7 +16057,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
 /* "waypoint_node_manager/waypoint_node_manager.pyx":602
  *             pass
  * 
- *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
+ *     def find_nearest_node(self, position, max_distance=100.0):             # <<<<<<<<<<<<<<
  *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
@@ -16121,7 +16124,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
       if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "find_nearest_node", 0) < 0) __PYX_ERR(0, 602, __pyx_L3_error)
-      if (!values[2]) values[2] = __Pyx_NewRef(((PyObject *)((PyObject*)__pyx_mstate_global->__pyx_float_1_0)));
+      if (!values[2]) values[2] = __Pyx_NewRef(((PyObject *)((PyObject*)__pyx_mstate_global->__pyx_float_100_0)));
       for (Py_ssize_t i = __pyx_nargs; i < 2; i++) {
         if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("find_nearest_node", 0, 2, 3, i); __PYX_ERR(0, 602, __pyx_L3_error) }
       }
@@ -16139,7 +16142,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
         break;
         default: goto __pyx_L5_argtuple_error;
       }
-      if (!values[2]) values[2] = __Pyx_NewRef(((PyObject *)((PyObject*)__pyx_mstate_global->__pyx_float_1_0)));
+      if (!values[2]) values[2] = __Pyx_NewRef(((PyObject *)((PyObject*)__pyx_mstate_global->__pyx_float_100_0)));
     }
     __pyx_v_self = values[0];
     __pyx_v_position = values[1];
@@ -16196,7 +16199,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   __Pyx_RefNannySetupContext("find_nearest_node", 0);
 
   /* "waypoint_node_manager/waypoint_node_manager.pyx":604
- *     def find_nearest_node(self, position, max_distance=1.0):
+ *     def find_nearest_node(self, position, max_distance=100.0):
  *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:             # <<<<<<<<<<<<<<
  *             return None
@@ -16224,7 +16227,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
     goto __pyx_L0;
 
     /* "waypoint_node_manager/waypoint_node_manager.pyx":604
- *     def find_nearest_node(self, position, max_distance=1.0):
+ *     def find_nearest_node(self, position, max_distance=100.0):
  *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:             # <<<<<<<<<<<<<<
  *             return None
@@ -16546,7 +16549,7 @@ static PyObject *__pyx_pf_21waypoint_node_manager_21waypoint_node_manager_11Node
   /* "waypoint_node_manager/waypoint_node_manager.pyx":602
  *             pass
  * 
- *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
+ *     def find_nearest_node(self, position, max_distance=100.0):             # <<<<<<<<<<<<<<
  *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
@@ -19463,7 +19466,7 @@ __Pyx_RefNannySetupContext("PyInit_waypoint_node_manager", 0);
   /* "waypoint_node_manager/waypoint_node_manager.pyx":602
  *             pass
  * 
- *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
+ *     def find_nearest_node(self, position, max_distance=100.0):             # <<<<<<<<<<<<<<
  *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
@@ -20153,11 +20156,11 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
   /* "waypoint_node_manager/waypoint_node_manager.pyx":602
  *             pass
  * 
- *     def find_nearest_node(self, position, max_distance=1.0):             # <<<<<<<<<<<<<<
+ *     def find_nearest_node(self, position, max_distance=100.0):             # <<<<<<<<<<<<<<
  *         """Find the nearest node to a given position"""
  *         if not self.node_graph.nodes:
 */
-  __pyx_mstate_global->__pyx_tuple[8] = PyTuple_Pack(1, ((PyObject*)__pyx_mstate_global->__pyx_float_1_0)); if (unlikely(!__pyx_mstate_global->__pyx_tuple[8])) __PYX_ERR(0, 602, __pyx_L1_error)
+  __pyx_mstate_global->__pyx_tuple[8] = PyTuple_Pack(1, ((PyObject*)__pyx_mstate_global->__pyx_float_100_0)); if (unlikely(!__pyx_mstate_global->__pyx_tuple[8])) __PYX_ERR(0, 602, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[8]);
   __Pyx_GIVEREF(__pyx_mstate_global->__pyx_tuple[8]);
   __Pyx_RefNannyFinishContext();
@@ -20184,6 +20187,7 @@ static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   __pyx_mstate->__pyx_float_0_02 = PyFloat_FromDouble(0.02); if (unlikely(!__pyx_mstate->__pyx_float_0_02)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_mstate->__pyx_float_0_03 = PyFloat_FromDouble(0.03); if (unlikely(!__pyx_mstate->__pyx_float_0_03)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_mstate->__pyx_float_0_05 = PyFloat_FromDouble(0.05); if (unlikely(!__pyx_mstate->__pyx_float_0_05)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_mstate->__pyx_float_100_0 = PyFloat_FromDouble(100.0); if (unlikely(!__pyx_mstate->__pyx_float_100_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_mstate->__pyx_int_0 = PyLong_FromLong(0); if (unlikely(!__pyx_mstate->__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_mstate->__pyx_int_1 = PyLong_FromLong(1); if (unlikely(!__pyx_mstate->__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_mstate->__pyx_int_2 = PyLong_FromLong(2); if (unlikely(!__pyx_mstate->__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)

@@ -599,7 +599,7 @@ class NodeManager(Node):
             # If transform cannot be found (robot hasn't started yet or)
             pass
 
-    def find_nearest_node(self, position, max_distance=1.0):
+    def find_nearest_node(self, position, max_distance=100.0):
         """Find the nearest node to a given position"""
         if not self.node_graph.nodes:
             return None
