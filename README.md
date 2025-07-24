@@ -94,8 +94,8 @@ All external packages are managed as [git subtrees](https://www.atlassian.com/gi
 3. **Install dependencies** (see each package's README for details)
 4. **Build the workspace**
    ```bash
-   cd /path/to/Wheelchair_Robot_ROS2_Project
-   colcon build
+   cd ~/catkin_ws
+   colcon build --symlink-install
    ```
 5. **Source the workspace**
    ```bash
@@ -112,5 +112,5 @@ All external packages are managed as [git subtrees](https://www.atlassian.com/gi
 ---
 
 ## Contact
-- Maintainer: [Your Name/Team]
+- Maintainer: [Kwon-Seungwon/Team (CASELAB} ]
 - For issues, please use the respective GitHub repository issue trackers. 
