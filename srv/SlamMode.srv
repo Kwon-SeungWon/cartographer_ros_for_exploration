@@ -1,0 +1,7 @@
+# Request
+bool slam_start
+
+---
+# Response
+bool success           
+string message        

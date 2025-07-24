@@ -1,0 +1,11 @@
+# Request
+uint16 start_node
+uint16 goal_node
+string node_file
+
+---
+# Response
+bool success
+string message
+geometry_msgs/PoseArray waypoints 
+uint16[] node_path

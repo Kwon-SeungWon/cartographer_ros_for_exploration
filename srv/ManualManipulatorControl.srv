@@ -1,0 +1,7 @@
+# Request
+string command
+float64[] position
+
+---
+# Response
+bool success
