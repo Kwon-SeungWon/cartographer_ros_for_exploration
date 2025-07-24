@@ -31,10 +31,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 # Export dependencies
 ament_export_dependencies(rosidl_default_runtime)
 
-# Install header files
-install(DIRECTORY include/
-  DESTINATION include
-)
 
 # Install launch and param files
 install(DIRECTORY launch param scripts
