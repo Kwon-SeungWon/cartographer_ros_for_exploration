@@ -10,63 +10,65 @@ This repository is the main workspace for the Wheelchair Robot ROS2 Project. It 
 
 ```
 Wheelchair_Robot_ROS2_Project/
-├── dependency_sensors/
-│   └── Lakibeam_ROS2_Driver/      # LiDAR driver (subtree)
 ├── dependency_pkgs/
-│   └── cartographer_ros_for_exploration/  # SLAM system (subtree)
-├── webserver_interface_ros2/      # Web server interface (subtree)
-├── MOBILE_ROBOT_BASIC/            # Main robot logic and launch files (subtree)
-├── san_msgs/                      # Custom ROS2 message definitions (subtree)
-├── caselab_rviz2_plugin/          # Custom RViz2 plugins (subtree)
-├── waypoint_node_manager/         # Waypoint management (subtree)
-├── ros2_laser_merger/             # Laser scan merger (subtree)
-├── subtree_tools.sh               # Git subtree automation script
-└── README.md                      # This file
+│   ├── cartographer_ros_for_exploration/  # SLAM system (subtree)
+│   ├── ros2_laser_merger/                 # Laser scan merger (subtree)
+│   ├── waypoint_node_manager/             # Waypoint management (subtree)
+│   ├── caselab_rviz2_plugin/              # Custom RViz2 plugins (subtree)
+│   ├── san_msgs/                          # Custom ROS2 message definitions (subtree)
+│   ├── MOBILE_ROBOT_BASIC/                # Main robot logic and launch files (subtree)
+│   └── webserver_interface_ros2/          # Web server interface (subtree)
+├── dependency_sensors/
+│   └── Lakibeam_ROS2_Driver/              # LiDAR driver (subtree)
+├── data/                                   # Map and configuration data
+├── parameter_file/                         # Parameter configuration files
+├── subtree_tools.sh                       # Git subtree automation script
+└── README.md                              # This file
 ```
 
 ---
 
 ## Submodules/Packages
 
-### dependency_sensors/Lakibeam_ROS2_Driver
-- **Purpose:** ROS2 driver for Lakibeam LiDAR sensors with dual LiDAR support
-- **Source:** [Lakibeam_ROS2_Driver (GitHub)](https://github.com/Kwon-SeungWon/Lakibeam_ROS2_Driver.git)
-- **Branch:** master
-
 ### dependency_pkgs/cartographer_ros_for_exploration
 - **Purpose:** SLAM system for exploration and mapping
 - **Source:** [cartographer_ros_for_exploration (GitHub)](https://github.com/Kwon-SeungWon/cartographer_ros_for_exploration.git)
 - **Branch:** master
 
-### webserver_interface_ros2
-- **Purpose:** Web server interface for robot control and monitoring
-- **Source:** [webserver_interface_ros2 (GitHub)](https://github.com/cnr-lab/webserver_interface_ros2.git)
-- **Branch:** devel
-
-### MOBILE_ROBOT_BASIC
-- **Purpose:** Core logic, launch files, and robot configuration
-- **Source:** [MOBILE_ROBOT_BASIC (GitHub)](https://github.com/raisewise0211/MOBILE_ROBOT_BASIC.git)
+### dependency_pkgs/ros2_laser_merger
+- **Purpose:** Merges multiple laser scan topics into one unified scan
+- **Source:** [ros2_laser_merger (GitHub)](https://github.com/Kwon-SeungWon/ros2_laser_merger.git)
 - **Branch:** wheelchair
 
-### san_msgs
-- **Purpose:** Custom ROS2 message, service, and action definitions
-- **Source:** [san_msgs (GitHub)](https://github.com/Kwon-SeungWon/san_msgs.git)
-- **Branch:** master
-
-### caselab_rviz2_plugin
-- **Purpose:** Custom RViz2 plugins for enhanced visualization
-- **Source:** [caselab_rviz2_plugin (GitHub)](https://github.com/cnr-lab/caselab_rviz2_plugin.git)
-- **Branch:** master
-
-### waypoint_node_manager
+### dependency_pkgs/waypoint_node_manager
 - **Purpose:** Manages navigation waypoints for the robot
 - **Source:** [waypoint_node_manager (GitHub)](https://github.com/Kwon-SeungWon/waypoint_node_manager.git)
 - **Branch:** master
 
-### ros2_laser_merger
-- **Purpose:** Merges multiple laser scan topics into one unified scan
-- **Source:** [ros2_laser_merger (GitHub)](https://github.com/Kwon-SeungWon/ros2_laser_merger.git)
+### dependency_pkgs/caselab_rviz2_plugin
+- **Purpose:** Custom RViz2 plugins for enhanced visualization
+- **Source:** [caselab_rviz2_plugin (GitHub)](https://github.com/cnr-lab/caselab_rviz2_plugin.git)
+- **Branch:** master
+
+### dependency_pkgs/san_msgs
+- **Purpose:** Custom ROS2 message, service, and action definitions
+- **Source:** [san_msgs (GitHub)](https://github.com/Kwon-SeungWon/san_msgs.git)
+- **Branch:** master
+
+### dependency_pkgs/MOBILE_ROBOT_BASIC
+- **Purpose:** Core logic, launch files, and robot configuration
+- **Source:** [MOBILE_ROBOT_BASIC (GitHub)](https://github.com/raisewise0211/MOBILE_ROBOT_BASIC.git)
 - **Branch:** wheelchair
+
+### dependency_pkgs/webserver_interface_ros2
+- **Purpose:** Web server interface for robot control and monitoring
+- **Source:** [webserver_interface_ros2 (GitHub)](https://github.com/cnr-lab/webserver_interface_ros2.git)
+- **Branch:** devel
+
+### dependency_sensors/Lakibeam_ROS2_Driver
+- **Purpose:** ROS2 driver for Lakibeam LiDAR sensors with dual LiDAR support
+- **Source:** [Lakibeam_ROS2_Driver (GitHub)](https://github.com/Kwon-SeungWon/Lakibeam_ROS2_Driver.git)
+- **Branch:** master
 
 ---
 
