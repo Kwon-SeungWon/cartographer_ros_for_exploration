@@ -18,12 +18,15 @@ def generate_launch_description():
     amr_core_dir = get_package_share_directory('amr_core')
     amr_description_dir = get_package_share_directory('amr_description')
     amr_serial_dir = get_package_share_directory('amr_serial')
-    # amr_lidar_merge_dir = get_package_share_directory('ros2_laser_merger')
+
+    amr_lidar_dir = get_package_share_directory('lakibeam1')
+    amr_lidar_merge_dir = get_package_share_directory('ros2_laser_merger')
+    amr_usb_cam_dir = get_package_share_directory('usb_cam')
 
     # Paths to parameter and URDF files
     declare_params = DeclareLaunchArgument(
         'params_file',
-        default_value='src/parameter_file/wheelchair.yaml',
+        default_value='src/Wheelchair_Robot_ROS2_Project/parameter_file/wheelchair.yaml',
         description='Relative path to the unified parameter YAML file'
     )
 
@@ -77,17 +80,24 @@ def generate_launch_description():
             )
         ),
 
-        # # Include Dual LiDAR launch
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(
-        #         os.path.join(amr_core_dir, 'launch', 'dual_picoscan.launch.py')
-        #     )
-        # ),
+        # Include Dual LiDAR launch
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(amr_lidar_dir, 'launch', 'lakibeam1_scan_dual_lidar.launch.py')
+            )
+        ),
 
-        # # Include Merge LiDAR launch
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(
-        #         os.path.join(amr_lidar_merge_dir, 'launch', 'merge_scan.launch.py')
-        #     )
-        # ),
+        # Include Merge LiDAR launch
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(amr_lidar_merge_dir, 'launch', 'merge_scan.launch.py')
+            )
+        ),
+
+        # Include Dual Camera launch
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                os.path.join(amr_usb_cam_dir, 'launch', 'dual_camera.launch.py')
+            )
+        ),
     ])
