@@ -27,6 +27,7 @@ PACKAGES=(
   "caselab_rviz2_plugin https://github.com/cnr-lab/caselab_rviz2_plugin.git master caselab_rviz2_plugin"
   "waypoint_node_manager https://github.com/Kwon-SeungWon/waypoint_node_manager.git master waypoint_node_manager"
   "ros2_laser_merger https://github.com/Kwon-SeungWon/ros2_laser_merger.git wheelchair ros2_laser_merger"
+  "ros2_frontier_based_explore https://github.com/Kwon-SeungWon/ros2_frontier_based_explore.git master ros2_frontier_based_explore"
   "dependency_pkgs/cartographer_ros_for_exploration https://github.com/Kwon-SeungWon/cartographer_ros_for_exploration.git master cartographer_ros_for_exploration"
   "dependency_sensors/Lakibeam_ROS2_Driver https://github.com/Kwon-SeungWon/Lakibeam_ROS2_Driver.git master Lakibeam_ROS2_Driver"
 )
