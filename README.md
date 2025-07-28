@@ -195,28 +195,32 @@ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 ### 3. Source the Workspace
 ```bash
 source install/setup.bash
+
+# can settings
+can
+canup
 ```
 
 ### 4. Launch Systems
 
-#### Basic Robot Control
+#### Basic Robot Control (Included Core, Lidar, Merge, Camera)
 ```bash
 ros2 launch amr_core amr_bringup.launch.py
 ```
 
-#### Dual Camera System
+#### (Optional) Dual Camera System
 ```bash
 ros2 launch usb_cam dual_camera.launch.py
 ```
 
-#### Dual LiDAR System
+#### (Optional) Dual LiDAR System
 ```bash
 ros2 launch lakibeam1 lakibeam1_scan_dual_lidar.launch.py
 ```
 
 #### Navigation System
 ```bash
-ros2 launch amr_navigation amr_navigation.launch.py
+ros2 launch amr_navigation navigation_wheelchair.launch.py map:=/home/caselab/catkin_ws/src/Wheelchair_Robot_ROS2_Project/data/map_data/maps/caselab_two_room.yaml
 ```
 
 #### SLAM System
@@ -227,6 +231,10 @@ ros2 launch amr_cartographer amr_cartographer.launch.py
 #### Web Interface
 ```bash
 ros2 launch webserver_interface_ros2 webserver_interface.launch.py
+
+#### Rviz
+```bash
+ros2 launch caselab_rviz_plugin test.launch.py 
 ```
 
 ### 5. Monitor System
