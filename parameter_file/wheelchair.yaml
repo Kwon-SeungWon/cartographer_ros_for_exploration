@@ -79,187 +79,111 @@ execution_node:
 
 parameter_updater_node:
   ros__parameters:
-    yaml_file: src//parameter_file/wheelchair.yaml
+    yaml_file: src/Wheelchair_Robot_ROS2_Project/parameter_file/wheelchair.yaml
 
 NORMAL:
   controller_server:
     ros__parameters:
       general_goal_checker:
-        xy_goal_tolerance: 0.15 #0.15
-        yaw_goal_tolerance: 0.02
+        xy_goal_tolerance: 0.1 #0.15
+        yaw_goal_tolerance: 0.01
       FollowPath:
-        plugin: "nav2_rotation_shim_controller::RotationShimController"
-        angular_dist_threshold: 0.7 #0.35
-        forward_sampling_distance: 0.5
-        rotate_to_heading_angular_vel: 0.15
-        rotate_to_goal_heading: true
-        max_angular_accel: 1.25
+        # plugin: "nav2_rotation_shim_controller::RotationShimController"
+        # angular_dist_threshold: 3.14 #0.35
+        # forward_sampling_distance: 0.5
+        # rotate_to_heading_angular_vel: 0.2
+        # rotate_to_goal_heading: false
+        # max_angular_accel: 1.25
         min_speed_xy: -0.02
         min_vel_x: -0.02
-        max_vel_x: 0.2
+        max_vel_x: 0.3
         min_speed_theta: 0.0
-        max_vel_theta: 0.15
-        max_speed_xy: 0.2
-        acc_lim_x: 0.5
-        acc_lim_theta: 1.0
-        decel_lim_x: -0.5
-        decel_lim_theta: -1.0
-        xy_goal_tolerance: 0.05
-        sim_time: 2.5
-  # velocity_smoother:
-  #   ros__parameters:
-  #     max_velocity: [0.3, 0.0, 0.4]
-  #     min_velocity: [-0.3, 0.0, -0.4]
-  #     max_accel: [1.0, 0.0, 2.0]
-  #     max_decel: [-1.0, 0.0, -2.0]
-  # local_costmap:
-  #   local_costmap:
-  #     ros__parameters:
-  #       inflation_layer:
-  #         enabled: True
-  #       voxel_layer:
-  #         enabled: True 
-  #       static_layer:
-  #         enabled: True 
-  #       obstacle_layer:
-  #         enabled: True
-  # global_costmap:
-  #   global_costmap:
-  #     ros__parameters:
-  #       obstacle_layer:
-  #         enabled: True 
-  #       static_layer:
-  #         enabled: True 
-  #       inflation_layer:
-  #         enabled: True 
+        max_vel_theta: 0.5
+        max_speed_xy: 0.3
+        acc_lim_x: 3.0
+        acc_lim_theta: 1.5
+        decel_lim_x: -3.0
+        decel_lim_theta: -1.5
+        xy_goal_tolerance: 0.1
+        sim_time: 1.8
+
 DOCK:
   controller_server:
     ros__parameters:
       general_goal_checker:
-        xy_goal_tolerance: 0.15 #0.15
-        yaw_goal_tolerance: 0.02
+        xy_goal_tolerance: 0.1 #0.15
+        yaw_goal_tolerance: 0.01
       FollowPath:
-        plugin: "nav2_rotation_shim_controller::RotationShimController"
-        angular_dist_threshold: 0.7 #0.35
-        forward_sampling_distance: 0.5
-        rotate_to_heading_angular_vel: 0.15
-        rotate_to_goal_heading: true
-        max_angular_accel: 1.25
+        # plugin: "nav2_rotation_shim_controller::RotationShimController"
+        # angular_dist_threshold: 3.14 #0.35
+        # forward_sampling_distance: 0.5
+        # rotate_to_heading_angular_vel: 0.2
+        # rotate_to_goal_heading: false
+        # max_angular_accel: 1.25
         min_speed_xy: -0.02
         min_vel_x: -0.02
         max_vel_x: 0.2
         min_speed_theta: 0.0
-        max_vel_theta: 0.15
-        max_speed_xy: 0.15
-        acc_lim_x: 0.5
-        acc_lim_theta: 1.0
-        decel_lim_x: -0.5
-        decel_lim_theta: -1.0
-        xy_goal_tolerance: 0.05
-        sim_time: 2.5
-  # velocity_smoother:
-  #   ros__parameters:
-  #     max_velocity: [0.3, 0.0, 0.4]
-  #     min_velocity: [-0.3, 0.0, -0.4]
-  #     max_accel: [1.0, 0.0, 2.0]
-  #     max_decel: [-1.0, 0.0, -2.0]
-  # local_costmap:
-  #   local_costmap:
-  #     ros__parameters:
-  #       inflation_layer:
-  #         enabled: True  # Changed from orignial
-  #       voxel_layer:
-  #         enabled: True # Changed from orignial
-  #       static_layer:
-  #         enabled: True ## Changed from orignial
-  #       obstacle_layer:
-  #         enabled: True
-  # global_costmap:
-  #   global_costmap:
-  #     ros__parameters:
-  #       obstacle_layer:
-  #         enabled: True # Changed from orignial
-  #       static_layer:
-  #         enabled: True # Changed from orignial
-  #       inflation_layer:
-  #         enabled: True # Changed from orignial
+        max_vel_theta: 0.5
+        max_speed_xy: 0.2
+        acc_lim_x: 3.0
+        acc_lim_theta: 1.5
+        decel_lim_x: -3.0
+        decel_lim_theta: -1.5
+        xy_goal_tolerance: 0.1
+        sim_time: 1.8
+
 AUTO:
   controller_server:
     ros__parameters:
       general_goal_checker:
-        xy_goal_tolerance: 0.15 #0.15
-        yaw_goal_tolerance: 0.02
+        xy_goal_tolerance: 0.1 #0.15
+        yaw_goal_tolerance: 0.01
       FollowPath:
-        plugin: "nav2_rotation_shim_controller::RotationShimController"
-        angular_dist_threshold: 0.7 #0.35
-        forward_sampling_distance: 0.5
-        rotate_to_heading_angular_vel: 0.15
-        rotate_to_goal_heading: true
-        max_angular_accel: 1.25
+        # plugin: "nav2_rotation_shim_controller::RotationShimController"
+        # angular_dist_threshold: 3.14 #0.35
+        # forward_sampling_distance: 0.5
+        # rotate_to_heading_angular_vel: 0.2
+        # rotate_to_goal_heading: false
+        # max_angular_accel: 1.25
         min_speed_xy: -0.02
         min_vel_x: -0.02
-        max_vel_x: 0.2
+        max_vel_x: 0.3
         min_speed_theta: 0.0
-        max_vel_theta: 0.15
-        max_speed_xy: 0.2
-        acc_lim_x: 0.5
-        acc_lim_theta: 1.0
-        decel_lim_x: -0.5
-        decel_lim_theta: -1.0
-        xy_goal_tolerance: 0.05
-        sim_time: 2.5
-  # velocity_smoother:
-  #   ros__parameters:
-  #     max_velocity: [0.3, 0.0, 0.4]
-  #     min_velocity: [-0.3, 0.0, -0.4]
-  #     max_accel: [1.0, 0.0, 2.0]
-  #     max_decel: [-1.0, 0.0, -2.0]
-  # local_costmap:
-  #   local_costmap:
-  #     ros__parameters:
-  #       inflation_layer:
-  #         enabled: True  # Changed from orignial
-  #       voxel_layer:
-  #         enabled: True # Changed from orignial
-  #       static_layer:
-  #         enabled: True ## Changed from orignial
-  #       obstacle_layer:
-  #         enabled: True
-  # global_costmap:
-  #   global_costmap:
-  #     ros__parameters:
-  #       obstacle_layer:
-  #         enabled: True # Changed from orignial
-  #       static_layer:
-  #         enabled: True # Changed from orignial
-  #       inflation_layer:
-  #         enabled: True # Changed from orignial
+        max_vel_theta: 0.5
+        max_speed_xy: 0.3
+        acc_lim_x: 0.2
+        acc_lim_theta: 1.5
+        decel_lim_x: -3.0
+        decel_lim_theta: -1.5
+        xy_goal_tolerance: 0.1
+        sim_time: 1.8
 # 전진 빠져나오기
 CHARGE_UNDOCK: 
   controller_server:
     ros__parameters:
       general_goal_checker:
-        xy_goal_tolerance: 0.15 #0.15
-        yaw_goal_tolerance: 0.02
+        xy_goal_tolerance: 0.1 #0.15
+        yaw_goal_tolerance: 0.01
       FollowPath:
-        plugin: "nav2_rotation_shim_controller::RotationShimController"
-        angular_dist_threshold: 0.35
-        forward_sampling_distance: 0.5
-        rotate_to_heading_angular_vel: 0.15
-        rotate_to_goal_heading: true
-        max_angular_accel: 1.25
+        # plugin: "nav2_rotation_shim_controller::RotationShimController"
+        # angular_dist_threshold: 0.35
+        # forward_sampling_distance: 0.5
+        # rotate_to_heading_angular_vel: 0.2
+        # rotate_to_goal_heading: false
+        # max_angular_accel: 1.25
         min_speed_xy: -0.02
         min_vel_x: -0.02
         max_vel_x: 0.2
         min_speed_theta: 0.0
-        max_vel_theta: 0.15
-        max_speed_xy: 0.1
-        acc_lim_x: 0.5
-        acc_lim_theta: 1.0
-        decel_lim_x: -0.5
-        decel_lim_theta: -1.0
-        xy_goal_tolerance: 0.05
-        sim_time: 2.5
+        max_vel_theta: 0.3
+        max_speed_xy: 0.2
+        acc_lim_x: 3.0
+        acc_lim_theta: 1.5
+        decel_lim_x: -3.0
+        decel_lim_theta: -1.5
+        xy_goal_tolerance: 0.1
+        sim_time: 1.8
         
   # local_costmap:
   #   local_costmap:
@@ -286,8 +210,8 @@ MANIPULATION_UNDOCK:
   controller_server:
     ros__parameters:
       general_goal_checker:
-        xy_goal_tolerance: 0.15
-        yaw_goal_tolerance: 0.02 # 앞 방향 보존
+        xy_goal_tolerance: 0.1
+        yaw_goal_tolerance: 0.01 # 앞 방향 보존
       FollowPath:
         plugin: "dwb_core::DWBLocalPlanner"
         # angular_dist_threshold: 6.28
@@ -298,14 +222,14 @@ MANIPULATION_UNDOCK:
         min_vel_x: -0.02 # Little Back
         max_vel_x: 0.1
         min_speed_theta: 0.0
-        max_vel_theta: 0.2 # Little rotation
+        max_vel_theta: 0.5 # Little rotation
         max_speed_xy: 0.05
         acc_lim_x: 1.5
-        acc_lim_theta: 2.0
+        acc_lim_theta: 1.5
         decel_lim_x: -1.5
         decel_lim_theta: -0.5
-        xy_goal_tolerance: 0.15
-        sim_time: 2.0
+        xy_goal_tolerance: 0.1
+        sim_time: 1.8
   # velocity_smoother:
   #   ros__parameters:
   #     max_velocity: [0.0, 0.0, 0.02] 
@@ -337,27 +261,27 @@ CHARGE_REDOCK:
   controller_server:
     ros__parameters:
       general_goal_checker:
-        xy_goal_tolerance: 0.15 #0.15
-        yaw_goal_tolerance: 0.02
+        xy_goal_tolerance: 0.1 #0.15
+        yaw_goal_tolerance: 0.01
       FollowPath:
-        plugin: "nav2_rotation_shim_controller::RotationShimController"
-        angular_dist_threshold: 0.35
-        forward_sampling_distance: 0.5
-        rotate_to_heading_angular_vel: 0.15
-        rotate_to_goal_heading: true
-        max_angular_accel: 1.25
+        # plugin: "nav2_rotation_shim_controller::RotationShimController"
+        # angular_dist_threshold: 0.35
+        # forward_sampling_distance: 0.5
+        # rotate_to_heading_angular_vel: 0.2
+        # rotate_to_goal_heading: false
+        # max_angular_accel: 1.25
         min_speed_xy: -0.02
         min_vel_x: -0.02
-        max_vel_x: 0.2
+        max_vel_x: 0.3
         min_speed_theta: 0.0
-        max_vel_theta: 0.15
+        max_vel_theta: 0.5
         max_speed_xy: 0.1
         acc_lim_x: 0.5
         acc_lim_theta: 1.0
         decel_lim_x: -0.5
         decel_lim_theta: -1.0
-        xy_goal_tolerance: 0.05
-        sim_time: 2.5
+        xy_goal_tolerance: 0.1
+        sim_time: 1.8
 
   # velocity_smoother:
   #   ros__parameters:
@@ -390,8 +314,8 @@ MANIPULATION_REDOCK:
   controller_server:
     ros__parameters:
       general_goal_checker:
-        xy_goal_tolerance: 0.15
-        yaw_goal_tolerance: 0.02 # 앞 방향 보존
+        xy_goal_tolerance: 0.1
+        yaw_goal_tolerance: 0.01 # 앞 방향 보존
       FollowPath:
         plugin: "dwb_core::DWBLocalPlanner"
         # angular_dist_threshold: 6.28
@@ -503,13 +427,13 @@ MANIPULATION_REDOCK:
 amcl:
   ros__parameters:
     use_sim_time: false 
-    alpha1: 0.2
+    alpha1: 0.4
     alpha2: 0.2
     alpha3: 0.2
-    alpha4: 0.2
-    alpha5: 0.2
+    alpha4: 0.4
+    alpha5: 0.4
     base_frame_id: "base_footprint"
-    beam_skip_distance: 0.5
+    beam_skip_distance: 0.3
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
     do_beamskip: false
@@ -520,7 +444,7 @@ amcl:
     laser_min_range: 0.05
     laser_model_type: "likelihood_field"
     max_beams: 400 #120
-    max_particles: 3500
+    max_particles: 3000
     min_particles: 1000
     odom_frame_id: "odom"
     pf_err: 0.01
@@ -534,8 +458,8 @@ amcl:
     tf_broadcast: true
     transform_tolerance: 1.0
     update_min_a: 0.01 #0.2
-    update_min_d: 0.1 #0.25
-    z_hit: 0.95
+    update_min_d: 0.01 #0.25
+    z_hit: 0.5
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
@@ -621,10 +545,10 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: false
-    controller_frequency: 10.0
-    min_x_velocity_threshold: 0.000001
-    min_y_velocity_threshold: 0.0
-    min_theta_velocity_threshold: 0.00001
+    controller_frequency: 30.0
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    min_theta_velocity_threshold: 0.001
     failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
     goal_checker_plugins: ["general_goal_checker"]
@@ -638,50 +562,51 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.15
-      yaw_goal_tolerance: 0.02
+      xy_goal_tolerance: 0.1
+      yaw_goal_tolerance: 0.01
 
     # stopped_goal_checker:
     #   plugin: "nav2_controller::StoppedGoalChecker"
     #   stateful: True           
-    #   xy_goal_tolerance: 0.155   
+    #   xy_goal_tolerance: 0.1   
     #   yaw_goal_tolerance: 0.01 
     #   trans_stopped_velocity: 0.005  
-    #   rot_stopped_velocity: 0.15    # 0.02
+    #   rot_stopped_velocity: 0.02    # 0.02
 
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
-      angular_dist_threshold: 0.5
+      angular_dist_threshold: 0.3
       forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 0.15
-      rotate_to_goal_heading: true
-      max_angular_accel: 1.25
+      rotate_to_heading_angular_vel: 0.3
+      rotate_to_goal_heading: false
+      max_angular_accel: 1.5
       simulate_ahead_time: 1.0
+      # plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.2
+      max_vel_x: 0.3
       max_vel_y: 0.0
-      max_vel_theta: 0.15
+      max_vel_theta: 0.5
       min_speed_xy: 0.0
-      max_speed_xy: 0.2
+      max_speed_xy: 0.3
       min_speed_theta: 0.0
-      acc_lim_x: 0.5
+      acc_lim_x: 3.0
       acc_lim_y: 0.0
-      acc_lim_theta: 1.0
-      decel_lim_x: -0.5
+      acc_lim_theta: 1.5
+      decel_lim_x: -3.0
       decel_lim_y: 0.0
-      decel_lim_theta: -1.0
+      decel_lim_theta: -1.5
       vx_samples: 30
       vy_samples: 1
       vtheta_samples: 30
-      sim_time: 2.5
+      sim_time: 1.8
       linear_granularity: 0.05
       angular_granularity: 0.05
 
       transform_tolerance: 0.5
-      xy_goal_tolerance: 0.15
+      xy_goal_tolerance: 0.1
       trans_stopped_velocity: 0.01
       short_circuit_trajectory_evaluation: True
       stateful: True
@@ -702,13 +627,13 @@ controller_server:
     #   plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
 
     #   transform_tolerance: 0.1
-    #   xy_goal_tolerance: 0.15
+    #   xy_goal_tolerance: 0.1
     #   trans_stopped_velocity: 0.05
     #   stateful: true
     #   use_velocity_scaled_lookahead_dist: false
 
     #   # 시뮬레이션 관련
-    #   sim_time: 3.0
+    #   sim_time: 1.8
     #   max_lookahead_dist: 0.5    # forward_sampling_distance와 유사
     #   min_lookahead_dist: 0.2
     #   lookahead_time: 1.0        # simulate_ahead_time 유사 (혹은 3.0)
@@ -751,10 +676,10 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "CLOSED_LOOP"
-    max_velocity: [0.35, 0.0, 0.2]
-    min_velocity: [-0.35, 0.0, -0.2]
-    max_accel: [1.5, 0.0, 1.25]
-    max_decel: [-1.5, 0.0, -1.52]
+    max_velocity: [0.3, 0.0, 0.5]
+    min_velocity: [-0.1, 0.0, -0.5]
+    max_accel: [3.0, 0.0, 2.0]
+    max_decel: [-3.0, 0.0, -2.0]
     odom_topic: "odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
@@ -777,7 +702,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 10.0
-        inflation_radius: 0.35
+        inflation_radius: 0.4
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -839,7 +764,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 10.0
-        inflation_radius: 0.35
+        inflation_radius: 0.4
       always_send_full_costmap: True
 
 map_server:

@@ -16,7 +16,7 @@ def generate_launch_description():
     # Declare a relative default path from the workspace root (not from install)
     declare_params = DeclareLaunchArgument(
         'params_file',
-        default_value='src/parameter_file/wheelchair.yaml',
+        default_value='src/Wheelchair_Robot_ROS2_Project/parameter_file/wheelchair.yaml',
         description='Relative path to the unified parameter YAML file'
     )
 
