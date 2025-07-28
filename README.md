@@ -247,8 +247,8 @@ ros2 topic list
 ros2 topic echo /cmd_vel
 ros2 topic echo /odom
 ros2 topic echo /scan
-ros2 topic echo /camera1/image_raw
-ros2 topic echo /camera2/image_raw
+ros2 topic echo /camera_right/image_raw
+ros2 topic echo /camera_left/image_raw
 
 # View TF tree
 ros2 run tf2_tools view_frames
