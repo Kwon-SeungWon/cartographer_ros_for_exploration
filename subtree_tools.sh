@@ -9,13 +9,24 @@
 set -e
 
 # Define package info: <local_path> <repo_url> <branch> <prefix>
+# PACKAGES=(
+#   "dependency_pkgs/webserver_interface_ros2 https://github.com/cnr-lab/webserver_interface_ros2.git devel webserver_interface_ros2"
+#   "dependency_pkgs/MOBILE_ROBOT_BASIC https://github.com/raisewise0211/MOBILE_ROBOT_BASIC.git wheelchair MOBILE_ROBOT_BASIC"
+#   "dependency_pkgs/san_msgs https://github.com/Kwon-SeungWon/san_msgs.git master san_msgs"
+#   "dependency_pkgs/caselab_rviz2_plugin https://github.com/cnr-lab/caselab_rviz2_plugin.git master caselab_rviz2_plugin"
+#   "dependency_pkgs/waypoint_node_manager https://github.com/Kwon-SeungWon/waypoint_node_manager.git master waypoint_node_manager"
+#   "dependency_pkgs/ros2_laser_merger https://github.com/Kwon-SeungWon/ros2_laser_merger.git wheelchair ros2_laser_merger"
+#   "dependency_pkgs/cartographer_ros_for_exploration https://github.com/Kwon-SeungWon/cartographer_ros_for_exploration.git master cartographer_ros_for_exploration"
+#   "dependency_sensors/Lakibeam_ROS2_Driver https://github.com/Kwon-SeungWon/Lakibeam_ROS2_Driver.git master Lakibeam_ROS2_Driver"
+# )
+
 PACKAGES=(
-  "dependency_pkgs/webserver_interface_ros2 https://github.com/cnr-lab/webserver_interface_ros2.git devel webserver_interface_ros2"
-  "dependency_pkgs/MOBILE_ROBOT_BASIC https://github.com/raisewise0211/MOBILE_ROBOT_BASIC.git wheelchair MOBILE_ROBOT_BASIC"
-  "dependency_pkgs/san_msgs https://github.com/Kwon-SeungWon/san_msgs.git master san_msgs"
-  "dependency_pkgs/caselab_rviz2_plugin https://github.com/cnr-lab/caselab_rviz2_plugin.git master caselab_rviz2_plugin"
-  "dependency_pkgs/waypoint_node_manager https://github.com/Kwon-SeungWon/waypoint_node_manager.git master waypoint_node_manager"
-  "dependency_pkgs/ros2_laser_merger https://github.com/Kwon-SeungWon/ros2_laser_merger.git wheelchair ros2_laser_merger"
+  "webserver_interface_ros2 https://github.com/cnr-lab/webserver_interface_ros2.git devel webserver_interface_ros2"
+  "MOBILE_ROBOT_BASIC https://github.com/raisewise0211/MOBILE_ROBOT_BASIC.git wheelchair MOBILE_ROBOT_BASIC"
+  "san_msgs https://github.com/Kwon-SeungWon/san_msgs.git master san_msgs"
+  "caselab_rviz2_plugin https://github.com/cnr-lab/caselab_rviz2_plugin.git master caselab_rviz2_plugin"
+  "waypoint_node_manager https://github.com/Kwon-SeungWon/waypoint_node_manager.git master waypoint_node_manager"
+  "ros2_laser_merger https://github.com/Kwon-SeungWon/ros2_laser_merger.git wheelchair ros2_laser_merger"
   "dependency_pkgs/cartographer_ros_for_exploration https://github.com/Kwon-SeungWon/cartographer_ros_for_exploration.git master cartographer_ros_for_exploration"
   "dependency_sensors/Lakibeam_ROS2_Driver https://github.com/Kwon-SeungWon/Lakibeam_ROS2_Driver.git master Lakibeam_ROS2_Driver"
 )
