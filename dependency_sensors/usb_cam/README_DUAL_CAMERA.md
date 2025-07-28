@@ -5,25 +5,25 @@
 ## 설정
 
 ### 카메라 장치
-- **Camera 1 (Right)**: `/dev/video0` 사용
-- **Camera 2 (Left)**: `/dev/video1` 사용
+- **Camera Right**: `/dev/video0` 사용
+- **Camera Left**: `/dev/video4` 사용
 
 ### URDF 링크 매핑
-- **Camera 1**: `camera_r_optical_link` (우측 카메라)
-- **Camera 2**: `camera_l_optical_link` (좌측 카메라)
+- **Camera Right**: `camera_r_optical_link` (우측 카메라)
+- **Camera Left**: `camera_l_optical_link` (좌측 카메라)
 
 ### 토픽 구조
 각 카메라는 다음과 같은 토픽을 발행합니다:
 
-#### Camera 1 (Right)
-- `camera1/image_raw` - 원본 이미지
-- `camera1/image_compressed` - 압축된 이미지
-- `camera1/camera_info` - 카메라 정보
+#### Camera Right
+- `camera_right/image_raw` - 원본 이미지
+- `camera_right/image_compressed` - 압축된 이미지
+- `camera_right/camera_info` - 카메라 정보
 
-#### Camera 2 (Left)
-- `camera2/image_raw` - 원본 이미지
-- `camera2/image_compressed` - 압축된 이미지
-- `camera2/camera_info` - 카메라 정보
+#### Camera Left
+- `camera_left/image_raw` - 원본 이미지
+- `camera_left/image_compressed` - 압축된 이미지
+- `camera_left/camera_info` - 카메라 정보
 
 ## 사용법
 
@@ -67,14 +67,14 @@ ros2 run tf2_ros tf2_echo base_link camera_l_optical_link
 
 ## 설정 파일
 
-### params_1.yaml (Camera 1 - Right)
+### camera_right.yaml (Camera - Right)
 - 장치: `/dev/video0`
 - 프레임레이트: 30 FPS
 - 해상도: 640x480
 - 프레임 ID: `camera_r_optical_link`
 
-### params_2.yaml (Camera 2 - Left)
-- 장치: `/dev/video1`
+### camera_left.yaml (Camera - Left)
+- 장치: `/dev/video4`
 - 프레임레이트: 30 FPS
 - 해상도: 640x480
 - 프레임 ID: `camera_l_optical_link`
@@ -100,7 +100,7 @@ sudo chmod 666 /dev/video0 /dev/video1
 ```bash
 # 카메라 사용 프로세스 확인
 lsof /dev/video0
-lsof /dev/video1
+lsof /dev/video4
 ```
 
 ### 4. TF 프레임 문제
