@@ -13,6 +13,8 @@ Wheelchair_Robot_ROS2_Project/
 ├── dependency_sensors/
 │   └── Lakibeam_ROS2_Driver/      # LiDAR driver (subtree)
 ├── dependency_pkgs/
+|   ├── opennav_coverage           # Coverage Planner
+|   ├── fields2cover               # Dependency for Coverage Planner
 │   └── cartographer_ros_for_exploration/  # SLAM system (subtree)
 ├── webserver_interface_ros2/      # Web server interface (subtree)
 ├── MOBILE_ROBOT_BASIC/            # Main robot logic and launch files (subtree)

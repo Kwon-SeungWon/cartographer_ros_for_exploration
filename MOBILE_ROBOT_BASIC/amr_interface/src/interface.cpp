@@ -271,6 +271,12 @@ void Interface::setSubscriber()
         web_opts_
     );
 
+    joy_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
+        "joy_vel", 10,
+        std::bind(&Interface::joyVelCallback, this, std::placeholders::_1),
+        web_opts_
+    );
+
     emergency_quick_stop_sub_ = this->create_subscription<std_msgs::msg::Bool>(
         "emergency_quick_stop", 10,
         std::bind(&Interface::emergencyQuickStopCallback, this, std::placeholders::_1),
@@ -457,7 +463,7 @@ void Interface::stateLoopCallback()
     }
 
     // Manual Mode Check
-    if ((check_time - last_manual_msg_time_).seconds() > 0.1) {
+    if ((check_time - last_manual_msg_time_).seconds() > 1) {
         if (behavior_manual_mode_triggered_) {
           RCLCPP_INFO(this->get_logger(), "No Manual Velocity Sub");
         }
@@ -709,6 +715,12 @@ void Interface::changeMapCallback(const std_msgs::msg::Bool::SharedPtr msg)
 }
 
 void Interface::manualVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs)
+{
+    behavior_manual_mode_triggered_ = true;
+    last_manual_msg_time_ = this->get_clock()->now();
+}
+
+void Interface::joyVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs)
 {
     behavior_manual_mode_triggered_ = true;
     last_manual_msg_time_ = this->get_clock()->now();

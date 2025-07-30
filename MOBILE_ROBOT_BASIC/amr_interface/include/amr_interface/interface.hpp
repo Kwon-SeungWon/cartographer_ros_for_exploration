@@ -235,6 +235,7 @@ public:
     void cmdVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs);
     
     void manualVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs);
+    void joyVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs);
 
     // Set the executor that implements state-specific behaviors
     void setExecutor(std::shared_ptr<IStateExecutor> executor);
@@ -259,6 +260,7 @@ public:
     std::string full_node_file_path_;
     std::shared_ptr<geometry_msgs::msg::Twist> cmd_vel;
     std::shared_ptr<geometry_msgs::msg::Twist> manual_vel;
+    std::shared_ptr<geometry_msgs::msg::Twist> joy_vel;
 
     // Service callback to process task command requests
     // void taskCommandCallback(
@@ -417,7 +419,7 @@ protected:
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr manual_vel_sub_;
-
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr joy_vel_sub_;
 
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr command_sub_;
 
@@ -483,7 +485,7 @@ private:
     void goalPoseCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg);
     void waypointListCallback(const geometry_msgs::msg::PoseArray::SharedPtr msg);
     void changeMapCallback(const std_msgs::msg::Bool::SharedPtr msg);
-    
+
     void batteryStatusCallback(const san_msgs::msg::BatteryStatus::SharedPtr msg);
     void bumperStatusCallback(const std_msgs::msg::UInt8::SharedPtr msg);
     void ultrasonicStatusCallback(const std_msgs::msg::Int16MultiArray::SharedPtr msg);

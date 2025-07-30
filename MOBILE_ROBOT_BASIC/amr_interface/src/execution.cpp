@@ -1529,7 +1529,7 @@ void ExecutionNode::currentPoseChecker()
     if (!interface->current_waypoints_.poses.empty()) {
         goal_pose_.pose = interface->current_waypoints_.poses.back();
     } else {
-        RCLCPP_WARN(this->get_logger(), "Waypoint list is empty. Using default goal position.");
+        // RCLCPP_WARN(this->get_logger(), "Waypoint list is empty. Using default goal position.");
         goal_pose_ = interface->goal_position_;  
     }
     
@@ -1537,7 +1537,10 @@ void ExecutionNode::currentPoseChecker()
     double dx = goal_pose_.pose.position.x - current_pose_.pose.position.x;
     double dy = goal_pose_.pose.position.y - current_pose_.pose.position.y;
     double distance = std::sqrt(dx * dx + dy * dy);
-    RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "Distance to goal: %.2f m", distance);
+    
+    if(interface->getState() == RobotState::AUTO) {
+        RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "Distance to goal: %.2f m", distance);
+    }
 
     // 목표 영역 내에 있고, 아직 업데이트하지 않은 경우에만 서비스 호출
     if (distance <= goal_distance_threshold_ && interface->parameter_mode_ != "DOCK" ) {
