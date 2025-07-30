@@ -86,7 +86,7 @@ NORMAL:
     ros__parameters:
       general_goal_checker:
         xy_goal_tolerance: 0.1 #0.15
-        yaw_goal_tolerance: 0.01
+        yaw_goal_tolerance: 0.05
       FollowPath:
         # plugin: "nav2_rotation_shim_controller::RotationShimController"
         # angular_dist_threshold: 3.14 #0.35
@@ -112,7 +112,7 @@ DOCK:
     ros__parameters:
       general_goal_checker:
         xy_goal_tolerance: 0.1 #0.15
-        yaw_goal_tolerance: 0.01
+        yaw_goal_tolerance: 0.05
       FollowPath:
         # plugin: "nav2_rotation_shim_controller::RotationShimController"
         # angular_dist_threshold: 3.14 #0.35
@@ -138,7 +138,7 @@ AUTO:
     ros__parameters:
       general_goal_checker:
         xy_goal_tolerance: 0.1 #0.15
-        yaw_goal_tolerance: 0.01
+        yaw_goal_tolerance: 0.05
       FollowPath:
         # plugin: "nav2_rotation_shim_controller::RotationShimController"
         # angular_dist_threshold: 3.14 #0.35
@@ -164,7 +164,7 @@ CHARGE_UNDOCK:
     ros__parameters:
       general_goal_checker:
         xy_goal_tolerance: 0.1 #0.15
-        yaw_goal_tolerance: 0.01
+        yaw_goal_tolerance: 0.05
       FollowPath:
         # plugin: "nav2_rotation_shim_controller::RotationShimController"
         # angular_dist_threshold: 0.35
@@ -211,7 +211,7 @@ MANIPULATION_UNDOCK:
     ros__parameters:
       general_goal_checker:
         xy_goal_tolerance: 0.1
-        yaw_goal_tolerance: 0.01 # 앞 방향 보존
+        yaw_goal_tolerance: 0.05 # 앞 방향 보존
       FollowPath:
         plugin: "dwb_core::DWBLocalPlanner"
         # angular_dist_threshold: 6.28
@@ -262,7 +262,7 @@ CHARGE_REDOCK:
     ros__parameters:
       general_goal_checker:
         xy_goal_tolerance: 0.1 #0.15
-        yaw_goal_tolerance: 0.01
+        yaw_goal_tolerance: 0.05
       FollowPath:
         # plugin: "nav2_rotation_shim_controller::RotationShimController"
         # angular_dist_threshold: 0.35
@@ -315,7 +315,7 @@ MANIPULATION_REDOCK:
     ros__parameters:
       general_goal_checker:
         xy_goal_tolerance: 0.1
-        yaw_goal_tolerance: 0.01 # 앞 방향 보존
+        yaw_goal_tolerance: 0.05 # 앞 방향 보존
       FollowPath:
         plugin: "dwb_core::DWBLocalPlanner"
         # angular_dist_threshold: 6.28
@@ -562,23 +562,23 @@ controller_server:
     general_goal_checker:
       stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.1
-      yaw_goal_tolerance: 0.01
+      xy_goal_tolerance: 0.03
+      yaw_goal_tolerance: 6.28
 
     # stopped_goal_checker:
     #   plugin: "nav2_controller::StoppedGoalChecker"
     #   stateful: True           
     #   xy_goal_tolerance: 0.1   
-    #   yaw_goal_tolerance: 0.01 
+    #   yaw_goal_tolerance: 0.05 
     #   trans_stopped_velocity: 0.005  
     #   rot_stopped_velocity: 0.02    # 0.02
 
     FollowPath:
       plugin: "nav2_rotation_shim_controller::RotationShimController"
       primary_controller: "dwb_core::DWBLocalPlanner"
-      angular_dist_threshold: 0.3
+      angular_dist_threshold: 0.1
       forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 0.3
+      rotate_to_heading_angular_vel: 0.5
       rotate_to_goal_heading: false
       max_angular_accel: 1.5
       simulate_ahead_time: 1.0
@@ -592,12 +592,12 @@ controller_server:
       min_speed_xy: 0.0
       max_speed_xy: 0.3
       min_speed_theta: 0.0
-      acc_lim_x: 3.0
+      acc_lim_x: 1.0
       acc_lim_y: 0.0
-      acc_lim_theta: 1.5
-      decel_lim_x: -3.0
+      acc_lim_theta: 2.0
+      decel_lim_x: -1.0
       decel_lim_y: 0.0
-      decel_lim_theta: -1.5
+      decel_lim_theta: -2.0
       vx_samples: 30
       vy_samples: 1
       vtheta_samples: 30

@@ -10,15 +10,19 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     explore_dir = get_package_share_directory('ros2_frontier_based_explore')
+    amr_cartographer_prefix = get_package_share_directory('amr_cartographer')
+    amr_navigation_prefix = get_package_share_directory('amr_navigation')
 
-    slam_launch_file = os.path.join(explore_dir, 'launch', 'explore_slam.launch.py')
-    navigation_launch_file = os.path.join(explore_dir, 'launch', 'explore_nav2_samsung_isaac.launch.py')
+    slam_launch_file = os.path.join(amr_cartographer_prefix, 'launch', 'amr_cartographer.launch.py')
+
+    params_file = os.path.join(explore_dir, 'params', 'explore_navigation.yaml')
+    navigation_launch_file = os.path.join(amr_navigation_prefix, 'launch', 'navigation_wheelchair.launch.py')
     rviz_config_file = os.path.join(explore_dir, 'rviz', 'explore.rviz')
 
     return LaunchDescription([
         DeclareLaunchArgument(
             'use_sim_time',
-            default_value='true',
+            default_value='false',
             description='Use simulation time if true'
         ),
 
@@ -28,7 +32,7 @@ def generate_launch_description():
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(navigation_launch_file),
-            launch_arguments={'use_sim_time': use_sim_time}.items()
+            launch_arguments={'use_sim_time': use_sim_time, 'params_file': params_file}.items()
         ),
         Node(
             package='ros2_frontier_based_explore',

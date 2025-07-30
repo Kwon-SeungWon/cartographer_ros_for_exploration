@@ -12,7 +12,7 @@ ParameterUpdater::ParameterUpdater()
 
   if (!this->get_parameter("yaml_file", yaml_file_) || yaml_file_.empty()) {
     // 작업 디렉토리 기준 상대경로 (설치 없이 사용 가능)
-    yaml_file_ = "src/parameter_file/wheelchair.yaml";
+    yaml_file_ = "src/Wheelchair_Robot_ROS2_Project/parameter_file/wheelchair.yaml";
   }
 
   if (loadYamlFile(yaml_file_)) {
