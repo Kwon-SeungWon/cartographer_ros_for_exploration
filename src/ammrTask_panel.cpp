@@ -159,7 +159,7 @@ void TaskPanel::sendSetTask()
                                 "\"manufacturer\": \"CASELAB\", \"serialNumber\": \"SERIALNUMBER\", "
                                 "\"actions\": [ { \"actionId\": \"setTask\", \"actionType\": \"setTask_ID\", "
                                 "\"blockingType\": \"SOFT\", \"actionParameters\": [ { \"key\": \"signal\", "
-                                "\"value\": [ \"%2\", %3, %4 ] } ] } ] }")
+                                "\"value\": [ \"1\", \"%2\", %3, %4 ] } ] } ] }")
                       .arg(timestamp)
                       .arg(mission)
                       .arg(startValue)
