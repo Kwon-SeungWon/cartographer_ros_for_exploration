@@ -26,17 +26,17 @@ from launch.substitutions import ThisLaunchFileDir
 
 
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration('use_sim_time', default='True')
-    redbot02_cartographer_prefix = get_package_share_directory('turtlebot3_cartographer')
+    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+    amr_cartographer_prefix = get_package_share_directory('amr_cartographer')
     cartographer_config_dir = LaunchConfiguration('cartographer_config_dir', default=os.path.join(
-                                                  redbot02_cartographer_prefix, 'config'))
+                                                  amr_cartographer_prefix, 'config'))
     configuration_basename = LaunchConfiguration('configuration_basename',
-                                                 default='turtlebot3_lds_2d.lua')
+                                                 default='amr_cartographer.lua')
 
     resolution = LaunchConfiguration('resolution', default='0.05')
     publish_period_sec = LaunchConfiguration('publish_period_sec', default='1.0')
 
-    occupancy_grid_launch_file = os.path.join(redbot02_cartographer_prefix, 'launch', 'occupancy_grid.launch.py')
+    occupancy_grid_launch_file = os.path.join(amr_cartographer_prefix, 'launch', 'occupancy_grid.launch.py')
     # rviz_config_dir = os.path.join(get_package_share_directory('redbot02_cartographer'),
     #                                'rviz', 'redbot02_cartographer.rviz')
 
