@@ -66,9 +66,9 @@ def generate_launch_description():
             ComposableNode(
                 package='nav2_controller',
                 plugin='nav2_controller::ControllerServer',
-                name='controller_server',
+                name='controller_servers',
                 parameters=[configured_params],
-                remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),
+                remappings=remappings + [('cmd_vel', 'nav_vel')]),
             ComposableNode(
                 package='opennav_coverage',
                 plugin='opennav_coverage::CoverageServer',
@@ -87,7 +87,7 @@ def generate_launch_description():
                 name='velocity_smoother',
                 parameters=[configured_params],
                 remappings=remappings +
-                           [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
+                           [('cmd_vel', 'nav_vel'), ('cmd_vel_smoothed', 'nav_vel_smoothed')]),
             ComposableNode(
                 package='nav2_lifecycle_manager',
                 plugin='nav2_lifecycle_manager::LifecycleManager',

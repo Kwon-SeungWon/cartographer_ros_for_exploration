@@ -27,7 +27,7 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     # Get package directories
-    nav2_bringup_dir = get_package_share_directory('nav2_bringup')
+    nav2_bringup_dir = get_package_share_directory('amr_navigation')
     opennav_coverage_demo_dir = get_package_share_directory('opennav_coverage_demo')
     
     # Declare launch arguments
@@ -41,7 +41,7 @@ def generate_launch_description():
     
     # Default parameters
     autostart = True
-    use_sim_time_param = True
+    use_sim_time_param = False
     
     # Create parameter substitutions
     param_substitutions = {
@@ -183,18 +183,6 @@ def generate_launch_description():
                            'node_names': ['controller_server', 'bt_navigator', 
                                          'velocity_smoother', 'coverage_server']}]),
         ],
-    )
-
-    # Include Nav2 bringup for additional components if needed
-    nav2_bringup_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(nav2_bringup_dir, 'launch', 'bringup_launch.py')
-        ),
-        launch_arguments={
-            'map': map_file,
-            'use_sim_time': use_sim_time,
-            'params_file': params_file,
-        }.items(),
     )
 
     # Create the launch description
