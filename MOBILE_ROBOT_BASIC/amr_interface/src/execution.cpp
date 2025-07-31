@@ -784,40 +784,17 @@ void StateExecutor::onStop(Interface* interface)
 {
     RCLCPP_WARN_THROTTLE(interface->get_logger(), *interface->get_clock(), 1000, "Executing STOP: Robot is halted.");
 
-    if(!interface->emergency_quick_stop_triggered_ &&
-       !interface->motor_emergency_triggered_)
-    {
-
-        if(interface->behavior_manipulation_redocking_triggered_
-        || interface->behavior_charging_redocking_triggered_ ){
-
-            interface->setState(RobotState::IDLE);
-
-        }
-        else{
-
-            resumeRobotstate(interface);
-
-        }
-    
+    // STOP -> Resume
+    if (interface->resume_requested_) {
+        interface->resume_requested_ = false;
+        resumeRobotstate(interface);
     }
-    // Reset Button Triggered
-    // if(interface->reset_button_triggered_){
-    //     interface->setState(RobotState::INIT);
-    // }
-
-    // if (!interface->emergency_button_triggered_ &&
-    //     !interface->bumper_collision_triggered_ &&
-    //     !interface->sto_triggered_ &&
-    //     !interface->uss_emergency_triggered_ &&
-    //     !interface->behavior_manipulator_emergency_triggered_ &&
-    //     interface->reset_button_triggered_) {
-        
-    //     interface->reset_button_triggered_ = false;
-
-    //     resumeRobotstate(interface);
-    // }
 }
+
+/**
+ * @brief Resumes the robot state based on the previous state.
+ * @param interface Pointer to the main robot interface.
+ */
 void StateExecutor::resumeRobotstate(Interface* interface)
 {
     if(interface->getPreviousState() == RobotState::INIT) {
@@ -1054,6 +1031,19 @@ void StateExecutor::sendWaypointGoalAsync(Interface* interface, const geometry_m
     RCLCPP_INFO(interface->get_logger(), "FollowWaypoints goal prepared with %zu poses", goal.poses.size());
     
     rclcpp_action::Client<nav2_msgs::action::FollowWaypoints>::SendGoalOptions options;
+    
+    options.goal_response_callback = [this, interface](auto goal_handle) -> void {
+        if (!goal_handle) {
+            RCLCPP_ERROR(interface->get_logger(), "FollowWaypoints goal was rejected by server");
+            interface->setState(RobotState::EMERGENCY);
+        } else {
+            RCLCPP_INFO(interface->get_logger(), "FollowWaypoints goal accepted by server");
+        }
+    };
+    
+    options.feedback_callback = [this, interface](auto, const auto & feedback) -> void {
+        RCLCPP_DEBUG(interface->get_logger(), "FollowWaypoints feedback: current_waypoint = %d", feedback->current_waypoint);
+    };
     
     options.result_callback = [this, interface, waypoint_list](const auto & result) mutable {
         
@@ -1404,6 +1394,9 @@ ExecutionNode::ExecutionNode(std::shared_ptr<Interface> interface)
 
     obstacle_detected_publisher_ = this->create_publisher<std_msgs::msg::Bool>(
         "obstacle_detected", 10);
+
+    slam_pose_publisher_ = this->create_publisher<geometry_msgs::msg::PoseStamped>(
+        "slam_pose", 10);
 
 }
 

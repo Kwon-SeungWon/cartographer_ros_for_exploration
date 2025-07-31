@@ -17,7 +17,8 @@ Interface::Interface()
 //   behavior_auto_(false),
 //   behavior_manual_requested_(false),
   docking_requested_(false),
-  emergency_triggered_(false)
+  emergency_triggered_(false),
+  resume_requested_(false) // STOP 상태 resume 플래그 추가
 {
     RCLCPP_INFO(this->get_logger(), "Interface Node started.");
 
@@ -137,7 +138,7 @@ void Interface::setParam()
 
     // Battery Low Threshold
     this->declare_parameter<double>("battery_low_threshold", 15.0);
-      double battery_low_threshold;
+    double battery_low_threshold;
     this->get_parameter("battery_low_threshold", battery_low_threshold);
 
     // Battery Charged Threshold
@@ -358,6 +359,12 @@ void Interface::setActionServer()
                     std::placeholders::_1, std::placeholders::_2)
     );
 
+    pause_task_service_ = this->create_service<san_msgs::srv::PauseTask>(
+        "pause_task",
+        std::bind(&Interface::pauseTaskCallback, this,
+                    std::placeholders::_1, std::placeholders::_2)
+    );
+
     manipulator_mission_service_ = this->create_service<std_srvs::srv::Trigger>(
         "manipulator_mission_complete",
         std::bind(&Interface::manipulatorMissionService, this, std::placeholders::_1, std::placeholders::_2)
@@ -428,7 +435,7 @@ void Interface::stateLoopCallback()
 
     // If battery level is below threshold and the current state is one where charging is allowed,
     // trigger a charge behavior.
-    if (battery_data_.low_triggered
+    if (battery_data_.isLow()
         && !task_home_started_) {
 
         // RCLCPP_ERROR(this->get_logger(), "Battery is LOW!!. Have to Charge!!!");
@@ -451,7 +458,7 @@ void Interface::stateLoopCallback()
         }
     }
 
-// Battery is Low & Charging is started -> Block ALL task
+    // Battery is Low & Charging is started -> Block ALL task
     if (battery_data_.isLow() 
         && current == RobotState::CHARGING) {
         task_move_started_ = false;
@@ -463,7 +470,7 @@ void Interface::stateLoopCallback()
     }
 
     // Manual Mode Check
-    if ((check_time - last_manual_msg_time_).seconds() > 1) {
+    if ((check_time - last_manual_msg_time_).seconds() > 1.0) {
         if (behavior_manual_mode_triggered_) {
           RCLCPP_INFO(this->get_logger(), "No Manual Velocity Sub");
         }
@@ -1196,6 +1203,41 @@ void Interface::buildMapCallback(
             response->message = std::to_string(request->command);
         }
     }
+}
+
+void Interface::pauseTaskCallback(
+    const std::shared_ptr<san_msgs::srv::PauseTask::Request> request,
+    std::shared_ptr<san_msgs::srv::PauseTask::Response> response)
+{
+RCLCPP_INFO(this->get_logger(), "Pause Task Request Received!");
+
+// Only for Auto and Docking State
+if(current_state_ == RobotState::AUTO
+    || current_state_ == RobotState::DOCKING){
+
+    // Pause Task
+    if(request->pause_task){
+        
+        RCLCPP_INFO(this->get_logger(), "Pause Task Request Received!");
+        setState(RobotState::STOP);
+
+        response->success = true;
+    
+    }
+}
+
+if(current_state_ == RobotState::STOP){
+    // Resume Task
+    if(!request->pause_task){
+        
+        RCLCPP_INFO(this->get_logger(), "Resume Task Request Received!");
+        resume_requested_ = true; // resume 요청 시 플래그 세팅
+        response->success = true;
+    
+    }
+        
+}
+
 }
 
 /********************************** Manipulator CALLBACK **********************************/

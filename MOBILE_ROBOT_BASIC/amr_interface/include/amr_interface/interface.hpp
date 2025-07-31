@@ -23,6 +23,8 @@
 #include "san_msgs/msg/behavior.hpp"
 #include "san_msgs/msg/task.hpp"
 #include "san_msgs/msg/motor_status.hpp"
+#include "san_msgs/srv/pause_task.hpp"
+
 
 #include "std_msgs/msg/string.hpp"
 #include "std_msgs/msg/int16_multi_array.hpp"
@@ -182,6 +184,7 @@ public:
     virtual void onStop(class Interface* interface) = 0;
     virtual void onSLAM(class Interface* interface) = 0;
     virtual void cancelAllGoals(class Interface* interface) = 0;
+    virtual void resumeRobotstate(class Interface* interface) = 0;
 };
 
 /**
@@ -272,6 +275,11 @@ public:
         const std::shared_ptr<san_msgs::srv::BuildMap::Request> request,
         std::shared_ptr<san_msgs::srv::BuildMap::Response> response);
     
+    // Pause Task
+    void pauseTaskCallback(
+        const std::shared_ptr<san_msgs::srv::PauseTask::Request> request,
+        std::shared_ptr<san_msgs::srv::PauseTask::Response> response);
+
     // Change the Map name (추후 커스텀 서비스 변경)
     // void mapNameChangeCallback(const std::shared_ptr<san_msgs::srv::MapName::Request> request,
     //     std::shared_ptr<san_msgs::srv::MapName::Response> response);
@@ -394,6 +402,8 @@ public:
 
     double waypoint_reach_threshold_;
     double waypoint_missed_distance_;
+    // STOP -> Resume Flag
+    bool resume_requested_{false};
 
 protected:
     // ROS2 subscriptions, publishers, and service servers
@@ -449,6 +459,8 @@ protected:
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr error_code_desc_pub_;
 
     rclcpp::Service<san_msgs::srv::BuildMap>::SharedPtr build_map_service_; // Build Map
+
+    rclcpp::Service<san_msgs::srv::PauseTask>::SharedPtr pause_task_service_; // Pause Task
 
     rclcpp::Client<san_msgs::srv::GetWaypoints>::SharedPtr get_waypoints_client_;
 
