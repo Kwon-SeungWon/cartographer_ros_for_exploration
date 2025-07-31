@@ -46,7 +46,8 @@ def generate_launch_description():
                        'behavior_server',
                        'bt_navigator',
                        'waypoint_follower',
-                       'velocity_smoother']
+                       'velocity_smoother',
+                       'coverage_server']
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
@@ -247,6 +248,21 @@ def generate_launch_description():
                 parameters=[{'use_sim_time': use_sim_time,
                              'autostart': autostart,
                              'node_names': lifecycle_nodes}]),
+            # Coverage Server
+            ComposableNode(
+                package='opennav_coverage',
+                plugin='opennav_coverage::CoverageServer',
+                name='coverage_server',
+                parameters=[configured_params],
+                remappings=remappings),
+            ComposableNode(
+                package='backported_bt_navigator',
+                plugin='backported_bt_navigator::BtNavigator',
+                name='bt_navigator',
+                parameters=[configured_params],
+                remappings=remappings),
+
+
         ],
     )
 
