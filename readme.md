@@ -11,17 +11,19 @@ This repository is the main workspace for the Redbot Robot ROS2 Project. It inte
 ```
 Redbot_Robot_ROS2_Project/
 ├── dependency_sensors/
-│   │   realsense-ros/             # Camera driver
-│   └── ydlidar_ros2_driver/       # LiDAR driver
+│   ├── realsense-ros/             # Camera driver (subtree)
+│   └── ydlidar_ros2_driver/       # LiDAR driver (subtree)
 ├── dependency_pkgs/
-│   └── cartographer_ros_for_exploration/  # SLAM system (subtree)
+│   ├── cartographer_ros_for_exploration/  # SLAM system (subtree)
+│   ├── Fields2Cover/              # Coverage planning library (subtree)
+│   └── opennav_coverage/          # Open navigation coverage (subtree)
 ├── webserver_interface_ros2/      # Web server interface (subtree)
 ├── MOBILE_ROBOT_BASIC/            # Main robot logic and launch files (subtree)
 ├── san_msgs/                      # Custom ROS2 message definitions (subtree)
 ├── caselab_rviz2_plugin/          # Custom RViz2 plugins (subtree)
 ├── waypoint_node_manager/         # Waypoint management (subtree)
-├── ros2_frontier_based_explore    # Exploration (subtree)
-├── laser_filters/                 # Laser filter
+├── ros2_frontier_based_explore/   # Exploration (subtree)
+├── laser_filters/                 # Laser filter (subtree)
 ├── subtree_tools.sh               # Git subtree automation script
 └── README.md                      # This file
 ```
@@ -33,13 +35,13 @@ Redbot_Robot_ROS2_Project/
 ### dependency_sensors/realsense-ros
 
 - **Purpose:** ROS2 driver for Realsense Camera sensors
-- **Source:** [realsense-ros (GitHub)](https://github.com/IntelRealSense/realsense-ros.git)
+- **Source:** [realsense-ros (GitHub)](https://github.com/Kwon-SeungWon/realsense-ros.git)
 - **Branch:** ros2-master
 
 ### dependency_sensors/ydlidar_ros2_driver
 
 - **Purpose:** ROS2 driver for Ydlidar sensors
-- **Source:** [ydlidar_ros2_driver (GitHub)](https://github.com/YDLIDAR/ydlidar_ros2_driver.git)
+- **Source:** [ydlidar_ros2_driver (GitHub)](https://github.com/Kwon-SeungWon/ydlidar_ros2_driver.git)
 - **Branch:** master
 
 ### dependency_pkgs/cartographer_ros_for_exploration
@@ -47,6 +49,18 @@ Redbot_Robot_ROS2_Project/
 - **Purpose:** SLAM system for exploration and mapping
 - **Source:** [cartographer_ros_for_exploration (GitHub)](https://github.com/Kwon-SeungWon/cartographer_ros_for_exploration.git)
 - **Branch:** master
+
+### dependency_pkgs/Fields2Cover
+
+- **Purpose:** Coverage planning library for agricultural robotics
+- **Source:** [Fields2Cover (GitHub)](https://github.com/Kwon-SeungWon/Fields2Cover.git)
+- **Tag:** v1.2.1
+
+### dependency_pkgs/opennav_coverage
+
+- **Purpose:** Open navigation coverage planning
+- **Source:** [opennav_coverage (GitHub)](https://github.com/Kwon-SeungWon/opennav_coverage.git)
+- **Branch:** humble
 
 ### webserver_interface_ros2
 

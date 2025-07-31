@@ -12,12 +12,15 @@ set -e
 # Organized according to readme.md folder structure
 PACKAGES=(
   # dependency_sensors/ - Sensor drivers
-  "dependency_sensors/realsense-ros https://github.com/IntelRealSense/realsense-ros.git ros2-master realsense-ros"
-  "dependency_sensors/ydlidar_ros2_driver https://github.com/YDLIDAR/ydlidar_ros2_driver.git master ydlidar_ros2_driver"
+  "dependency_sensors/realsense-ros https://github.com/Kwon-SeungWon/realsense-ros.git ros2-master realsense-ros"
+  "dependency_sensors/ydlidar_ros2_driver https://github.com/Kwon-SeungWon/ydlidar_ros2_driver.git master ydlidar_ros2_driver"
   
   # dependency_pkgs/ - Core dependencies
   "dependency_pkgs/cartographer_ros_for_exploration https://github.com/Kwon-SeungWon/cartographer_ros_for_exploration.git master cartographer_ros_for_exploration"
-  
+  "dependency_pkgs/Fields2Cover https://github.com/Kwon-SeungWon/Fields2Cover.git v1.2.1 Fields2Cover"
+  "dependency_pkgs/opennav_coverage https://github.com/Kwon-SeungWon/opennav_coverage.git humble opennav_coverage"
+
+  # dependency_pkgs/ - Core dependencies
   # Root level packages
   "webserver_interface_ros2 https://github.com/cnr-lab/webserver_interface_ros2.git devel webserver_interface_ros2"
   "MOBILE_ROBOT_BASIC https://github.com/raisewise0211/MOBILE_ROBOT_BASIC.git redbot MOBILE_ROBOT_BASIC"
