@@ -21,7 +21,7 @@ from std_msgs.msg import String, Bool
 from std_srvs.srv import Trigger
 from sensor_msgs.msg import CompressedImage, JointState
 from geometry_msgs.msg import PoseWithCovarianceStamped, Twist, PoseArray, PoseStamped, Pose
-from san_msgs.srv import BuildMap, TaskCommand, ManualManipulatorControl
+from san_msgs.srv import BuildMap, TaskCommand, ManualManipulatorControl, PauseTask
 from san_msgs.action import TaskCommandAction
 from san_msgs.msg import BatteryStatus
 from action_msgs.msg import GoalStatus
@@ -50,9 +50,14 @@ class RosHandler(Node):
         self.build_map_mode = False
         self.build_map_name = "None"
         self.build_map_subscriber = None
-
+        
+        self.amr_state_ = "None"
         self.manipulator_status = "None"
         self.driving_state = False
+
+        self.cmd_vel_ = Twist()
+        self.amcl_pose_ = PoseStamped()
+        self.slam_pose_ = PoseStamped()
 
         self.init_param(pkg_share_directory)
         self.set_subscriber()
@@ -112,7 +117,7 @@ class RosHandler(Node):
         state_data["maps"][0]["mapStatus"] = "ENABLED"
         state_data["zoneSetId"] = current_nodeID
         self.vda5050_manager.update_json_data("state",state_data)
-        # self.node_manager = NodeManager(self.node_data_dir, current_node)
+        self.node_manager = NodeManager(self.node_data_dir, current_node)
 
         connection_data = self.vda5050_manager.get_json_data("connection")
         connection_data["connectionState"] = "ONLINE"
@@ -210,9 +215,14 @@ class RosHandler(Node):
         self.build_map_client = self.create_client(BuildMap, 'build_map')
         self.manual_manipulator_control_client = self.create_client(ManualManipulatorControl, 'manual_manipulator_control')
         self.manipulator_task_complete_client = self.create_client(Trigger, "manipulator_mission_complete")
-        
+        self.pause_task_client = self.create_client(PauseTask, "pause_task")
+
+
         while not self.build_map_client.wait_for_service(timeout_sec=2.0):
             self.get_logger().info('Waiting for build_map service...')
+
+        while not self.pause_task_client.wait_for_service(timeout_sec=2.0):
+            self.get_logger().info('Waiting for pause_task service...')
 
         # while not self.manual_manipulator_control_client.wait_for_service(timeout_sec=2.0):
         #     self.get_logger().info('Waiting for manual_manipulator_control service...')
@@ -233,47 +243,15 @@ class RosHandler(Node):
 
 
     def amcl_pose_callback(self, msg):
-        visualization_data = self.vda5050_manager.get_json_data("visualization")
-        visualization_data["agvPosition"]["x"] = msg.pose.pose.position.x
-        visualization_data["agvPosition"]["y"] = msg.pose.pose.position.y
-        _, _, yaw = self.quaternion_to_euler(msg.pose.pose.orientation)
-        visualization_data["agvPosition"]["theta"] = yaw
-        self.vda5050_manager.update_json_data("visualization", visualization_data)
+        self.amcl_pose_.pose = msg.pose.pose
 
-        state_data = self.vda5050_manager.get_json_data("state")
-        state_data["agvPosition"]["x"] = msg.pose.pose.position.x
-        state_data["agvPosition"]["y"] = msg.pose.pose.position.y
-        state_data["agvPosition"]["theta"] = yaw
-        self.vda5050_manager.update_json_data("state", state_data)
 
     def slam_pose_callback(self, msg):
-        visualization_data = self.vda5050_manager.get_json_data("visualization")
-        visualization_data["agvPosition"]["x"] = msg.pose.position.x
-        visualization_data["agvPosition"]["y"] = msg.pose.position.y
-        _, _, yaw = self.quaternion_to_euler(msg.pose.orientation)
-        visualization_data["agvPosition"]["theta"] = yaw
-        self.vda5050_manager.update_json_data("visualization", visualization_data)
-
-        state_data = self.vda5050_manager.get_json_data("state")
-        state_data["agvPosition"]["x"] = msg.pose.pose.position.x
-        state_data["agvPosition"]["y"] = msg.pose.pose.position.y
-        state_data["agvPosition"]["theta"] = yaw
-        self.vda5050_manager.update_json_data("state", state_data)
+        self.slam_pose_ = msg
 
     def cmd_vel_callback(self, msg):
-        visualization_data = self.vda5050_manager.get_json_data("visualization")
-        visualization_data["velocity"]["vx"] = msg.linear.x
-        visualization_data["velocity"]["vy"] = msg.linear.y
-        visualization_data["velocity"]["omega"] = msg.angular.z
-        self.vda5050_manager.update_json_data("visualization", visualization_data)
-
-        state_data = self.vda5050_manager.get_json_data("state")
-        state_data["velocity"]["vx"] = msg.linear.x
-        state_data["velocity"]["vy"] = msg.linear.y
-        state_data["velocity"]["omega"] = msg.angular.z
-        self.vda5050_manager.update_json_data("state", state_data)
+        self.cmd_vel_ = msg
         
-
     def camera_img_callback(self, msg):
         # cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
         cv_image = self.bridge.compressed_imgmsg_to_cv2(msg, desired_encoding='bgr8')
@@ -360,10 +338,8 @@ class RosHandler(Node):
         pass
 
     def state_machine_callback(self, msg):
-        state = msg.data
-        amr_state = self.vda5050_manager.get_json_data("amrstate")
-        amr_state["amrState"]["stateMachine"] = state
-        self.vda5050_manager.update_json_data("amrstate", amr_state)
+        self.amr_state_ = msg.data
+        
 
     def driving_state_callback(self, msg):
         self.driving_state = msg.data
@@ -408,8 +384,39 @@ class RosHandler(Node):
     def execute_delete_map(self, action):
         print(f"Executing deleteMap logic... Data: {action['actionParameters']}")
 
-    def execute_cancel_order(self, action):
-        print(f"Executing cancelOrder logic... Data: {action['actionParameters']}")
+    def execute_cancel_task(self, action):
+        print(f"Executing cancelTask logic... Data: {action['actionParameters']}")
+        cancel_future = self.task_command_goal_handle.cancel_goal_async()
+        cancel_future.add_done_callback(lambda fut: self.cancel_done_callback(fut))
+
+    def execute_pause_task(self, action):
+        print(f"Executing pauseTask logic... Data: {action['actionParameters']}")
+        action_data = action["actionParameters"][0]
+        val = action_data["value"][0]
+        
+        try:
+            pause_status = val.lower()
+        except Exception as e:
+            self.get_logger().error(f"pause_status action data value error: {e}")
+
+        request = PauseTask.Request()
+
+        if pause_status == 'true':
+            request.pause_task = True
+            future = self.pause_task_client.call_async(request)
+            future.add_done_callback(lambda fut: self.pause_task_response_callback(fut))
+        elif pause_status == 'false':
+            request = PauseTask.Request()
+            request.pause_task = False
+            future = self.pause_task_client.call_async(request)
+            future.add_done_callback(lambda fut: self.pause_task_response_callback(fut))
+
+    def pause_task_response_callback(self, future):
+        try:
+            response = future.result()
+            self.get_logger().info(f"Response received: success={response.success}")
+        except Exception as e:
+            self.get_logger().error(f"Service call failed: {e}")
 
     def execute_state_request(self, action):
         print(f"Executing stateRequest logic... Data: {action['actionParameters']}")
@@ -456,28 +463,21 @@ class RosHandler(Node):
     def execute_set_task(self, action):
         print(f"Executing setTask logic... Data: {action['actionParameters']}")
         action_data = action["actionParameters"][0]
+
         task_id_ = action_data["value"][0]
         mission_ = action_data["value"][1]
         start_node_val = action_data["value"][2]
         goal_node_val = action_data["value"][3]
         
         if mission_ == "cancel":
-            cancel_future = self.task_command_goal_handle.cancel_goal_async()
-            cancel_future.add_done_callback(lambda fut: self.cancel_done_callback(fut))
+            # cancel_future = self.task_command_goal_handle.cancel_goal_async()
+            # cancel_future.add_done_callback(lambda fut: self.cancel_done_callback(fut))
             return
         
         else:
             self.task_state["task_id"] = task_id_
             self.task_state["task_type"] = mission_
             self.task_state["task_status"] = "WAITING"
-            # if start_node_val is None:
-            #     current_pose = self.vda5050_manager.get_json_data("visualization")["agvPosition"]
-            #     current_x = current_pose["x"]
-            #     current_y = current_pose["y"]
-            #     start_node_ = self.get_nearest_node(current_x, current_y)
-            #     self.get_logger().info(f"[AUTO] start_node selected as '{start_node_}' based on current pose")
-            # else:
-            #     start_node_ = int(start_node_val)
 
             if goal_node_val is None:
                 self.get_logger().error("goal_node is None! Cannot proceed.")
@@ -485,28 +485,10 @@ class RosHandler(Node):
             else:
                 goal_node_ = int(goal_node_val)
 
-            # waypoint_list = self.node_manager.make_dijkstra_path(start_node_, goal_node_)
-            # pose_array_msg = PoseArray()
-            # pose_array_msg.header.stamp = self.get_clock().now().to_msg()
-            # pose_array_msg.header.frame_id = "map"
-
-            # for wp in waypoint_list:
-            #     pose = Pose()
-            #     pose.position.x = wp['x']
-            #     pose.position.y = wp['y']
-            #     pose.position.z = 0.0
-            #     q = quaternion_from_euler(0.0, 0.0, wp['yaw'])
-            #     pose.orientation.x = q[0]
-            #     pose.orientation.y = q[1]
-            #     pose.orientation.z = q[2]
-            #     pose.orientation.w = q[3]
-            #     pose_array_msg.poses.append(pose)
-
             request = TaskCommandAction.Goal()
             request.mission = mission_
             # request.start_node = start_node_
             request.goal_node = goal_node_
-            # request.waypoint_lists = pose_array_msg
 
         if hasattr(self, 'task_command_goal_handle') and self.task_command_goal_handle is not None:
             if self.task_command_goal_handle.status == GoalStatus.STATUS_ACCEPTED or \
@@ -586,8 +568,8 @@ class RosHandler(Node):
                 self.build_map_mode = True
 
                 request.command = command_
-                request.map_name = map_name_
-                self.build_map_name = request.map_name
+                request.map_name = map_id_
+                self.build_map_name = map_id_
                 self.build_map_subscriber = self.create_subscription(
                                             OccupancyGrid,
                                             "map",
@@ -601,7 +583,7 @@ class RosHandler(Node):
                 self.build_map_mode = False
 
                 request.command = command_
-                request.map_name = map_name_
+                request.map_name = map_id_
                 self.build_map_name = "None"
                 self.destroy_subscription(self.build_map_subscriber)
 
@@ -666,7 +648,7 @@ class RosHandler(Node):
                 self.vda5050_manager.update_json_data("buildMap",response_msg)
                 self.publish_message(self.instantactions_publisher_, "buildMap")
 
-            elif response.sucess == False and command != 3:
+            elif response.success == False and command != 3:
                 action_parameter_value = [str(command),str(map_name),str(map_id),str(0)]
                 response_msg = self.vda5050_manager.get_json_data("buildMap")
                 response_msg["actions"][0]["actionParameters"][0]["value"] = action_parameter_value
@@ -964,7 +946,8 @@ class RosHandler(Node):
                 "enableMap": self.execute_enable_map,### 검토
                 "downloadMap": self.execute_download_map,### 검토
                 "deleteMap": self.execute_delete_map,### 검토
-                "cancelOrder": self.execute_cancel_order,
+                "cancelTask": self.execute_cancel_task,
+                "pauseTask": self.execute_pause_task,
                 "stateRequest": self.execute_state_request,
                 "factsheetRequest": self.execute_factsheet_request,
                 "cameraRequest": self.execute_camera_request,#미사용
@@ -1003,16 +986,43 @@ class RosHandler(Node):
         msg.data = json_string
         publisher.publish(msg)
 
-    def publish_vda5050_topics(self): # for test
-        state_msg = self.vda5050_manager.get_json_data("state")
+    def publish_vda5050_topics(self):
+        amr_position = PoseStamped()
+        if self.amr_state_ == "SLAM":
+            amr_position = self.slam_pose_
+        else:
+            amr_position = self.amcl_pose_
 
+        _, _, yaw = self.quaternion_to_euler(amr_position.pose.orientation)
+        
+        state_msg = self.vda5050_manager.get_json_data("state")
         state_msg["actionStates"][0]["actionId"] = self.task_state["task_id"]
         state_msg["actionStates"][0]["actionType"] = self.task_state["task_type"]
         state_msg["actionStates"][0]["actionStatus"] = self.task_state["task_status"]
         state_msg["driving"] = self.driving_state
+        state_msg["velocity"]["vx"] = self.cmd_vel_.linear.x
+        state_msg["velocity"]["vy"] = self.cmd_vel_.linear.y
+        state_msg["velocity"]["omega"] = self.cmd_vel_.angular.z
+        state_msg["agvPosition"]["x"] = amr_position.pose.position.x
+        state_msg["agvPosition"]["y"] = amr_position.pose.position.y
+        state_msg["agvPosition"]["theta"] = yaw
         self.vda5050_manager.update_json_data("state",state_msg)
 
-        
+        visualization_msg = self.vda5050_manager.get_json_data("visualization")
+        visualization_msg["velocity"]["vx"] = self.cmd_vel_.linear.x
+        visualization_msg["velocity"]["vy"] = self.cmd_vel_.linear.y
+        visualization_msg["velocity"]["omega"] = self.cmd_vel_.angular.z
+
+        visualization_msg["agvPosition"]["x"] = amr_position.pose.position.x
+        visualization_msg["agvPosition"]["y"] = amr_position.pose.position.y
+        visualization_msg["agvPosition"]["theta"] = yaw
+        self.vda5050_manager.update_json_data("visualization", visualization_msg)
+
+        amr_state = self.vda5050_manager.get_json_data("amrstate")
+        amr_state["amrState"]["stateMachine"] = self.amr_state_
+        self.vda5050_manager.update_json_data("amrstate", amr_state)
+
+
         self.publish_message(self.visualization_publisher_, "visualization")
         self.publish_message(self.connection_publisher_, "connection")
         self.publish_message(self.factsheet_publisher_, "factsheet")
@@ -1047,19 +1057,19 @@ class RosHandler(Node):
             print(f"Error: YAML read error: {e}")
             return {}
 
-    # def get_nearest_node(self, current_x, current_y):
-    #     node_data = self.node_manager.node_data 
-    #     min_distance = float('inf')
-    #     nearest_node = None
-    #     if "node" in node_data:
-    #         for node in node_data["node"]:
-    #             x = node["position"]["x"]
-    #             y = node["position"]["y"]
-    #             distance = ((current_x - x)**2 + (current_y - y)**2) ** 0.5
-    #             if distance < min_distance:
-    #                 min_distance = distance
-    #                 nearest_node = node["index"]
-    #     return nearest_node
+    def get_nearest_node(self, current_x, current_y):
+        node_data = self.node_manager.node_data 
+        min_distance = float('inf')
+        nearest_node = None
+        if "node" in node_data:
+            for node in node_data["node"]:
+                x = node["position"]["x"]
+                y = node["position"]["y"]
+                distance = ((current_x - x)**2 + (current_y - y)**2) ** 0.5
+                if distance < min_distance:
+                    min_distance = distance
+                    nearest_node = node["index"]
+        return nearest_node
 
 def main(args=None):
     rclpy.init(args=args)
