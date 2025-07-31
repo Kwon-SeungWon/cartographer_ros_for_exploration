@@ -49,7 +49,7 @@ interface_node:
     # webserver_map_path: src/AMMR_project/webserver_interface_ros2/maps
     # For interface
     odom_timeout: 3.0
-    battery_low_threshold: 10.0
+    battery_low_threshold: 0.0 #10.0
     battery_charged_threshold: 95.0
 
     # For Docking Client
