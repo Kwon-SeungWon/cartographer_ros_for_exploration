@@ -13,7 +13,7 @@ set -e
 PACKAGES=(
   # dependency_sensors/ - Sensor drivers
   "dependency_sensors/realsense-ros https://github.com/Kwon-SeungWon/realsense-ros.git ros2-master realsense-ros"
-  "dependency_sensors/ydlidar_ros2_driver https://github.com/Kwon-SeungWon/ydlidar_ros2_driver.git master ydlidar_ros2_driver"
+  "dependency_sensors/ydlidar_ros2_driver https://github.com/Kwon-SeungWon/ydlidar_ros2_driver.git humble ydlidar_ros2_driver"
   
   # dependency_pkgs/ - Core dependencies
   "dependency_pkgs/cartographer_ros_for_exploration https://github.com/Kwon-SeungWon/cartographer_ros_for_exploration.git master cartographer_ros_for_exploration"
