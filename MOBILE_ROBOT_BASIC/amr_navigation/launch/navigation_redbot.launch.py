@@ -106,11 +106,11 @@ def generate_launch_description():
             # costmap_clearer_node,
 
             # Uncomment this to include the RViz launch file if needed
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(launch_file_dir, "navigation_rviz.launch.py")
-                )
-            ),
+            # IncludeLaunchDescription(
+            #     PythonLaunchDescriptionSource(
+            #         os.path.join(launch_file_dir, "navigation_rviz.launch.py")
+            #     )
+            # ),
         ]
     )
 
