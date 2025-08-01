@@ -1,6 +1,6 @@
 simulationMode: false
 currentMapNode:
-  currentMapID: caselab_two_room
-  currentNodeID: test
-  currentMap: caselab_two_room
-  currentNode: caselab_demoroom_test_node
+  currentMapID: geumjeong_show
+  currentNodeID: geumjeong_show
+  currentMap: geumjeong_show
+  currentNode: geumjeong_show_node

@@ -8,6 +8,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import zmq
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Request
 import traceback
 import threading
@@ -134,6 +135,13 @@ class FastApiRosBridge:
         self.config = config
         self.logger = setup_logging(config)
         self.app = FastAPI()
+        self.app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
         self.zmq_context = zmq.Context()
         self.zmq_pub = self.zmq_context.socket(zmq.PUB)
         self.zmq_pub.bind(f"tcp://*:{config['zmq_port']}")

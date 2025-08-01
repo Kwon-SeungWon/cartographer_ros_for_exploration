@@ -227,7 +227,7 @@ def main(args=None):
     rclpy.init(args=args)
     subscriber = None
     try:
-        config_path = "/home/caselab/Wheelchair_Robot_ROS2_Project_backup/pt_gunsol/pt_gunsol/config.yaml"  #config 파일 경로
+        config_path = "/home/caselab/catkin_ws/src/Wheelchair_Robot_ROS2_Project/pt_gunsol/pt_gunsol/config.yaml"  #config 파일 경로
         with open(config_path, "r") as f:
             config = yaml.safe_load(f)
 
