@@ -12,6 +12,7 @@ import aiohttp
 from aiohttp import ClientConnectionError, ClientTimeout, ClientError
 import concurrent.futures
 import yaml
+import threading
 
 
 def setup_logging(config: dict) -> logging.Logger:
@@ -63,7 +64,7 @@ class SubscriberServiceAll(Node):
         self.file_topics = config.get('file_topics', [])
         self.file_img_dir = config.get('file_img_dir')
         self.shutdown_requested = False
-        self.loop = asyncio.get_event_loop()
+        self.thread_pool = concurrent.futures.ThreadPoolExecutor(max_workers=config.get('max_workers', 10))
 
         for topic in self.topics:
             if topic == "/camera/image_raw/compressed":
@@ -115,17 +116,17 @@ class SubscriberServiceAll(Node):
                         else:
                             self.logger.warning(f"예상치 못한 응답 상태 코드 - topic: {full_topic}, message: {message}, 상태 코드: {response.status}")
         except ClientConnectionError as e:
-            self.logger.error(f"API 연결 실패 - topic: {topic}, robot_name: {self.robot_name}, message: {message}: {e}")
-            raise
+            self.logger.warning(f"API 연결 실패 - topic: {topic}, robot_name: {self.robot_name}: {e}")
+            # Don't raise the exception to prevent callback crashes
         except ClientTimeout as e:
-            self.logger.error(f"API 요청 시간 초과 - topic: {topic}, robot_name: {self.robot_name}, message: {message}: {e}")
-            raise
+            self.logger.warning(f"API 요청 시간 초과 - topic: {topic}, robot_name: {self.robot_name}: {e}")
+            # Don't raise the exception to prevent callback crashes
         except ClientError as e:
-            self.logger.error(f"aiohttp 에러 - topic: {topic}, robot_name: {self.robot_name}, message: {message}: {e}")
-            raise
+            self.logger.warning(f"aiohttp 에러 - topic: {topic}, robot_name: {self.robot_name}: {e}")
+            # Don't raise the exception to prevent callback crashes
         except Exception as e:
-            self.logger.exception(f"예상치 못한 오류 - topic: {topic}, robot_name: {self.robot_name}, message: {message}: {e}")
-            raise
+            self.logger.warning(f"예상치 못한 오류 - topic: {topic}, robot_name: {self.robot_name}: {e}")
+            # Don't raise the exception to prevent callback crashes
 
     async def _async_save_data_to_file(self, data: bytes, topic: str, filepath: str) -> None:
         """
@@ -160,7 +161,7 @@ class SubscriberServiceAll(Node):
         if self.shutdown_requested:
             return
         self.logger.debug(f'압축된 이미지 수신 - 토픽: "/camera/image_raw/compressed", 데이터 길이: {len(msg.data)}')
-        asyncio.create_task(self.save_compressed_image(msg.data, "/camera/image_raw/compressed"))
+        self.thread_pool.submit(self._run_save_compressed_image, msg.data, "/camera/image_raw/compressed")
 
     async def save_occupancy_grid(self, msg: OccupancyGrid, topic: str) -> None:
         """
@@ -186,7 +187,7 @@ class SubscriberServiceAll(Node):
         if self.shutdown_requested:
             return
         self.logger.debug(f'맵 데이터 수신 - 토픽: "/map", 가로: {msg.info.width}, 세로: {msg.info.height}, 데이터 길이: {len(msg.data)}')
-        asyncio.create_task(self.save_occupancy_grid(msg, "/map"))
+        self.thread_pool.submit(self._run_save_occupancy_grid, msg, "/map")
 
     async def save_generic_data(self, data: bytes, topic: str) -> None:
         """
@@ -210,16 +211,56 @@ class SubscriberServiceAll(Node):
             return
         #self.logger.debug(f'메시지 수신 - 토픽: "{topic}", 메시지: "{msg.data}"')
         if topic in self.file_topics:
-            asyncio.create_task(self.save_generic_data(msg.data.encode('utf-8'), topic))
+            # Submit file operation to thread pool
+            self.thread_pool.submit(self._run_save_generic_data, msg.data.encode('utf-8'), topic)
         else:
-            asyncio.run(self.send_data_to_api(msg.data, topic))
+            # Submit API call to thread pool
+            self.thread_pool.submit(self._run_send_data_to_api, msg.data, topic)
 
+
+    def _run_send_data_to_api(self, message: str, topic: str) -> None:
+        """
+        Thread pool에서 실행되는 API 전송 래퍼 함수.
+        """
+        try:
+            asyncio.run(self.send_data_to_api(message, topic))
+        except Exception as e:
+            self.logger.warning(f"API 전송 중 오류 발생 - topic: {topic}: {e}")
+
+    def _run_save_generic_data(self, data: bytes, topic: str) -> None:
+        """
+        Thread pool에서 실행되는 파일 저장 래퍼 함수.
+        """
+        try:
+            asyncio.run(self.save_generic_data(data, topic))
+        except Exception as e:
+            self.logger.warning(f"파일 저장 중 오류 발생 - topic: {topic}: {e}")
+
+    def _run_save_compressed_image(self, data: bytes, topic: str) -> None:
+        """
+        Thread pool에서 실행되는 압축 이미지 저장 래퍼 함수.
+        """
+        try:
+            asyncio.run(self.save_compressed_image(data, topic))
+        except Exception as e:
+            self.logger.warning(f"압축 이미지 저장 중 오류 발생 - topic: {topic}: {e}")
+
+    def _run_save_occupancy_grid(self, msg: OccupancyGrid, topic: str) -> None:
+        """
+        Thread pool에서 실행되는 맵 데이터 저장 래퍼 함수.
+        """
+        try:
+            asyncio.run(self.save_occupancy_grid(msg, topic))
+        except Exception as e:
+            self.logger.warning(f"맵 데이터 저장 중 오류 발생 - topic: {topic}: {e}")
 
     def destroy_node(self) -> None:
         """
         노드 종료 전 리소스 정리.
         """
         self.shutdown_requested = True
+        if hasattr(self, 'thread_pool'):
+            self.thread_pool.shutdown(wait=True)
         super().destroy_node()
 
 
