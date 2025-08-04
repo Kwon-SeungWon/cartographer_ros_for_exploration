@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "semantic_object",
+    "title": "semanticObject",
     "description": "Semantic objects detected by the AGV in its environment.",
-    "subtopic": "/semantic_object",
+    "subtopic": "/semanticObject",
     "type": "object",
     "required": [
         "headerId",
@@ -47,14 +47,14 @@
                 "type": "object",
                 "title": "semanticObject",
                 "required": [
-                    "objectType",
-                    "objectId",
-                    "objectName",
-                    "objectPose_x",
-                    "objectPose_y"
+                    "type",
+                    "id",
+                    "name",
+                    "poseX",
+                    "poseY"
                 ],
                 "properties": {
-                    "objectType": {
+                    "type": {
                         "type": "string",
                         "description": "Type of the semantic object (e.g., chair, table, door, etc.)",
                         "examples": [
@@ -65,37 +65,37 @@
                             "person"
                         ]
                     },
-                    "objectId": {
+                    "id": {
                         "type": "string",
                         "description": "Unique identification of the semantic object"
                     },
-                    "objectName": {
+                    "name": {
                         "type": "string",
                         "description": "Human-readable name of the semantic object"
                     },
-                    "objectPose_x": {
+                    "poseX": {
                         "type": "number",
                         "description": "X-coordinate of the semantic object position in world coordinates"
                     },
-                    "objectPose_y": {
+                    "poseY": {
                         "type": "number",
                         "description": "Y-coordinate of the semantic object position in world coordinates"
                     },
-                    "objectPose_theta": {
+                    "poseTheta": {
                         "type": "number",
                         "description": "Orientation of the semantic object in radians (optional)"
                     },
-                    "objectMapId": {
+                    "mapId": {
                         "type": "string",
                         "description": "ID of the map where the semantic object is located (optional)"
                     },
-                    "objectConfidence": {
+                    "confidence": {
                         "type": "number",
                         "description": "Confidence level of the object detection (0.0 to 1.0, optional)",
                         "minimum": 0.0,
                         "maximum": 1.0
                     },
-                    "objectDimensions": {
+                    "dimensions": {
                         "type": "object",
                         "description": "Dimensions of the semantic object (optional)",
                         "properties": {
@@ -113,7 +113,7 @@
                             }
                         }
                     },
-                    "objectProperties": {
+                    "properties": {
                         "type": "object",
                         "description": "Additional properties of the semantic object (optional)",
                         "additionalProperties": true
