@@ -8,8 +8,8 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import zmq
+from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException, Request
 import traceback
 import threading
 import time
@@ -161,9 +161,15 @@ class FastApiRosBridge:
             # 결과 처리 스레드 시작
             self.result_handler_thread = threading.Thread(target=self.process_results, daemon=True)
             self.result_handler_thread.start()
+            
+            # self.app.post('/instantactions')
+            
 
             # FastAPI 엔드포인트 설정
             self.app.post(config['api_endpoint'])(self.receive_data)
+            
+            # WebSocket 엔드포인트 추가 (업그레이드 요청 처리)
+            self.app.websocket("/ws")(self.websocket_endpoint)
         except Exception as e:
             self.logger.critical(f"ROS 프로세스 시작 실패: {e}\n{traceback.format_exc()}")
 
@@ -237,29 +243,126 @@ class FastApiRosBridge:
         """
         POST 요청으로 데이터를 수신하고 ZMQ를 통해 ROS로 전송.
         """
+        self.logger.info("=== receive_data 함수 호출됨 ===")
+        self.logger.info(f"요청이 들어온 엔드포인트: {request.url.path}")
+        self.logger.info(f"현재 등록된 라우트: {[route.path for route in self.app.routes]}")
+        
         try:
+            # 요청 헤더 정보 로깅
+            self.logger.info(f"Request headers: {dict(request.headers)}")
+            self.logger.info(f"Request method: {request.method}")
+            self.logger.info(f"Request URL: {request.url}")
+            self.logger.info(f"Request path: {request.url.path}")
+            self.logger.info(f"Request query params: {request.query_params}")
+            
+            # Content-Type 확인
+            content_type = request.headers.get('content-type', '')
+            self.logger.info(f"Content-Type: {content_type}")
+            
+            # HTTP/2 업그레이드 요청 확인 (로깅만)
+            upgrade_header = request.headers.get('upgrade', '').lower()
+            if 'h2c' in upgrade_header or 'h2' in upgrade_header:
+                self.logger.info(f"HTTP/2 업그레이드 요청 감지: {upgrade_header}")
+            
             body = await request.body()
+            self.logger.info(f"Request body (raw): {body}")
+            self.logger.info(f"Request body length: {len(body)}")
+
+            if not body:
+                self.logger.warning("Empty request body received")
+                # 빈 요청에 대해 더 자세한 정보 제공
+                return {
+                    "status": "error", 
+                    "message": "요청 본문이 비어있습니다. Content-Type과 요청 본문을 확인해주세요.",
+                    "debug_info": {
+                        "content_type": content_type,
+                        "content_length": request.headers.get('content-length', 'not set'),
+                        "transfer_encoding": request.headers.get('transfer-encoding', 'not set')
+                    }
+                }
+
             message = body.decode('utf-8')
-            if not message:
+            self.logger.info(f"Decoded message: {message}")
+            
+            if not message.strip():
+                self.logger.warning("Empty or whitespace-only message received")
                 raise HTTPException(status_code=400, detail="메시지가 필요합니다")
 
             try:
                 json.loads(message)  # JSON 유효성 검사
             except json.JSONDecodeError as e:
+                self.logger.error(f"JSON decode error: {e}")
                 raise HTTPException(status_code=400, detail=f"잘못된 JSON 형식입니다: {e}")
 
             self.logger.info(f"Received data: message={message}")
             self.zmq_pub.send_string(message)  # ZMQ 메시지 발행
+            
             return {"status": "success", "message": "데이터를 수신하여 ROS 전송 Que에 추가하였습니다."}
+        except HTTPException:
+            # HTTPException은 다시 발생시킴
+            raise
         except Exception as e:
             self.logger.error(f"데이터 수신 중 오류: {e}\n{traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=f"내부 서버 오류: {str(e)}")
+
+    async def websocket_endpoint(self, websocket: WebSocket):
+        """
+        WebSocket 연결을 처리하는 엔드포인트.
+        클라이언트가 WebSocket 연결을 시도할 때 호출됩니다.
+        """
+        try:
+            await websocket.accept()
+            self.logger.info("WebSocket 연결이 수락되었습니다.")
+            
+            # 연결을 유지하면서 메시지 수신
+            while True:
+                try:
+                    # WebSocket에서 메시지 수신
+                    data = await websocket.receive_text()
+                    self.logger.info(f"WebSocket에서 메시지 수신: {data}")
+                    
+                    if not data.strip():
+                        self.logger.warning("WebSocket에서 빈 메시지 수신")
+                        continue
+                    
+                    try:
+                        json.loads(data)  # JSON 유효성 검사
+                    except json.JSONDecodeError as e:
+                        self.logger.error(f"WebSocket JSON 디코딩 오류: {e}")
+                        await websocket.send_text(f'{{"error": "잘못된 JSON 형식: {e}"}}')
+                        continue
+                    
+                    # ZMQ를 통해 ROS로 전송
+                    self.zmq_pub.send_string(data)
+                    self.logger.info(f"WebSocket 메시지를 ROS로 전송: {data}")
+                    
+                    # 성공 응답 전송
+                    await websocket.send_text('{"status": "success", "message": "데이터를 수신하여 ROS 전송 Que에 추가하였습니다."}')
+                    
+                except WebSocketDisconnect:
+                    self.logger.info("WebSocket 연결이 종료되었습니다.")
+                    break
+                except Exception as e:
+                    self.logger.error(f"WebSocket 처리 중 오류: {e}")
+                    await websocket.send_text(f'{{"error": "서버 오류: {str(e)}"}}')
+                    break
+                    
+        except Exception as e:
+            self.logger.error(f"WebSocket 연결 처리 중 오류: {e}")
 
 
     def start(self):
         """
         FastAPI 서버 시작.
         """
-        config = uvicorn.Config(self.app, host=self.config['host'], port=self.config['port'])
+        # HTTP/2 지원을 위한 설정
+        config = uvicorn.Config(
+            self.app, 
+            host=self.config['host'], 
+            port=self.config['port'],
+            http="httptools",  # HTTP/2 지원
+            loop="asyncio"
+        )
         server = uvicorn.Server(config)
         try:
             server.run()  # 동기적으로 실행

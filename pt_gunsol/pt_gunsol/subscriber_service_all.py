@@ -89,31 +89,31 @@ class SubscriberServiceAll(Node):
                     async with session.post(self.action_url, json={'message': message, 'topic': full_topic}) as response:
                         if response.status == 200:
                             data = await response.text()
-                            self.logger.debug(f"데이터 전송 성공 - topic: {topic}, message: {message}, response: {data}")
+                            # self.logger.debug(f"데이터 전송 성공 - topic: {topic}, message: {message}, response: {data}")
                         elif 400 <= response.status < 500:
                             error_message = await response.text()
-                            self.logger.warning(f"클라이언트 에러 - topic: {topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
+                            # self.logger.warning(f"클라이언트 에러 - topic: {topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
                         elif response.status >= 500:
                             error_message = await response.text()
-                            self.logger.error(f"서버 에러 - topic: {topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
-                        else:
-                            self.logger.warning(f"예상치 못한 응답 상태 코드 - topic: {topic}, message: {message}, 상태 코드: {response.status}")
+                            # self.logger.error(f"서버 에러 - topic: {topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
+                        # else:
+                            # self.logger.warning(f"예상치 못한 응답 상태 코드 - topic: {topic}, message: {message}, 상태 코드: {response.status}")
                 else:
                     # robot_name을 topic 앞에 붙여서 전송
                     full_topic = f"/{self.robot_name}{topic}"
-                    self.logger.debug(f"API 전송 - 원본 topic: {topic}, 전체 topic: {full_topic}, robot_name: {self.robot_name}")
+                    # self.logger.debug(f"API 전송 - 원본 topic: {topic}, 전체 topic: {full_topic}, robot_name: {self.robot_name}")
                     async with session.post(self.api_url, json={'message': message, 'topic': full_topic}) as response:
                         if response.status == 200:
                             data = await response.text()
-                            self.logger.debug(f"데이터 전송 성공 - topic: {full_topic}, message: {message}")
+                            # self.logger.debug(f"데이터 전송 성공 - topic: {full_topic}, message: {message}")
                         elif 400 <= response.status < 500:
                             error_message = await response.text()
-                            self.logger.warning(f"클라이언트 에러 - topic: {full_topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
+                            # self.logger.warning(f"클라이언트 에러 - topic: {full_topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
                         elif response.status >= 500:
                             error_message = await response.text()
-                            self.logger.error(f"서버 에러 - topic: {full_topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
-                        else:
-                            self.logger.warning(f"예상치 못한 응답 상태 코드 - topic: {full_topic}, message: {message}, 상태 코드: {response.status}")
+                            # self.logger.error(f"서버 에러 - topic: {full_topic}, message: {message}, 상태 코드: {response.status}, 에러 메시지: {error_message}")
+                        # else:
+                            # self.logger.warning(f"예상치 못한 응답 상태 코드 - topic: {full_topic}, message: {message}, 상태 코드: {response.status}")
         except ClientConnectionError as e:
             self.logger.error(f"API 연결 실패 - topic: {topic}, robot_name: {self.robot_name}, message: {message}: {e}")
             raise
@@ -159,7 +159,7 @@ class SubscriberServiceAll(Node):
         """
         if self.shutdown_requested:
             return
-        self.logger.debug(f'압축된 이미지 수신 - 토픽: "/camera/image_raw/compressed", 데이터 길이: {len(msg.data)}')
+        # self.logger.debug(f'압축된 이미지 수신 - 토픽: "/camera/image_raw/compressed", 데이터 길이: {len(msg.data)}')
         asyncio.create_task(self.save_compressed_image(msg.data, "/camera/image_raw/compressed"))
 
     async def save_occupancy_grid(self, msg: OccupancyGrid, topic: str) -> None:
@@ -167,7 +167,7 @@ class SubscriberServiceAll(Node):
         OccupancyGrid 데이터를 비동기적으로 파일로 저장.
         """
         if not self.file_img_dir:
-            self.logger.warning(f"'file_img_dir'이 설정되지 않아 '{topic}' 토픽의 데이터를 파일로 저장할 수 없습니다.")
+            # self.logger.warning(f"'file_img_dir'이 설정되지 않아 '{topic}' 토픽의 데이터를 파일로 저장할 수 없습니다.")
             return
             
         now = datetime.now()
@@ -185,7 +185,7 @@ class SubscriberServiceAll(Node):
         """
         if self.shutdown_requested:
             return
-        self.logger.debug(f'맵 데이터 수신 - 토픽: "/map", 가로: {msg.info.width}, 세로: {msg.info.height}, 데이터 길이: {len(msg.data)}')
+        # self.logger.debug(f'맵 데이터 수신 - 토픽: "/map", 가로: {msg.info.width}, 세로: {msg.info.height}, 데이터 길이: {len(msg.data)}')
         asyncio.create_task(self.save_occupancy_grid(msg, "/map"))
 
     async def save_generic_data(self, data: bytes, topic: str) -> None:
@@ -193,7 +193,7 @@ class SubscriberServiceAll(Node):
         일반적인 바이너리 데이터를 비동기적으로 파일로 저장.
         """
         if not self.file_img_dir:
-            self.logger.warning(f"'file_img_dir'이 설정되지 않아 '{topic}' 토픽의 데이터를 파일로 저장할 수 없습니다.")
+            # self.logger.warning(f"'file_img_dir'이 설정되지 않아 '{topic}' 토픽의 데이터를 파일로 저장할 수 없습니다.")
             return
         now = datetime.now()
         timestamp = now.strftime('%Y%m%d_%H%M%S_%f')

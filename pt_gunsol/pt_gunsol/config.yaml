@@ -7,11 +7,11 @@ file_log_level: WARNING # 파일 로그 레벨 (파일에 쓰기)
 log_suffix: ".log" # "_product.log" for production
 mode: "TEST" # "TEST or PRODUCT"
 # API 엔드포인트 설정
-# api_url: "http://192.168.0.128:18089/ros/data"  # 일반 토픽용 API
-# action_url: "http://192.168.0.128:18089/ros/instantactions"  # instantactions 토픽용 API
+api_url: "http://192.168.0.128:18089/ros/data"  # 일반 토픽용 API
+action_url: "http://192.168.0.128:18089/ros/instantactions"  # instantactions 토픽용 API
 
-api_url: "http://127.0.0.1:28089/ros/data"  # 일반 토픽용 API
-action_url: "http://127.0.0.1:28089/ros/instantactions"  # instantactions 토픽용 API
+# api_url: "http://127.0.0.1:28089/ros/data"  # 일반 토픽용 API
+# action_url: "http://127.0.0.1:28089/ros/instantactions"  # instantactions 토픽용 API
 
 topics:
   - "/vda5050/connection"
