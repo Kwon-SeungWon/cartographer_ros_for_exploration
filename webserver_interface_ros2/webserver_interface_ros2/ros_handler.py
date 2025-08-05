@@ -59,7 +59,12 @@ class RosHandler(Node):
         self.amcl_pose_ = PoseStamped()
         self.slam_pose_ = PoseStamped()
 
+        # Semantic place 관련 변수 추가
+        self.semantic_places = []
+        self.current_semantic_place = None
+
         self.init_param(pkg_share_directory)
+        self.load_semantic_places()
         self.set_subscriber()
         self.set_publisher()
         self.set_service_client()
@@ -78,6 +83,9 @@ class RosHandler(Node):
         topic_list_file_name = "topic_list.yaml"
         robot_param_file_name = "robot_param.yaml"
         data_dir_fime_name = "data_dir.yaml"
+
+        # Save package share directory for later use
+        self.pkg_share_directory = pkg_share_directory
 
         robot_spec_path = os.path.join(pkg_share_directory, "config", robot_spec_file_name)
         topic_list_path = os.path.join(pkg_share_directory, "config", topic_list_file_name)
@@ -200,6 +208,7 @@ class RosHandler(Node):
         self.instantactions_publisher_ = self.create_publisher(String, "vda5050/instantactions/response", 1)
         self.manipulator_state_publisher_ = self.create_publisher(String, "vda5050/manipulator_state", 1)
         self.amr_state_publisher_ = self.create_publisher(String, "vda5050/amr_state", 1)
+        self.semantic_place_publisher_ = self.create_publisher(String, "vda5050/semantic_place", 1)
 
         self.init_pose_pulisher_ = self.create_publisher(PoseWithCovarianceStamped, self.topic_names["initial_pose"], 1)
         self.manual_vel_publisher_ = self.create_publisher(Twist, self.topic_names["manual_vel"], 1)
@@ -986,6 +995,38 @@ class RosHandler(Node):
         msg.data = json_string
         publisher.publish(msg)
 
+    def create_semantic_place_data(self, detected_place=None):
+        """Semantic place 데이터를 생성하는 함수"""
+        if detected_place:
+            semantic_place_data = {
+                "headerId": 0,
+                "timestamp": self.vda5050_manager.get_current_timestamp(),
+                "version": "0.0.0",
+                "manufacturer": "CASELAB",
+                "serialNumber": "SERIALNUMBER",
+                "semanticPlace": {
+                    "id": detected_place["id"],
+                    "name": detected_place["name"],
+                    "color": detected_place["color"],
+                    "pose": detected_place["pose"]
+                }
+            }
+        else:
+            semantic_place_data = {
+                "headerId": 0,
+                "timestamp": self.vda5050_manager.get_current_timestamp(),
+                "version": "0.0.0",
+                "manufacturer": "CASELAB",
+                "serialNumber": "SERIALNUMBER",
+                "semanticPlace": {
+                    "id": -1,
+                    "name": "none",
+                    "color": "none",
+                    "pose": []
+                }
+            }
+        return semantic_place_data
+
     def publish_vda5050_topics(self):
         amr_position = PoseStamped()
         if self.amr_state_ == "SLAM":
@@ -1022,6 +1063,21 @@ class RosHandler(Node):
         amr_state["amrState"]["stateMachine"] = self.amr_state_
         self.vda5050_manager.update_json_data("amrstate", amr_state)
 
+        # Semantic place 감지 및 publish
+        current_x = amr_position.pose.position.x
+        current_y = amr_position.pose.position.y
+        detected_place = self.detect_semantic_place(current_x, current_y)
+        
+        self.get_logger().debug(f"Detected place: {detected_place['name'] if detected_place else 'None'}")
+        
+        if detected_place:
+            semantic_place_data = self.create_semantic_place_data(detected_place)
+            self.vda5050_manager.update_json_data("semanticPlace", semantic_place_data)
+            self.publish_message(self.semantic_place_publisher_, "semanticPlace")
+        else:   # None
+            semantic_place_data = self.create_semantic_place_data()
+            self.vda5050_manager.update_json_data("semanticPlace", semantic_place_data)
+            self.publish_message(self.semantic_place_publisher_, "semanticPlace")
 
         self.publish_message(self.visualization_publisher_, "visualization")
         self.publish_message(self.connection_publisher_, "connection")
@@ -1070,6 +1126,63 @@ class RosHandler(Node):
                     min_distance = distance
                     nearest_node = node["index"]
         return nearest_node
+
+    def load_semantic_places(self):
+        """Load semantic places from JSON file"""
+        json_path = os.path.join(self.pkg_share_directory, "json_schemas", "semanticPlace.json")
+        
+        try:
+            with open(json_path, 'r') as file:
+                data = json.load(file)
+                # If semanticPlaces array exists, use it, otherwise use an empty array
+                if "semanticPlaces" in data:
+                    self.semantic_places = data["semanticPlaces"]
+                else:
+                    self.semantic_places = []
+            
+            self.get_logger().info(f'Semantic places loaded: {len(self.semantic_places)} places')
+        except Exception as e:
+            self.get_logger().error(f'Failed to load semantic places: {e}')
+            self.semantic_places = []
+
+    def detect_semantic_place(self, current_x, current_y):
+        """Current position is detected in which semantic place"""
+        if not self.semantic_places:
+            self.get_logger().warning("No semantic places loaded. Cannot detect place.")
+            return None
+
+        for place in self.semantic_places:
+            if self.is_point_in_polygon(current_x, current_y, place["pose"]):
+                if self.current_semantic_place != place:
+                    self.current_semantic_place = place
+                    self.get_logger().info(f"Entered semantic place: {place['name']} (ID: {place['id']})")
+                return place
+
+        # If the current position is not in any area, return None
+        if self.current_semantic_place:
+            self.get_logger().info(f"Left semantic place: {self.current_semantic_place['name']}")
+            self.current_semantic_place = None
+        
+        return None
+
+    def is_point_in_polygon(self, x, y, polygon_points):
+
+        n = len(polygon_points)
+        inside = False
+        
+        p1x, p1y = polygon_points[0]["x"], polygon_points[0]["y"]
+        for i in range(n + 1):
+            p2x, p2y = polygon_points[i % n]["x"], polygon_points[i % n]["y"]
+            if y > min(p1y, p2y):
+                if y <= max(p1y, p2y):
+                    if x <= max(p1x, p2x):
+                        if p1y != p2y:
+                            xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                        if p1x == p2x or x <= xinters:
+                            inside = not inside
+            p1x, p1y = p2x, p2y
+        
+        return inside
 
 def main(args=None):
     rclpy.init(args=args)

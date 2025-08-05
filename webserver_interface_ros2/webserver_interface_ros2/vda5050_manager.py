@@ -20,7 +20,8 @@ class VDA5050Manager:
             "instantactions": "instantActions.json",
             "order": "order.json",
             "manipulatorstate": "manipulatorState.json",
-            "amrstate": "amrState.json"
+            "amrstate": "amrState.json",
+            "semanticPlace": "semanticPlace.json"
         }
 
         self.schema_topic_files = {
@@ -31,7 +32,8 @@ class VDA5050Manager:
             "instantactions": "instantActions.schema",
             "order": "order.schema",
             "manipulatorstate": "manipulatorState.schema",
-            "amrstate": "amrState.schema"
+            "amrstate": "amrState.schema",
+            "semanticPlace": "semanticPlace.schema"
         }
 
         self.schema_instant_action_files = {

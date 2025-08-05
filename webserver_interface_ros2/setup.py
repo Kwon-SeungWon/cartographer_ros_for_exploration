@@ -23,14 +23,15 @@ setup(
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
-    entry_points={
-        'console_scripts': [
-            'webserver_interface = webserver_interface_ros2.webserver_interface:main',
-            'ros_handler = webserver_interface_ros2.ros_handler:main',
-            'node_manager = webserver_interface_ros2.node_manager:main',
-            'test = webserver_interface_ros2.test:main',
-            'service_test = webserver_interface_ros2.service_test:main',
-            'instantaction_test = webserver_interface_ros2.instantaction_test:main',
-        ],
-    },
+            entry_points={
+            'console_scripts': [
+                'webserver_interface = webserver_interface_ros2.webserver_interface:main',
+                'ros_handler = webserver_interface_ros2.ros_handler:main',
+                'node_manager = webserver_interface_ros2.node_manager:main',
+                'test = webserver_interface_ros2.test:main',
+                'service_test = webserver_interface_ros2.service_test:main',
+                'instantaction_test = webserver_interface_ros2.instantaction_test:main',
+                'semantic_place_visualizer = webserver_interface_ros2.semantic_place_visualizer:main',
+            ],
+        },
 )

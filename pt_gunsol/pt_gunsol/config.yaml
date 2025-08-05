@@ -21,6 +21,7 @@ topics:
   - "/vda5050/state"
   - "/vda5050/visualization"
   - "/vda5050/amr_state"
+  - "/vda5050/semantic_place"
   - "/vda5050/instantactions/response" # remove : response
 file_topics:
   - "/camera/image_raw/compressed"
