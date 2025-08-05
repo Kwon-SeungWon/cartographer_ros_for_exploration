@@ -1,0 +1,13 @@
+bool task_load_started
+bool task_unload_started
+bool task_move_started
+bool task_home_started
+bool task_cancel_started
+bool task_repeat_started
+
+bool task_load_completed
+bool task_unload_completed
+bool task_move_completed
+bool task_home_completed
+bool task_cancel_completed
+bool task_repeat_completed

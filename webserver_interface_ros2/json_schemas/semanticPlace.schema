@@ -1,0 +1,51 @@
+{
+    "type": "object",
+    "properties": {
+        "headerId": {
+            "type": "integer"
+        },
+        "timestamp": {
+            "type": "string"
+        },
+        "version": {
+            "type": "string"
+        },
+        "manufacturer": {
+            "type": "string"
+        },
+        "serialNumber": {
+            "type": "string"
+        },
+        "semanticPlace": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "color": {
+                    "type": "string"
+                },
+                "pose": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "x": {
+                                "type": "number"
+                            },
+                            "y": {
+                                "type": "number"
+                            }
+                        },
+                        "required": ["x", "y"]
+                    }
+                }
+            },
+            "required": ["id", "name", "color", "pose"]
+        }
+    },
+    "required": ["headerId", "timestamp", "version", "manufacturer", "serialNumber", "semanticPlace"]
+} 

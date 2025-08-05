@@ -1,0 +1,4 @@
+map_data : "/home/caselab/catkin_ws/src/Wheelchair_Robot_ROS2_Project/data/map_data/maps"
+node_data : "/home/caselab/catkin_ws/src/Wheelchair_Robot_ROS2_Project/data/map_data/nodes"
+camera_data : "/home/caselab/catkin_ws/src/Wheelchair_Robot_ROS2_Project/data/camera_data"
+buildmap_data : "/home/caselab/catkin_ws/src/Wheelchair_Robot_ROS2_Project/data/buildmap_data"

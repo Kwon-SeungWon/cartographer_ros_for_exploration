@@ -1,0 +1,30 @@
+node_name: "subscriber_service_all"
+robot_name: "wheelchair"  # robot_name
+
+log_dir: "./logs/pt_gunsol"
+log_level: DEBUG  # 전체 로그 레벨 (터미널 출력)
+file_log_level: WARNING # 파일 로그 레벨 (파일에 쓰기)
+log_suffix: ".log" # "_product.log" for production
+mode: "TEST" # "TEST or PRODUCT"
+# API 엔드포인트 설정
+api_url: "http://192.168.0.128:18089/ros/data"  # 일반 토픽용 API
+action_url: "http://192.168.0.128:18089/ros/instantactions"  # instantactions 토픽용 API
+
+# api_url: "http://127.0.0.1:28089/ros/data"  # 일반 토픽용 API
+# action_url: "http://127.0.0.1:28089/ros/instantactions"  # instantactions 토픽용 API
+
+topics:
+  - "/vda5050/connection"
+  - "/vda5050/factsheet"
+  - "/vda5050/manipulator_state"
+  - "/vda5050/order"
+  - "/vda5050/state"
+  - "/vda5050/visualization"
+  - "/vda5050/amr_state"
+  - "/vda5050/semantic_place"
+  - "/vda5050/instantactions/response" # remove : response
+file_topics:
+  - "/camera/image_raw/compressed"
+  - "/map"
+file_img_dir: "/home/caselab/catkin_ws/src/Wheelchair_Robot_ROS2_Project/pt_gunsol/pt_gunsol/data"
+max_workers: 10

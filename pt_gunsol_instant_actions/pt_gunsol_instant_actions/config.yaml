@@ -1,0 +1,14 @@
+host: "0.0.0.0"
+port: 28089
+ros_topic: "/vda5050/instantactions"
+zmq_port: 5555
+zmq_host: "127.0.0.1"
+log_dir: "./logs/pt_gunsol"
+node_name: "fastapi_ros_bridge"
+log_suffix: "_test.log"  # 또는 "_product.log"
+log_level: "DEBUG"  # 또는 "INFO", "WARNING", "ERROR", "CRITICAL"
+file_log_level: "DEBUG"
+api_endpoint: "/instantactions"
+mode: "TEST"  # "TEST or PRODUCT"
+api_server_url: "http://192.168.0.128:18089/ros/instantactions"
+action_ids_to_report: ["buildMap", "setMapNode", "controlMap", "controlNodelist", "controlManipulator"]

@@ -1,0 +1,23 @@
+{
+    "headerId": 0,
+    "timestamp": "2025-02-11T12:34:56.78Z",
+    "version": "0.0.0",
+    "manufacturer": "CASELAB",
+    "serialNumber": "SERIALNUMBER",
+    "semanticObjects": [
+        {
+            "type": "chair",
+            "id": "1",
+            "name": "chair_001",
+            "poseX": -1.0651100000002147,
+            "poseY": 2.6176000000004054
+        },
+        {
+            "type": "table",
+            "id": "14",
+            "name": "table_014",
+            "poseX": 2.53252323125,
+            "poseY": 5.23413241412
+        }
+    ]
+}
