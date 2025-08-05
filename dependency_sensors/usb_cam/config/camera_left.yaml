@@ -1,6 +1,6 @@
 /**:
     ros__parameters:
-      video_device: "/dev/video4"
+      video_device: "/dev/video0"
       framerate: 30.0
       io_method: "mmap"
       frame_id: "camera_l_optical_link"
@@ -9,8 +9,8 @@
       image_width: 640
       image_height: 480
       camera_name: "camera_left"
-      # reusing same camera intrinsics only for demo, should really be unique for camera2"
-      camera_info_url: "package://usb_cam/config/camera_info.yaml"
+      # Using separate camera calibration for left camera
+      camera_info_url: "package://usb_cam/config/camera_info_left.yaml"
       brightness: -1
       contrast: -1
       saturation: -1
@@ -19,6 +19,6 @@
       auto_white_balance: true
       white_balance: 4000
       autoexposure: true
-      exposure: 100
-      autofocus: false
-      focus: -1
+      exposure: 60
+      # autofocus: false  # Not supported by this camera
+      # focus: -1         # Not supported by this camera

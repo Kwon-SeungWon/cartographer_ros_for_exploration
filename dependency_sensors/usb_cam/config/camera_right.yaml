@@ -1,6 +1,6 @@
 /**:
     ros__parameters:
-      video_device: "/dev/video0"
+      video_device: "/dev/video4"
       framerate: 30.0
       io_method: "mmap"
       frame_id: "camera_r_optical_link"
@@ -18,6 +18,6 @@
       auto_white_balance: true
       white_balance: 4000
       autoexposure: true
-      exposure: 100
-      autofocus: false
-      focus: -1
+      exposure: 60
+      # autofocus: false  # Not supported by this camera
+      # focus: -1         # Not supported by this camera

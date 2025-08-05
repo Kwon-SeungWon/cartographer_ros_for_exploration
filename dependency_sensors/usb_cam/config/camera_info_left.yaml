@@ -1,6 +1,6 @@
 image_width: 640
 image_height: 480
-camera_name: camera_right
+camera_name: camera_left
 camera_matrix:
   rows: 3
   cols: 3
@@ -17,4 +17,4 @@ rectification_matrix:
 projection_matrix:
   rows: 3
   cols: 4
-  data: [393.653800, 0.000000, 322.797939, 0.000000, 0.000000, 393.653800, 241.090902, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000]
+  data: [393.653800, 0.000000, 322.797939, 0.000000, 0.000000, 393.653800, 241.090902, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000] 
