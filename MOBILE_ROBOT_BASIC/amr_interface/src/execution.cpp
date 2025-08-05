@@ -140,11 +140,14 @@ void StateExecutor::onIdle(Interface* interface)
         interface->setState(RobotState::UNDOCKING);
     }
     else if (interface->task_home_started_ || 
-             interface->task_move_started_ || 
-             interface->task_load_started_ || 
-             interface->task_unload_started_ ||
-             interface->task_one_move_started_) {
+            interface->task_move_started_ || 
+            interface->task_load_started_ || 
+            interface->task_unload_started_ ||
+            interface->task_one_move_started_  ||
+            interface->task_repeat_started_) {
+
         interface->setState(RobotState::AUTO);
+    
     }
     else if (interface->behavior_manual_mode_triggered_) {
         interface->setState(RobotState::MANUAL);
@@ -327,7 +330,8 @@ void StateExecutor::onAuto(Interface* interface)
         if(interface->task_move_started_ ||
             interface->task_home_started_ ||
             interface->task_load_started_ ||
-            interface->task_unload_started_){
+            interface->task_unload_started_ ||
+            interface->task_repeat_started_){
 
             // sendNavigateThroughPoses(interface, interface->current_waypoints_);
             sendWaypointGoalAsync(interface, interface->current_waypoints_);
@@ -343,6 +347,33 @@ void StateExecutor::onAuto(Interface* interface)
 
     } else {
         RCLCPP_INFO_THROTTLE(interface->get_logger(), *interface->get_clock(), 5000, "Navigation goal already sent. Waiting for result...");
+
+        // REPEAT mission logic - check if all waypoints are completed and switch direction
+        if (interface->task_repeat_started_     && 
+            !interface->task_repeat_completed_  && 
+            interface->path_status_manager_ )      
+        {
+            if (interface->path_status_manager_->isAllWaypointsCompleted()) {
+                if (interface->repeat_going_to_goal_) {
+                    // Completed 1->4, now switch to 4->1
+                    interface->switchToStartNode();
+                    interface->repeat_cycle_count_++;
+                    RCLCPP_INFO(interface->get_logger(), "REPEAT cycle %d completed: 1->4, now going 4->1", interface->repeat_cycle_count_);
+                    
+                    // Reset navigation goal sent flag to send new goal
+                    interface->navigation_goal_sent_ = false;
+                    
+                } else if (interface->repeat_going_to_start_) {
+                    // Completed 4->1, now switch to 1->4
+                    interface->switchToGoalNode();
+                    interface->repeat_cycle_count_++;
+                    RCLCPP_INFO(interface->get_logger(), "REPEAT cycle %d completed: 4->1, now going 1->4", interface->repeat_cycle_count_);
+                    
+                    // Reset navigation goal sent flag to send new goal
+                    interface->navigation_goal_sent_ = false;
+                }
+            }
+        }
         
         if(interface->distance_in_threshold_ &&
         (interface->task_load_started_ || interface->task_unload_started_
@@ -1075,6 +1106,12 @@ void StateExecutor::sendWaypointGoalAsync(Interface* interface, const geometry_m
                     interface->task_move_started_ = false;
                     interface->task_move_completed_ = true;
                     interface->setState(RobotState::IDLE);
+
+                } else if(interface->task_repeat_started_){
+
+                    // For REPEAT mission, don't complete the task - let it continue in AUTO state
+                    // The waypoint switching logic in onAuto will handle the continuation
+                    RCLCPP_INFO(interface->get_logger(), "REPEAT mission waypoint completed, continuing to next cycle...");
 
                 }
             }

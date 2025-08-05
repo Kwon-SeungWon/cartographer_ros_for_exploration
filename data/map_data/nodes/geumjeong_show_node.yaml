@@ -6,7 +6,7 @@ node:
       x: 4.0
       y: 4.0
     type: 0
-    connection: [2, 4]
+    connection: [2]
     child: []
     
   - name: "W2"
@@ -15,7 +15,7 @@ node:
       x: 3.0
       y: 2.0
     type: 0
-    connection: [1, 3]
+    connection: [3]
     child: []
     
   - name: "W3"
@@ -24,7 +24,7 @@ node:
       x: 4.0
       y: 0.0
     type: 0
-    connection: [2, 4]
+    connection: [4]
     child: []
     
   - name: "W4"
@@ -33,7 +33,7 @@ node:
       x: 5.0
       y: 2.0
     type: 0
-    connection: [1, 3]
+    connection: [1]
     child: []
     
   # R-nodes (Bottom Diamond)
@@ -43,7 +43,7 @@ node:
       x: 3.0
       y: -2.0
     type: 0
-    connection: [6, 8]
+    connection: [6]
     child: []
     
   - name: "R2"
@@ -52,7 +52,7 @@ node:
       x: 2.0
       y: -4.0
     type: 0
-    connection: [5, 7]
+    connection: [7]
     child: []
     
   - name: "R3"
@@ -61,7 +61,7 @@ node:
       x: 3.0
       y: -6.0
     type: 0
-    connection: [6, 8]
+    connection: [8]
     child: []
     
   - name: "R4"
@@ -70,5 +70,5 @@ node:
       x: 4.0
       y: -4.0
     type: 0
-    connection: [5, 7]
+    connection: [5]
     child: [] 

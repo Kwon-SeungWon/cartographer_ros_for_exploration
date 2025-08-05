@@ -562,10 +562,12 @@ void Interface::publishTaskBehaviorStatus()
     task_msg.task_unload_started = task_unload_started_;
     task_msg.task_move_started = task_move_started_;
     task_msg.task_home_started = task_home_started_;
+    task_msg.task_repeat_started = task_repeat_started_;
     task_msg.task_load_completed = task_load_completed_;
     task_msg.task_unload_completed = task_unload_completed_;
     task_msg.task_move_completed = task_move_completed_;
     task_msg.task_home_completed = task_home_completed_;
+    task_msg.task_repeat_completed = task_repeat_completed_;
     task_pub_->publish(task_msg);
 
     // order_status: 3(canceled) > 2(completed) > 1(working) > 0(idle)
@@ -928,6 +930,13 @@ rclcpp_action::CancelResponse Interface::handle_cancel(
         task_home_started_ = false;
         task_home_completed_ = false;
     }
+    if (task_repeat_started_) {
+        task_repeat_started_ = false;
+        task_repeat_completed_ = false;
+        repeat_cycle_count_ = 0;
+        repeat_going_to_start_ = false;
+        repeat_going_to_goal_ = false;
+    }
     
     // Reset navigation flags
     navigation_goal_sent_ = false;
@@ -1023,6 +1032,15 @@ void Interface::execute_task(const std::shared_ptr<GoalHandleTaskAction> goal_ha
                         }
                         path_status_manager_->setWaypoints(result->waypoints);
                         path_status_manager_->setNodePath(result->node_path);
+                        
+                        // REPEAT 미션의 경우 원본 waypoints와 node_path를 저장
+                        if (goal->mission == "repeat" || goal->mission == "REPEAT") {
+                            original_waypoints_ = result->waypoints;
+                            original_node_path_ = result->node_path;
+                            repeat_going_to_start_ = false;
+                            repeat_going_to_goal_ = true;
+                        }
+                        
                         // 미션별 process_mission 실행 (별도 스레드)
                         std::thread([this, goal_handle, mission=goal->mission]() {
                             process_mission(goal_handle, mission);
@@ -1101,6 +1119,22 @@ void Interface::process_mission(const std::shared_ptr<GoalHandleTaskAction> goal
                 auto result = std::make_shared<TaskAction::Result>();
                 result->success = true;
                 result->message = "Home task completed";
+                goal_handle->succeed(result);
+                break;
+            }
+            if (!goal_handle->is_active()) break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+    } else if (mission == "repeat" || mission == "REPEAT") {
+        task_repeat_started_ = true;
+        repeat_cycle_count_ = 0;
+        RCLCPP_INFO(this->get_logger(), "Starting REPEAT mission: goal_node -> start_node -> goal_node (infinite loop)");
+        
+        while (goal_handle->is_active()) {
+            if (task_repeat_completed_) {
+                auto result = std::make_shared<TaskAction::Result>();
+                result->success = true;
+                result->message = "Repeat task completed after " + std::to_string(repeat_cycle_count_) + " cycles";
                 goal_handle->succeed(result);
                 break;
             }
@@ -1209,34 +1243,34 @@ void Interface::pauseTaskCallback(
     const std::shared_ptr<san_msgs::srv::PauseTask::Request> request,
     std::shared_ptr<san_msgs::srv::PauseTask::Response> response)
 {
-RCLCPP_INFO(this->get_logger(), "Pause Task Request Received!");
+    RCLCPP_INFO(this->get_logger(), "Pause Task Request Received!");
 
-// Only for Auto and Docking State
-if(current_state_ == RobotState::AUTO
-    || current_state_ == RobotState::DOCKING){
+    // Only for Auto and Docking State
+    if(current_state_ == RobotState::AUTO
+        || current_state_ == RobotState::DOCKING){
 
-    // Pause Task
-    if(request->pause_task){
+        // Pause Task
+        if(request->pause_task){
+            
+            RCLCPP_INFO(this->get_logger(), "Pause Task Request Received!");
+            setState(RobotState::STOP);
+
+            response->success = true;
         
-        RCLCPP_INFO(this->get_logger(), "Pause Task Request Received!");
-        setState(RobotState::STOP);
-
-        response->success = true;
-    
+        }
     }
-}
 
-if(current_state_ == RobotState::STOP){
-    // Resume Task
-    if(!request->pause_task){
+    if(current_state_ == RobotState::STOP){
+        // Resume Task
+        if(!request->pause_task){
+            
+            RCLCPP_INFO(this->get_logger(), "Resume Task Request Received!");
+            resume_requested_ = true; // resume 요청 시 플래그 세팅
+            response->success = true;
         
-        RCLCPP_INFO(this->get_logger(), "Resume Task Request Received!");
-        resume_requested_ = true; // resume 요청 시 플래그 세팅
-        response->success = true;
-    
+        }
+            
     }
-        
-}
 
 }
 
@@ -1345,11 +1379,14 @@ void Interface::getFullNodeFilePath() {
 void Interface::parseNodeGraphFromFile(const std::string& file_path) {
     node_positions_.clear();
     node_edges_.clear();
+    std::map<uint16_t, std::vector<uint16_t>> node_connections;
+    
     try {
         YAML::Node config = YAML::LoadFile(file_path);
         if (!config["node"]) return;
         const auto& nodes = config["node"];
         std::map<int, geometry_msgs::msg::Point> idx2pos;
+        
         for (const auto& n : nodes) {
             int idx = n["index"].as<int>();
             geometry_msgs::msg::Point pt;
@@ -1358,17 +1395,78 @@ void Interface::parseNodeGraphFromFile(const std::string& file_path) {
             pt.z = 0.0;
             idx2pos[idx] = pt;
             node_positions_.push_back(pt);
-            // edges
+            
+            // Build connections map
+            std::vector<uint16_t> connections;
             if (n["connection"]) {
                 for (const auto& conn : n["connection"]) {
                     int to = conn.as<int>();
                     node_edges_.emplace_back(idx, to);
+                    connections.push_back(static_cast<uint16_t>(to));
                 }
             }
+            node_connections[static_cast<uint16_t>(idx)] = connections;
         }
+        
+        // Set node connections in path_status_manager for connectivity validation
+        if (path_status_manager_) {
+            path_status_manager_->setNodeConnections(node_connections);
+        }
+        
     } catch (const std::exception& e) {
         RCLCPP_ERROR(this->get_logger(), "Failed to parse node file: %s", e.what());
     }
+}
+
+// REPEAT mission helper functions
+void Interface::switchToStartNode() {
+    if (original_waypoints_.poses.empty()) {
+        RCLCPP_ERROR(this->get_logger(), "No original waypoints available for REPEAT mission");
+        return;
+    }
+    
+    // Create direct path from goal_node to start_node (4->1)
+    geometry_msgs::msg::PoseArray direct_waypoints;
+    direct_waypoints.header.frame_id = "map";
+    direct_waypoints.header.stamp = this->now();
+    
+    // Add goal_node position (current position)
+    direct_waypoints.poses.push_back(original_waypoints_.poses.back());
+    // Add start_node position (destination)
+    direct_waypoints.poses.push_back(original_waypoints_.poses.front());
+    
+    current_waypoints_ = direct_waypoints;
+    path_status_manager_->setWaypoints(direct_waypoints);
+    
+    // Create direct node path: [4, 1]
+    std::vector<uint16_t> direct_node_path;
+    direct_node_path.push_back(original_node_path_.back());  // goal_node (4)
+    direct_node_path.push_back(original_node_path_.front()); // start_node (1)
+    path_status_manager_->setNodePath(direct_node_path);
+    
+    repeat_going_to_start_ = true;
+    repeat_going_to_goal_ = false;
+    
+    RCLCPP_INFO(this->get_logger(), "REPEAT: Direct path from node %d to node %d created", 
+                original_node_path_.back(), original_node_path_.front());
+}
+
+void Interface::switchToGoalNode() {
+    if (original_waypoints_.poses.empty()) {
+        RCLCPP_ERROR(this->get_logger(), "No original waypoints available for REPEAT mission");
+        return;
+    }
+    
+    // Use original waypoints (1->2->3->4)
+    current_waypoints_ = original_waypoints_;
+    path_status_manager_->setWaypoints(original_waypoints_);
+    path_status_manager_->setNodePath(original_node_path_);
+    
+    repeat_going_to_start_ = false;
+    repeat_going_to_goal_ = true;
+    
+    RCLCPP_INFO(this->get_logger(), "REPEAT: Using original path from node %d to node %d", 
+                original_node_path_.front(), original_node_path_.back());
 }
 
 void Interface::publishNodeGraph() {
@@ -1435,5 +1533,6 @@ void Interface::publishNodeGraph() {
 }
 
 }  // namespace amr
+
 
 

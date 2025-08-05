@@ -294,6 +294,10 @@ public:
     // Node Graph
     void publishNodeGraph();
     void parseNodeGraphFromFile(const std::string& file_path);
+    
+    // REPEAT mission helper functions
+    void switchToStartNode();
+    void switchToGoalNode();
 
     // Public flags and variables for task type
     bool task_load_started_{false};
@@ -301,15 +305,22 @@ public:
     bool task_move_started_{false};
     bool task_home_started_{false};
     bool task_cancel_started_{false};
-    
+    bool task_repeat_started_{false};
+
     bool task_load_completed_{false};
     bool task_unload_completed_{false};
     bool task_move_completed_{false};
     bool task_home_completed_{false};
     bool task_cancel_completed_{false};
+    bool task_repeat_completed_{false};
 
     bool task_one_move_started_{false};
     bool task_one_move_completed_{false};
+    
+    // REPEAT mission variables
+    int repeat_cycle_count_{0};
+    bool repeat_going_to_start_{false};
+    bool repeat_going_to_goal_{false};
 
     // Public flags and variables for behavior type
     bool behavior_auto_started_{false};
@@ -362,7 +373,14 @@ public:
     geometry_msgs::msg::PoseArray current_waypoints_;
     geometry_msgs::msg::PoseArray last_waypoints_;
     geometry_msgs::msg::PoseArray prev_last_waypoints_; // 이전의 이전 웨이포인트
+    
+    // REPEAT mission original data
+    geometry_msgs::msg::PoseArray original_waypoints_;
+    std::vector<uint16_t> original_node_path_;
     std::string save_map_requested_name_;
+    
+    // Path status manager (moved to public for REPEAT mission access)
+    std::unique_ptr<PathStatusManager> path_status_manager_;
 
     // Docking arameter
     double charging_marker_gap_;
@@ -538,7 +556,6 @@ private:
     void publishDrivingStatusAndMode();
     void publishTaskBehaviorStatus();
    
-    std::unique_ptr<PathStatusManager> path_status_manager_;
     geometry_msgs::msg::Pose last_robot_pose_;
 
     // Node graph visualization

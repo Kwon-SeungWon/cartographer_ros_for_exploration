@@ -22,6 +22,34 @@ void PathStatusManager::setNodePath(const std::vector<uint16_t>& node_path) {
         RCLCPP_WARN(rclcpp::get_logger("PathStatusManager"), "setNodePath called with empty node_path!");
         return;
     }
+    
+    // Validate path connectivity before setting
+    if (!node_connections_.empty()) {
+        // 임시로 node_path를 사용해서 검증
+        std::vector<uint16_t> temp_path = node_path;
+        for (size_t i = 0; i < temp_path.size() - 1; ++i) {
+            if (!areNodesConnected(temp_path[i], temp_path[i + 1])) {
+                RCLCPP_ERROR(rclcpp::get_logger("PathStatusManager"), 
+                    "🚫 INVALID PATH DETECTED: Node %d is not connected to Node %d. Rejecting path.", 
+                    temp_path[i], temp_path[i + 1]);
+                
+                // 연결되지 않은 노드들을 찾아서 로그 출력
+                RCLCPP_ERROR(rclcpp::get_logger("PathStatusManager"), 
+                    "Node %d connections: ", temp_path[i]);
+                auto it = node_connections_.find(temp_path[i]);
+                if (it != node_connections_.end()) {
+                    for (uint16_t conn : it->second) {
+                        RCLCPP_ERROR(rclcpp::get_logger("PathStatusManager"), "  - %d", conn);
+                    }
+                }
+                
+                return; // ❌ 경로 거부하고 함수 종료
+            }
+        }
+        RCLCPP_INFO(rclcpp::get_logger("PathStatusManager"), 
+            "✅ Path connectivity validation passed for %zu nodes", node_path.size());
+    }
+    
     current_node_path_ = node_path;
     path_publish();
 }
@@ -93,4 +121,93 @@ void PathStatusManager::path_status_publish() {
     std_msgs::msg::UInt8MultiArray msg;
     msg.data = path_status_;
     path_status_pub_->publish(msg);
+}
+
+void PathStatusManager::resetForRepeat() {
+    if (path_status_.empty()) return;
+    
+    // Reset all waypoint status to waiting (1)
+    for (size_t i = 0; i < path_status_.size(); ++i) {
+        path_status_[i] = 1;
+        prev_dist_to_next_[i] = 0.0;
+        tracking_started_[i] = false;
+    }
+    
+    RCLCPP_INFO(rclcpp::get_logger("PathStatusManager"), "Reset waypoints for REPEAT mission");
+    path_status_publish();
+}
+
+bool PathStatusManager::isAllWaypointsCompleted() const {
+    if (path_status_.empty()) return false;
+    
+    for (size_t i = 0; i < path_status_.size(); ++i) {
+        if (path_status_[i] != 2) { // 2 = completed
+            return false;
+        }
+    }
+    return true;
+}
+
+void PathStatusManager::resetWaypointStatus() {
+    if (path_status_.empty()) return;
+    
+    for (size_t i = 0; i < path_status_.size(); ++i) {
+        path_status_[i] = 1; // Reset to waiting
+        prev_dist_to_next_[i] = 0.0;
+        tracking_started_[i] = false;
+    }
+    
+    RCLCPP_INFO(rclcpp::get_logger("PathStatusManager"), "Reset waypoint status");
+    path_status_publish();
+}
+
+// Connectivity validation methods
+void PathStatusManager::setNodeConnections(const std::map<uint16_t, std::vector<uint16_t>>& connections) {
+    node_connections_ = connections;
+    RCLCPP_INFO(rclcpp::get_logger("PathStatusManager"), 
+        "Set node connections with %zu nodes", connections.size());
+}
+
+bool PathStatusManager::validatePathConnectivity() const {
+    if (current_node_path_.size() < 2) return true; // Single node path is always valid
+    
+    for (size_t i = 0; i < current_node_path_.size() - 1; ++i) {
+        uint16_t current_node = current_node_path_[i];
+        uint16_t next_node = current_node_path_[i + 1];
+        
+        if (!areNodesConnected(current_node, next_node)) {
+            RCLCPP_ERROR(rclcpp::get_logger("PathStatusManager"), 
+                "Path connectivity validation failed: Node %d is not connected to Node %d", 
+                current_node, next_node);
+            return false;
+        }
+    }
+    
+    RCLCPP_INFO(rclcpp::get_logger("PathStatusManager"), 
+        "Path connectivity validation passed for %zu nodes", current_node_path_.size());
+    return true;
+}
+
+bool PathStatusManager::areNodesConnected(uint16_t node1, uint16_t node2) const {
+    // Check if node1 has node2 in its connections
+    auto it = node_connections_.find(node1);
+    if (it != node_connections_.end()) {
+        for (uint16_t connected_node : it->second) {
+            if (connected_node == node2) {
+                return true;
+            }
+        }
+    }
+    
+    // Check if node2 has node1 in its connections (bidirectional)
+    it = node_connections_.find(node2);
+    if (it != node_connections_.end()) {
+        for (uint16_t connected_node : it->second) {
+            if (connected_node == node1) {
+                return true;
+            }
+        }
+    }
+    
+    return false;
 } 

@@ -17,6 +17,16 @@ public:
     void updateStatus(const geometry_msgs::msg::Pose& robot_pose);
     void path_publish();
     void path_status_publish();
+    
+    // REPEAT mission methods
+    void resetForRepeat();
+    bool isAllWaypointsCompleted() const;
+    void resetWaypointStatus();
+    
+    // Connectivity validation methods
+    void setNodeConnections(const std::map<uint16_t, std::vector<uint16_t>>& connections);
+    bool validatePathConnectivity() const;
+    bool areNodesConnected(uint16_t node1, uint16_t node2) const;
 
 private:
     std::vector<uint8_t> path_status_;
@@ -28,4 +38,7 @@ private:
     double missed_dist_;
     std::vector<double> prev_dist_to_next_;
     std::vector<bool> tracking_started_; // Track if we've started monitoring each waypoint
+    
+    // Node connectivity data
+    std::map<uint16_t, std::vector<uint16_t>> node_connections_; // node_id -> connected_nodes
 }; 
